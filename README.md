@@ -11,11 +11,16 @@ A mobile-first PWA dedicated to Jay — a father who was a general contractor, e
 ## Features
 
 - 10 complete sketches covering vehicle, electrical, plumbing, and household skills
-- **Learn** pass: what you're looking at, safety hazards, step-by-step guidance
-- **Practice** pass: tap parts, order steps, spot hazards, choose safe moves
+- **3D shop scenes** (React Three Fiber) for breaker panel, car battery, tire/jack, and motorcycle — orbit, inspect, tap hotspots
+- **Labeled SVG diagrams** for every sketch — garage-readable on a phone
+- **Learn** pass: what you're looking at, safety hazards, step-by-step guidance with visual focus
+- **Game-like Practice**: tap parts on the 3D scene or diagram, drag steps into order, spot hazards in context
+- **Watch along** resources rail with curated YouTube search links per sketch
+- **Vehicle picker** for sketches where year/make/model matters
+- Motion and tactile feedback throughout (Framer Motion)
 - Daily sketch (deterministic by date) plus full library
 - Progress and streak tracking in localStorage
-- Installable PWA with offline support
+- Installable PWA with offline support (3D lazy-loads; diagrams work offline)
 
 ## Sketches
 
@@ -49,8 +54,10 @@ npm run preview
 ## Tech stack
 
 - Vite + React + TypeScript
+- React Three Fiber + drei (3D scenes)
+- Framer Motion (animations)
 - vite-plugin-pwa (manifest, service worker, offline cache)
-- Sketch content as JSON
+- Sketch content as JSON with SVG diagram components
 - Vitest for practice logic tests
 - GitHub Actions deploying to Pages from `main`
 
