@@ -1,0 +1,57 @@
+{
+  "id": "jump-start",
+  "title": "Jump-Start a Car",
+  "category": "vehicle",
+  "summary": "Dead battery, good donor car. Connect positive to positive, negative to ground — in the right order.",
+  "learn": [
+    {
+      "heading": "What you're looking at",
+      "body": "You need jumper cables and a donor vehicle with a good battery. Both cars off when you connect. Red cable = positive (+). Black cable = negative (−). The dead car's battery may have corrosion on the terminals — clean enough to get a solid clamp bite."
+    },
+    {
+      "heading": "What can hurt you",
+      "body": "Batteries vent hydrogen — sparks can ignite it. Connect in the right order to avoid sparks near the battery. Never let red and black clamps touch each other while connected to a battery. The final negative clamp goes on an unpainted metal ground on the dead car's engine block — not on the dead battery's negative post if you can avoid it.",
+      "callout": "If either battery is cracked, leaking, or frozen, stop. Jumping it is dangerous."
+    },
+    {
+      "heading": "The steps",
+      "body": "1. Park donor car nose-to-nose or side-by-side, close enough for cables. Both engines off.\n2. Red clamp to dead battery positive (+).\n3. Other red clamp to donor battery positive (+).\n4. Black clamp to donor battery negative (−).\n5. Other black clamp to unpainted metal on dead car's engine block (ground point).\n6. Start donor car, let it run a minute.\n7. Start dead car. If it doesn't crank, wait another minute — don't grind the starter.\n8. Once running, remove cables in reverse order: black ground on dead car, black on donor, red on donor, red on dead.\n9. Keep the jumped car running 20+ minutes to recharge, or drive it."
+    }
+  ],
+  "practice": [
+    {
+      "type": "order-steps",
+      "prompt": "Put the jumper cable connection steps in order.",
+      "steps": [
+        { "id": "red-dead", "text": "Red clamp to dead battery positive (+)" },
+        { "id": "red-donor", "text": "Red clamp to donor battery positive (+)" },
+        { "id": "black-donor", "text": "Black clamp to donor battery negative (−)" },
+        { "id": "black-ground", "text": "Black clamp to engine block ground on dead car" }
+      ],
+      "correctOrder": ["red-dead", "red-donor", "black-donor", "black-ground"],
+      "failMessage": "Red dead, red donor, black donor, black ground on the dead car. That order keeps sparks away from the dead battery."
+    },
+    {
+      "type": "tap-part",
+      "prompt": "Tap where the last (fourth) black clamp should go.",
+      "parts": [
+        { "id": "ground", "label": "Unpainted engine block bolt on dead car", "correct": true },
+        { "id": "dead-neg", "label": "Dead battery negative post", "correct": false },
+        { "id": "donor-pos", "label": "Donor battery positive post", "correct": false },
+        { "id": "radiator", "label": "Radiator filler neck", "correct": false }
+      ],
+      "requiredCount": 1,
+      "failMessage": "Last clamp goes to a ground point on the dead car's engine block — not the radiator or donor positive."
+    },
+    {
+      "type": "wrong-setup",
+      "prompt": "What's wrong with this jump-start setup?",
+      "options": [
+        { "id": "touching", "text": "Red and black cable clamps touching each other while connected", "correct": true },
+        { "id": "engines-off", "text": "Both engines off during cable hookup", "correct": false, "feedback": "Engines off during hookup is correct." },
+        { "id": "donor-running", "text": "Donor car running before starting the dead car", "correct": false, "feedback": "Letting the donor run before cranking the dead car is the right move." }
+      ],
+      "failMessage": "Touching clamps = dead short. Sparks, melted cables, possible battery explosion."
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "move-motorcycle",
+  "title": "Walk / Move a Motorcycle Without Dropping It",
+  "category": "vehicle",
+  "summary": "Six hundred pounds of bike wants to fall over. Use your legs, not your back.",
+  "learn": [
+    {
+      "heading": "What you're looking at",
+      "body": "A motorcycle balances on two wheels and a sidestand or centerstand. The handlebars steer the front wheel. Most of the weight sits low — the engine — but it's still top-heavy when leaned. You'll use the grips and maybe the seat or frame to walk it. The sidestand folds down on the left; the centerstand is a two-legged stand you rock the bike onto."
+    },
+    {
+      "heading": "What can hurt you",
+      "body": "A falling bike can break your foot, ankle, or back. Never try to catch a tipping bike with your back — let it go if it's going. Keep the front wheel straight when walking it. Kill the engine. Bike in gear with clutch pulled if on any slope. Wear boots, not sandals.",
+      "callout": "If you're not sure you can hold it, get a second person. Pride is cheaper than a hospital bill."
+    },
+    {
+      "heading": "The steps",
+      "body": "1. Engine off, key out. Bike in first gear on flat ground.\n2. Stand on the left side (sidestand side), facing forward.\n3. Grip both handlebars. Front wheel straight.\n4. Unlock the steering if there's a lock.\n5. Walk backward or forward using your legs — let your legs do the work, arms guide.\n6. For tight turns: lean the bike slightly toward you, steer the bars, move slowly.\n7. To park: roll to flat spot, put sidestand down with your left foot while holding the bike upright with your right hand on the brake or grip.\n8. Verify the sidestand is fully down and the bike is stable before letting go."
+    }
+  ],
+  "practice": [
+    {
+      "type": "safe-next-move",
+      "prompt": "You're walking the bike and it starts tipping away from you on uneven pavement. What do you do?",
+      "options": [
+        { "id": "plant", "text": "Plant your feet, straighten the bars, and ease it to flat ground — or get help", "correct": true },
+        { "id": "catch-back", "text": "Arch your back and catch it with both arms", "correct": false, "feedback": "You'll hurt your back. Guide with legs or let it down controlled — don't hero-catch." },
+        { "id": "throttle", "text": "Start the engine and give it gas to balance", "correct": false, "feedback": "Engine on in a parking lot while tipping is worse. Engine off, feet planted." }
+      ],
+      "failMessage": "Feet planted, bars straight, slow down. Get help if it's going."
+    },
+    {
+      "type": "order-steps",
+      "prompt": "Put the walk-the-bike steps in order.",
+      "steps": [
+        { "id": "off", "text": "Engine off, bike in gear" },
+        { "id": "position", "text": "Stand on left side, grip handlebars, wheel straight" },
+        { "id": "walk", "text": "Walk using your legs to move the bike" },
+        { "id": "stand", "text": "Deploy sidestand on flat ground and verify stability" }
+      ],
+      "correctOrder": ["off", "position", "walk", "stand"],
+      "failMessage": "Engine off first, position yourself, walk with your legs, then stand it properly."
+    },
+    {
+      "type": "spot-hazard",
+      "prompt": "Spot the hazards before moving this bike.",
+      "hazards": [
+        { "id": "slope", "label": "Bike on a downhill slope in neutral", "correct": true },
+        { "id": "sandals", "label": "Rider in open-toe sandals", "correct": true },
+        { "id": "boots", "label": "Sturdy boots on flat pavement", "correct": false },
+        { "id": "gear", "label": "Transmission in first gear", "correct": false }
+      ],
+      "requiredCount": 2,
+      "failMessage": "Downhill in neutral and sandals — the bike rolls and your foot gets crushed."
+    }
+  ]
+}

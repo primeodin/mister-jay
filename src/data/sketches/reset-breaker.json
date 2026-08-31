@@ -1,0 +1,57 @@
+{
+  "id": "reset-breaker",
+  "title": "Reset a Tripped Breaker Safely",
+  "category": "electrical",
+  "summary": "A tripped breaker is the panel telling you something's wrong. Reset it right or find out why it tripped.",
+  "learn": [
+    {
+      "heading": "What you're looking at",
+      "body": "A tripped breaker sits between ON and OFF — the handle is in the middle, not fully on. That means the circuit drew too much current or had a fault. The breaker did its job: it cut power before wires overheated."
+    },
+    {
+      "heading": "What can hurt you",
+      "body": "Don't just slam it back on and walk away. If something is shorting, resetting can arc, spark, or start a fire. Stand to the side of the panel, not in front. Flip with a dry hand. If it trips again immediately, stop — you have a real problem.",
+      "callout": "A breaker that trips repeatedly is not being fussy. Something on that circuit is wrong."
+    },
+    {
+      "heading": "The steps",
+      "body": "1. Identify which breaker tripped — handle in the middle position.\n2. Unplug or turn off devices on that circuit if you can (especially space heaters, hair dryers, anything that was running).\n3. Stand to the side of the panel.\n4. Push the tripped breaker firmly to the OFF position first — you should feel a click.\n5. Then flip it to ON.\n6. If it holds, check what overloaded the circuit and spread the load.\n7. If it trips again right away, leave it OFF and troubleshoot or call an electrician."
+    }
+  ],
+  "practice": [
+    {
+      "type": "order-steps",
+      "prompt": "Put the safe reset steps in order.",
+      "steps": [
+        { "id": "identify", "text": "Identify the tripped breaker" },
+        { "id": "unload", "text": "Turn off or unplug devices on that circuit" },
+        { "id": "off", "text": "Push breaker fully to OFF" },
+        { "id": "on", "text": "Flip breaker to ON" }
+      ],
+      "correctOrder": ["identify", "unload", "off", "on"],
+      "failMessage": "OFF first, then ON. And unload the circuit before you reset — otherwise it trips right back."
+    },
+    {
+      "type": "safe-next-move",
+      "prompt": "You reset the breaker and it trips again instantly. What's the safe next move?",
+      "options": [
+        { "id": "leave-off", "text": "Leave it OFF and find what's shorting or overloading that circuit", "correct": true },
+        { "id": "force", "text": "Hold the breaker in the ON position — it might stay", "correct": false, "feedback": "Forcing a tripping breaker defeats its protection. Leave it off and find the fault." },
+        { "id": "bigger", "text": "Replace it with a larger amp breaker", "correct": false, "feedback": "Upsizing a breaker without upgrading wire is a fire hazard. Find the fault first." }
+      ],
+      "failMessage": "Instant re-trip means a fault. Leave it off and troubleshoot."
+    },
+    {
+      "type": "spot-hazard",
+      "prompt": "Spot what's dangerous about this reset attempt.",
+      "hazards": [
+        { "id": "face-panel", "label": "Standing directly in front of the panel while flipping", "correct": true },
+        { "id": "wet-hands", "label": "Wet hands on the breaker handle", "correct": true },
+        { "id": "side-stance", "label": "Standing to the side with dry hands", "correct": false },
+        { "id": "off-first", "label": "Pushing breaker to OFF before resetting", "correct": false }
+      ],
+      "requiredCount": 2,
+      "failMessage": "Face the panel and wet hands — if it arcs, you're in the line of fire."
+    }
+  ]
+}

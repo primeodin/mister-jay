@@ -1,0 +1,57 @@
+{
+  "id": "unclog-sink",
+  "title": "Unclog a Sink Without Wrecking the Trap",
+  "category": "plumbing",
+  "summary": "Slow drain? Try the simple stuff first. The P-trap is there for a reason — don't crack it.",
+  "learn": [
+    {
+      "heading": "What you're looking at",
+      "body": "The P-trap is the U-shaped pipe under the sink. It holds water to block sewer gas and catches dropped rings. A clog usually sits in the trap or just past it. You'll see slip nuts on both ends of the trap — hand-tight plus a quarter turn with pliers is usually enough."
+    },
+    {
+      "heading": "What can hurt you",
+      "body": "Put a bucket under the trap before you loosen anything — dirty water will pour out. Don't overtighten plastic slip nuts when reassembling; they crack. Chemical drain openers are harsh on pipes and dangerous to splash. Try a plunger or manual snake before opening pipes.",
+      "callout": "Lefty-loosey on the slip nuts, but go easy. Plastic threads strip fast."
+    },
+    {
+      "heading": "The steps",
+      "body": "1. Try a plunger first — block the overflow hole with a wet rag for better suction.\n2. If that fails, bucket under the trap, loosen slip nuts, lower the trap carefully.\n3. Clear debris from the trap and the pipe stubs. A bottle brush helps.\n4. Check the trap washer — replace if cracked or flattened.\n5. Rehang the trap, hand-tighten slip nuts, then snug a quarter turn.\n6. Run water and check every joint for drips.\n7. If the clog is past the trap, a hand snake through the wall pipe is next."
+    }
+  ],
+  "practice": [
+    {
+      "type": "order-steps",
+      "prompt": "Put the unclog steps in the right order.",
+      "steps": [
+        { "id": "plunger", "text": "Try a plunger with overflow blocked" },
+        { "id": "bucket", "text": "Place bucket under trap before loosening" },
+        { "id": "clear", "text": "Remove trap and clear debris" },
+        { "id": "test", "text": "Reassemble and run water to check for leaks" }
+      ],
+      "correctOrder": ["plunger", "bucket", "clear", "test"],
+      "failMessage": "Plunger first — it's the least messy. Bucket before you open the trap."
+    },
+    {
+      "type": "spot-hazard",
+      "prompt": "Spot what's wrong in this trap removal.",
+      "hazards": [
+        { "id": "no-bucket", "label": "No bucket — trap opened over open cabinet", "correct": true },
+        { "id": "overtight", "label": "Slip nuts cranked down with a large pipe wrench", "correct": true },
+        { "id": "bucket-ready", "label": "Bucket positioned under the trap", "correct": false },
+        { "id": "hand-tight", "label": "Slip nuts hand-tightened then snugged gently", "correct": false }
+      ],
+      "requiredCount": 2,
+      "failMessage": "No bucket means a mess. Over-tightening plastic nuts cracks them."
+    },
+    {
+      "type": "safe-next-move",
+      "prompt": "Plunger didn't work. What's the safe next move?",
+      "options": [
+        { "id": "trap", "text": "Bucket under the trap, loosen slip nuts, and clear the trap", "correct": true },
+        { "id": "chemical", "text": "Pour in two bottles of chemical drain opener and wait", "correct": false, "feedback": "Chemicals are harsh and dangerous if you open the trap after. Try mechanical clearing first." },
+        { "id": "force", "text": "Bang the trap with a hammer to break the clog loose", "correct": false, "feedback": "You'll crack the trap or the tailpiece. Remove it properly." }
+      ],
+      "failMessage": "Mechanical next: bucket, open trap, clear it out."
+    }
+  ]
+}
