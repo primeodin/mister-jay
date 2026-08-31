@@ -6,16 +6,26 @@
   "learn": [
     {
       "heading": "What you're looking at",
-      "body": "The engine air filter sits in a plastic box (the air filter housing) along the air intake tube. Clips or screws hold the lid. Inside is a rectangular or round pleated filter element. A dirty filter looks gray or clogged with debris; a new one is off-white and clean."
+      "body": "The engine air filter sits in a plastic box (the air filter housing) along the air intake tube. Clips or screws hold the lid. Inside is a rectangular or round pleated filter element. A dirty filter looks gray or clogged with debris; a new one is off-white and clean.",
+      "diagramFocus": [
+        "intake",
+        "housing"
+      ]
     },
     {
       "heading": "What can hurt you",
       "body": "Engine should be cool — a hot manifold can burn you. Disconnect nothing electrical for a basic filter swap. Don't drop debris into the open housing once the lid is off; anything that falls in gets sucked toward the engine.",
-      "callout": "Note how the old filter sits before you pull it. The new one goes in the same direction."
+      "callout": "Note how the old filter sits before you pull it. The new one goes in the same direction.",
+      "diagramFocus": [
+        "oil-cap"
+      ]
     },
     {
       "heading": "The steps",
-      "body": "1. Engine off and cool. Hood propped open.\n2. Locate the air filter housing — follow the big intake tube from the front grille.\n3. Release clips or loosen screws on the housing lid.\n4. Lift the lid and note filter orientation.\n5. Pull out the old filter. Wipe debris from the housing with a damp cloth if needed.\n6. Drop in the new filter, same orientation as the old one.\n7. Close the lid, secure clips or screws. Make sure the lid seals — gaps let unfiltered air in.\n8. Done. Check your owner's manual for the replacement interval."
+      "body": "1. Engine off and cool. Hood propped open.\n2. Locate the air filter housing — follow the big intake tube from the front grille.\n3. Release clips or loosen screws on the housing lid.\n4. Lift the lid and note filter orientation.\n5. Pull out the old filter. Wipe debris from the housing with a damp cloth if needed.\n6. Drop in the new filter, same orientation as the old one.\n7. Close the lid, secure clips or screws. Make sure the lid seals — gaps let unfiltered air in.\n8. Done. Check your owner's manual for the replacement interval.",
+      "diagramFocus": [
+        "filter"
+      ]
     }
   ],
   "practice": [
@@ -23,21 +33,52 @@
       "type": "tap-part",
       "prompt": "Tap what you open to reach the filter.",
       "parts": [
-        { "id": "housing", "label": "Air filter housing lid", "correct": true },
-        { "id": "oil-cap", "label": "Oil filler cap", "correct": false },
-        { "id": "radiator", "label": "Radiator cap", "correct": false },
-        { "id": "battery", "label": "Battery terminal", "correct": false }
+        {
+          "id": "housing",
+          "label": "Air filter housing lid",
+          "correct": true
+        },
+        {
+          "id": "oil-cap",
+          "label": "Oil filler cap",
+          "correct": false
+        },
+        {
+          "id": "radiator",
+          "label": "Radiator cap",
+          "correct": false
+        },
+        {
+          "id": "battery",
+          "label": "Battery terminal",
+          "correct": false
+        }
       ],
       "requiredCount": 1,
-      "failMessage": "The filter lives in the air filter housing — not the oil cap or radiator."
+      "failMessage": "The filter lives in the air filter housing — not the oil cap or radiator.",
+      "interactive": true
     },
     {
       "type": "wrong-setup",
       "prompt": "What's wrong with this setup?",
       "options": [
-        { "id": "backwards", "text": "New filter installed backwards — airflow arrow points the wrong way", "correct": true },
-        { "id": "clean", "text": "Housing wiped clean before install", "correct": false, "feedback": "A clean housing is correct, not a problem." },
-        { "id": "clips", "text": "All housing clips snapped shut", "correct": false, "feedback": "Clips secured is exactly what you want." }
+        {
+          "id": "backwards",
+          "text": "New filter installed backwards — airflow arrow points the wrong way",
+          "correct": true
+        },
+        {
+          "id": "clean",
+          "text": "Housing wiped clean before install",
+          "correct": false,
+          "feedback": "A clean housing is correct, not a problem."
+        },
+        {
+          "id": "clips",
+          "text": "All housing clips snapped shut",
+          "correct": false,
+          "feedback": "Clips secured is exactly what you want."
+        }
       ],
       "failMessage": "Filters have a direction. The pleats face the airflow arrow toward the engine."
     },
@@ -45,13 +86,44 @@
       "type": "order-steps",
       "prompt": "Put the filter swap steps in order.",
       "steps": [
-        { "id": "open", "text": "Open the air filter housing" },
-        { "id": "remove", "text": "Remove old filter and note orientation" },
-        { "id": "install", "text": "Install new filter same way" },
-        { "id": "close", "text": "Close and latch the housing lid" }
+        {
+          "id": "open",
+          "text": "Open the air filter housing"
+        },
+        {
+          "id": "remove",
+          "text": "Remove old filter and note orientation"
+        },
+        {
+          "id": "install",
+          "text": "Install new filter same way"
+        },
+        {
+          "id": "close",
+          "text": "Close and latch the housing lid"
+        }
       ],
-      "correctOrder": ["open", "remove", "install", "close"],
-      "failMessage": "Open, pull old, drop new in the same way, latch shut. Simple sequence."
+      "correctOrder": [
+        "open",
+        "remove",
+        "install",
+        "close"
+      ],
+      "failMessage": "Open, pull old, drop new in the same way, latch shut. Simple sequence.",
+      "interactive": true
+    }
+  ],
+  "diagramId": "change-air-filter",
+  "vehicleTypes": [
+    {
+      "id": "sedan",
+      "label": "Sedan / coupe",
+      "note": "Filter usually in a plastic box along intake tube"
+    },
+    {
+      "id": "truck",
+      "label": "Truck / SUV",
+      "note": "May be higher — bring a step stool"
     }
   ]
 }

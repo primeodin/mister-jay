@@ -1,5 +1,23 @@
 export type SketchCategory = 'vehicle' | 'electrical' | 'plumbing' | 'household';
 
+export type Scene3DId =
+  | 'breaker-panel'
+  | 'car-battery'
+  | 'tire-jack'
+  | 'motorcycle';
+
+export type DiagramId =
+  | 'change-tire'
+  | 'replace-battery'
+  | 'change-air-filter'
+  | 'check-coolant'
+  | 'read-breaker-panel'
+  | 'reset-breaker'
+  | 'stop-faucet'
+  | 'unclog-sink'
+  | 'move-motorcycle'
+  | 'jump-start';
+
 export type PracticeType =
   | 'tap-part'
   | 'order-steps'
@@ -11,6 +29,7 @@ export interface LearnSection {
   heading: string;
   body: string;
   callout?: string;
+  diagramFocus?: string[];
 }
 
 export interface TapPartOption {
@@ -43,6 +62,7 @@ export interface TapPartExercise {
   parts: TapPartOption[];
   requiredCount: number;
   failMessage: string;
+  interactive?: boolean;
 }
 
 export interface OrderStepsExercise {
@@ -51,6 +71,7 @@ export interface OrderStepsExercise {
   steps: OrderStep[];
   correctOrder: string[];
   failMessage: string;
+  interactive?: boolean;
 }
 
 export interface SpotHazardExercise {
@@ -59,6 +80,7 @@ export interface SpotHazardExercise {
   hazards: HazardOption[];
   requiredCount: number;
   failMessage: string;
+  interactive?: boolean;
 }
 
 export interface SafeNextMoveExercise {
@@ -82,6 +104,21 @@ export type PracticeExercise =
   | SafeNextMoveExercise
   | WrongSetupExercise;
 
+export interface VehicleType {
+  id: string;
+  label: string;
+  note: string;
+}
+
+export interface SketchResource {
+  id: string;
+  title: string;
+  url: string;
+  type: 'video' | 'search' | 'note';
+  why: string;
+  duration?: string;
+}
+
 export interface Sketch {
   id: string;
   title: string;
@@ -89,6 +126,9 @@ export interface Sketch {
   summary: string;
   learn: LearnSection[];
   practice: PracticeExercise[];
+  scene3d?: Scene3DId;
+  diagramId: DiagramId;
+  vehicleTypes?: VehicleType[];
 }
 
 export interface SketchProgress {

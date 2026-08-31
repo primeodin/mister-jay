@@ -6,16 +6,25 @@
   "learn": [
     {
       "heading": "What you're looking at",
-      "body": "A dripping faucet means water is getting past the shutoff inside the handle. Compression faucets (two handles, hot and cold) use rubber washers at the stem base. Single-handle faucets often use a cartridge. Under the sink you'll find shutoff valves on the supply lines — turn clockwise to close."
+      "body": "A dripping faucet means water is getting past the shutoff inside the handle. Compression faucets (two handles, hot and cold) use rubber washers at the stem base. Single-handle faucets often use a cartridge. Under the sink you'll find shutoff valves on the supply lines — turn clockwise to close.",
+      "diagramFocus": [
+        "supply"
+      ]
     },
     {
       "heading": "What can hurt you",
       "body": "Shut the water off before you open anything. A geyser from a live line soaks you and the cabinet. Don't force frozen valves — heat gently or call a plumber. Know where the main house shutoff is if the under-sink valves fail.",
-      "callout": "Take the old washer or cartridge to the hardware store. Match it, don't guess."
+      "callout": "Take the old washer or cartridge to the hardware store. Match it, don't guess.",
+      "diagramFocus": [
+        "handle"
+      ]
     },
     {
       "heading": "The steps",
-      "body": "1. Close the shutoff valves under the sink (clockwise). Open the faucet to relieve pressure.\n2. Plug the drain — small parts disappear fast.\n3. Remove the handle (set screw often under a decorative cap).\n4. For compression: unscrew the packing nut, pull the stem, replace the washer at the bottom, reassemble.\n5. For cartridge: pull the retaining clip, remove the cartridge, replace with a match.\n6. Reassemble in reverse order. Don't overtighten.\n7. Turn water back on slowly. Check for leaks at the handle and spout."
+      "body": "1. Close the shutoff valves under the sink (clockwise). Open the faucet to relieve pressure.\n2. Plug the drain — small parts disappear fast.\n3. Remove the handle (set screw often under a decorative cap).\n4. For compression: unscrew the packing nut, pull the stem, replace the washer at the bottom, reassemble.\n5. For cartridge: pull the retaining clip, remove the cartridge, replace with a match.\n6. Reassemble in reverse order. Don't overtighten.\n7. Turn water back on slowly. Check for leaks at the handle and spout.",
+      "diagramFocus": [
+        "p-trap"
+      ]
     }
   ],
   "practice": [
@@ -23,34 +32,80 @@
       "type": "order-steps",
       "prompt": "Put the faucet repair steps in order.",
       "steps": [
-        { "id": "shutoff", "text": "Shut off water at the valves under the sink" },
-        { "id": "drain", "text": "Plug the drain and open the faucet to drain" },
-        { "id": "disassemble", "text": "Remove handle and replace washer or cartridge" },
-        { "id": "restore", "text": "Reassemble and turn water back on slowly" }
+        {
+          "id": "shutoff",
+          "text": "Shut off water at the valves under the sink"
+        },
+        {
+          "id": "drain",
+          "text": "Plug the drain and open the faucet to drain"
+        },
+        {
+          "id": "disassemble",
+          "text": "Remove handle and replace washer or cartridge"
+        },
+        {
+          "id": "restore",
+          "text": "Reassemble and turn water back on slowly"
+        }
       ],
-      "correctOrder": ["shutoff", "drain", "disassemble", "restore"],
-      "failMessage": "Water off first. Always. Then drain, fix, reassemble."
+      "correctOrder": [
+        "shutoff",
+        "drain",
+        "disassemble",
+        "restore"
+      ],
+      "failMessage": "Water off first. Always. Then drain, fix, reassemble.",
+      "interactive": true
     },
     {
       "type": "tap-part",
       "prompt": "Tap what you turn off before opening the faucet.",
       "parts": [
-        { "id": "supply", "label": "Under-sink supply valves", "correct": true },
-        { "id": "aerator", "label": "Faucet aerator screen", "correct": false },
-        { "id": "p-trap", "label": "P-trap slip nuts", "correct": false }
+        {
+          "id": "supply",
+          "label": "Under-sink supply valves",
+          "correct": true
+        },
+        {
+          "id": "aerator",
+          "label": "Faucet aerator screen",
+          "correct": false
+        },
+        {
+          "id": "p-trap",
+          "label": "P-trap slip nuts",
+          "correct": false
+        }
       ],
       "requiredCount": 1,
-      "failMessage": "Shut the supply valves under the sink — not the aerator or trap."
+      "failMessage": "Shut the supply valves under the sink — not the aerator or trap.",
+      "interactive": true
     },
     {
       "type": "wrong-setup",
       "prompt": "What's wrong with this faucet repair?",
       "options": [
-        { "id": "no-shutoff", "text": "Handle removed with supply valves still open", "correct": true },
-        { "id": "plugged", "text": "Drain plugged so parts don't fall in", "correct": false, "feedback": "Plugging the drain is correct — parts are tiny." },
-        { "id": "matched", "text": "Old washer brought to the store for matching", "correct": false, "feedback": "Matching the old part is exactly right." }
+        {
+          "id": "no-shutoff",
+          "text": "Handle removed with supply valves still open",
+          "correct": true
+        },
+        {
+          "id": "plugged",
+          "text": "Drain plugged so parts don't fall in",
+          "correct": false,
+          "feedback": "Plugging the drain is correct — parts are tiny."
+        },
+        {
+          "id": "matched",
+          "text": "Old washer brought to the store for matching",
+          "correct": false,
+          "feedback": "Matching the old part is exactly right."
+        }
       ],
       "failMessage": "Open supply lines while disassembling = flooded cabinet. Shut off first."
     }
-  ]
+  ],
+  "diagramId": "stop-faucet"
 }

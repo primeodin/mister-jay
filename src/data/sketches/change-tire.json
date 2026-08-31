@@ -6,16 +6,28 @@
   "learn": [
     {
       "heading": "What you're looking at",
-      "body": "A flat tire means the car is riding on rubber that can't hold air. You'll find the spare (usually under the trunk floor or mounted under the rear), a jack, and a lug wrench in the trunk. The lug nuts hold the wheel to the hub. The jack goes on a solid frame point — never on plastic trim."
+      "body": "A flat tire means the car is riding on rubber that can't hold air. You'll find the spare (usually under the trunk floor or mounted under the rear), a jack, and a lug wrench in the trunk. The lug nuts hold the wheel to the hub. The jack goes on a solid frame point — never on plastic trim.",
+      "diagramFocus": [
+        "jack-point",
+        "lug-nuts"
+      ]
     },
     {
       "heading": "What can hurt you",
       "body": "A car that rolls off a jack can crush you. Never crawl fully under a car supported only by a jack. Work on level ground, set the parking brake, and block the wheel diagonally opposite the flat. If you're on a road shoulder, turn on hazards and stay aware of traffic.",
-      "callout": "Jack stands are for real work under a car. A roadside spare change is jack-only — keep your body out from under the vehicle."
+      "callout": "Jack stands are for real work under a car. A roadside spare change is jack-only — keep your body out from under the vehicle.",
+      "diagramFocus": [
+        "block-wheel"
+      ]
     },
     {
       "heading": "The steps",
-      "body": "1. Park safely, hazards on, parking brake set.\n2. Block the opposite wheel with a rock, brick, or wedge.\n3. Loosen lug nuts a quarter turn each while the tire still touches the ground.\n4. Place the jack on the correct lift point and raise until the flat clears the ground.\n5. Remove lug nuts, pull the wheel off, mount the spare, hand-tighten nuts in a star pattern.\n6. Lower until the tire touches ground, tighten nuts fully in a star pattern, then lower jack completely.\n7. Stow the flat and tools. Drive to get the flat repaired — spares are temporary."
+      "body": "1. Park safely, hazards on, parking brake set.\n2. Block the opposite wheel with a rock, brick, or wedge.\n3. Loosen lug nuts a quarter turn each while the tire still touches the ground.\n4. Place the jack on the correct lift point and raise until the flat clears the ground.\n5. Remove lug nuts, pull the wheel off, mount the spare, hand-tighten nuts in a star pattern.\n6. Lower until the tire touches ground, tighten nuts fully in a star pattern, then lower jack completely.\n7. Stow the flat and tools. Drive to get the flat repaired — spares are temporary.",
+      "diagramFocus": [
+        "jack",
+        "spare",
+        "lug-wrench"
+      ]
     }
   ],
   "practice": [
@@ -23,39 +35,113 @@
       "type": "tap-part",
       "prompt": "Tap the parts you need before you lift the car.",
       "parts": [
-        { "id": "jack", "label": "Jack", "correct": true },
-        { "id": "lug-wrench", "label": "Lug wrench", "correct": true },
-        { "id": "spare", "label": "Spare tire", "correct": true },
-        { "id": "horn", "label": "Horn button", "correct": false },
-        { "id": "radio", "label": "Radio antenna", "correct": false }
+        {
+          "id": "jack",
+          "label": "Jack",
+          "correct": true
+        },
+        {
+          "id": "lug-wrench",
+          "label": "Lug wrench",
+          "correct": true
+        },
+        {
+          "id": "spare",
+          "label": "Spare tire",
+          "correct": true
+        },
+        {
+          "id": "horn",
+          "label": "Horn button",
+          "correct": false
+        },
+        {
+          "id": "radio",
+          "label": "Radio antenna",
+          "correct": false
+        }
       ],
       "requiredCount": 3,
-      "failMessage": "You need the jack, lug wrench, and spare before you lift. Everything else can wait."
+      "failMessage": "You need the jack, lug wrench, and spare before you lift. Everything else can wait.",
+      "interactive": true
     },
     {
       "type": "order-steps",
       "prompt": "Put the tire change steps in the right order.",
       "steps": [
-        { "id": "block", "text": "Block the wheel opposite the flat" },
-        { "id": "loosen", "text": "Loosen lug nuts while tire is on the ground" },
-        { "id": "jack", "text": "Jack up the car at the frame point" },
-        { "id": "swap", "text": "Remove flat, mount spare, hand-tighten lug nuts" },
-        { "id": "lower", "text": "Lower car and fully tighten lug nuts in a star pattern" }
+        {
+          "id": "block",
+          "text": "Block the wheel opposite the flat"
+        },
+        {
+          "id": "loosen",
+          "text": "Loosen lug nuts while tire is on the ground"
+        },
+        {
+          "id": "jack",
+          "text": "Jack up the car at the frame point"
+        },
+        {
+          "id": "swap",
+          "text": "Remove flat, mount spare, hand-tighten lug nuts"
+        },
+        {
+          "id": "lower",
+          "text": "Lower car and fully tighten lug nuts in a star pattern"
+        }
       ],
-      "correctOrder": ["block", "loosen", "jack", "swap", "lower"],
-      "failMessage": "Loosen nuts on the ground first. Jack only after the car is secured and nuts are cracked loose."
+      "correctOrder": [
+        "block",
+        "loosen",
+        "jack",
+        "swap",
+        "lower"
+      ],
+      "failMessage": "Loosen nuts on the ground first. Jack only after the car is secured and nuts are cracked loose.",
+      "interactive": true
     },
     {
       "type": "spot-hazard",
       "prompt": "Spot what's dangerous in this roadside setup.",
       "hazards": [
-        { "id": "no-brake", "label": "Parking brake not set", "correct": true },
-        { "id": "soft-ground", "label": "Jack on soft dirt at an angle", "correct": true },
-        { "id": "spare-ready", "label": "Spare tire laid out and ready", "correct": false },
-        { "id": "hazards-on", "label": "Hazard lights flashing", "correct": false }
+        {
+          "id": "no-brake",
+          "label": "Parking brake not set",
+          "correct": true
+        },
+        {
+          "id": "soft-ground",
+          "label": "Jack on soft dirt at an angle",
+          "correct": true
+        },
+        {
+          "id": "spare-ready",
+          "label": "Spare tire laid out and ready",
+          "correct": false
+        },
+        {
+          "id": "hazards-on",
+          "label": "Hazard lights flashing",
+          "correct": false
+        }
       ],
       "requiredCount": 2,
-      "failMessage": "No parking brake and a jack on soft ground — that's how a car rolls off the jack."
+      "failMessage": "No parking brake and a jack on soft ground — that's how a car rolls off the jack.",
+      "interactive": true
+    }
+  ],
+  "diagramId": "change-tire",
+  "scene3d": "tire-jack",
+  "vehicleTypes": [
+    {
+      "id": "sedan",
+      "label": "Sedan",
+      "note": "Jack point on pinch weld behind front wheel"
+    },
+    {
+      "id": "truck",
+      "label": "Truck / SUV",
+      "note": "Frame rail — search your model for exact spot"
     }
   ]
 }

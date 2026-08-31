@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import type { Sketch } from '../types/sketch';
 import type { SketchProgress } from '../types/sketch';
 import { categoryLabels } from '../data/sketches';
+import { DiagramRenderer } from './diagrams/DiagramRenderer';
 
 interface SketchCardProps {
   sketch: Sketch;
@@ -18,11 +20,15 @@ export default function SketchCard({
     progress?.learnComplete && progress?.practiceComplete;
 
   return (
-    <Link
-      to={`/sketch/${sketch.id}`}
-      className={`sketch-card${highlight ? ' sketch-card--highlight' : ''}${done ? ' sketch-card--done' : ''}`}
-    >
-      {highlight && <span className="sketch-card-badge">Today</span>}
+    <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}>
+      <Link
+        to={`/sketch/${sketch.id}`}
+        className={`sketch-card${highlight ? ' sketch-card--highlight' : ''}${done ? ' sketch-card--done' : ''}`}
+      >
+        <div className="sketch-card-thumb">
+          <DiagramRenderer diagramId={sketch.diagramId} />
+        </div>
+        {highlight && <span className="sketch-card-badge">Today</span>}
       <span className="sketch-card-category">
         {categoryLabels[sketch.category]}
       </span>
@@ -36,6 +42,7 @@ export default function SketchCard({
           Practice {progress?.practiceComplete ? '✓' : '○'}
         </span>
       </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 }

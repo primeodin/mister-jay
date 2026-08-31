@@ -6,16 +6,27 @@
   "learn": [
     {
       "heading": "What you're looking at",
-      "body": "Coolant (antifreeze mixed with water) flows through the engine and radiator. You'll find a translucent overflow reservoir with MIN and MAX marks — that's the safe check point on most cars. The radiator cap sits on the radiator itself, but you rarely need to open it for a routine check."
+      "body": "Coolant (antifreeze mixed with water) flows through the engine and radiator. You'll find a translucent overflow reservoir with MIN and MAX marks — that's the safe check point on most cars. The radiator cap sits on the radiator itself, but you rarely need to open it for a routine check.",
+      "diagramFocus": [
+        "reservoir",
+        "min",
+        "max"
+      ]
     },
     {
       "heading": "What can hurt you",
       "body": "Opening a hot radiator cap releases pressurized boiling fluid — severe burns. Always check the overflow reservoir when the engine is cold. Coolant is toxic to pets and kids; wipe spills and don't drain it on the ground. Never mix incompatible coolant types.",
-      "callout": "If the reservoir is empty, there may be a leak. Topping up without finding the leak is a band-aid."
+      "callout": "If the reservoir is empty, there may be a leak. Topping up without finding the leak is a band-aid.",
+      "diagramFocus": [
+        "radiator"
+      ]
     },
     {
       "heading": "The steps",
-      "body": "1. Engine cold — sat overnight is best.\n2. Pop the hood and find the coolant overflow reservoir.\n3. Check the level against the MIN/MAX marks on the side.\n4. If low, remove the reservoir cap and add the correct coolant mix (check owner's manual — usually 50/50).\n5. Fill to between MIN and MAX. Don't overfill.\n6. Replace cap snugly. Wipe any spills.\n7. If it keeps dropping, look for leaks at hoses and the radiator."
+      "body": "1. Engine cold — sat overnight is best.\n2. Pop the hood and find the coolant overflow reservoir.\n3. Check the level against the MIN/MAX marks on the side.\n4. If low, remove the reservoir cap and add the correct coolant mix (check owner's manual — usually 50/50).\n5. Fill to between MIN and MAX. Don't overfill.\n6. Replace cap snugly. Wipe any spills.\n7. If it keeps dropping, look for leaks at hoses and the radiator.",
+      "diagramFocus": [
+        "reservoir"
+      ]
     }
   ],
   "practice": [
@@ -23,21 +34,52 @@
       "type": "spot-hazard",
       "prompt": "Spot the hazards in this coolant check.",
       "hazards": [
-        { "id": "hot-cap", "label": "Opening radiator cap on a hot engine", "correct": true },
-        { "id": "wrong-fluid", "label": "Pouring plain water into a system that needs antifreeze mix", "correct": true },
-        { "id": "cold-engine", "label": "Engine sat cold overnight", "correct": false },
-        { "id": "min-max", "label": "Checking level against MIN/MAX marks", "correct": false }
+        {
+          "id": "hot-cap",
+          "label": "Opening radiator cap on a hot engine",
+          "correct": true
+        },
+        {
+          "id": "wrong-fluid",
+          "label": "Pouring plain water into a system that needs antifreeze mix",
+          "correct": true
+        },
+        {
+          "id": "cold-engine",
+          "label": "Engine sat cold overnight",
+          "correct": false
+        },
+        {
+          "id": "min-max",
+          "label": "Checking level against MIN/MAX marks",
+          "correct": false
+        }
       ],
       "requiredCount": 2,
-      "failMessage": "Hot cap = burn risk. Wrong fluid = freeze or corrosion damage."
+      "failMessage": "Hot cap = burn risk. Wrong fluid = freeze or corrosion damage.",
+      "interactive": true
     },
     {
       "type": "safe-next-move",
       "prompt": "Reservoir is below MIN but the engine is still warm from a drive. What do you do?",
       "options": [
-        { "id": "wait", "text": "Wait until the engine is completely cool, then top up the reservoir", "correct": true },
-        { "id": "open-rad", "text": "Open the radiator cap now to fill faster", "correct": false, "feedback": "Pressurized hot coolant will spray. Wait for cold." },
-        { "id": "drive", "text": "Drive to the store for coolant with the engine running", "correct": false, "feedback": "Low coolant plus heat makes overheating worse. Let it cool first." }
+        {
+          "id": "wait",
+          "text": "Wait until the engine is completely cool, then top up the reservoir",
+          "correct": true
+        },
+        {
+          "id": "open-rad",
+          "text": "Open the radiator cap now to fill faster",
+          "correct": false,
+          "feedback": "Pressurized hot coolant will spray. Wait for cold."
+        },
+        {
+          "id": "drive",
+          "text": "Drive to the store for coolant with the engine running",
+          "correct": false,
+          "feedback": "Low coolant plus heat makes overheating worse. Let it cool first."
+        }
       ],
       "failMessage": "Cool engine first. The reservoir cap is safe when cold; the system isn't under pressure."
     },
@@ -45,12 +87,38 @@
       "type": "tap-part",
       "prompt": "Tap where you check coolant on a routine basis.",
       "parts": [
-        { "id": "reservoir", "label": "Overflow reservoir", "correct": true },
-        { "id": "oil-dipstick", "label": "Oil dipstick", "correct": false },
-        { "id": "brake-fluid", "label": "Brake fluid reservoir", "correct": false }
+        {
+          "id": "reservoir",
+          "label": "Overflow reservoir",
+          "correct": true
+        },
+        {
+          "id": "oil-dipstick",
+          "label": "Oil dipstick",
+          "correct": false
+        },
+        {
+          "id": "brake-fluid",
+          "label": "Brake fluid reservoir",
+          "correct": false
+        }
       ],
       "requiredCount": 1,
-      "failMessage": "Routine check is the overflow reservoir with MIN/MAX marks — not oil or brake fluid."
+      "failMessage": "Routine check is the overflow reservoir with MIN/MAX marks — not oil or brake fluid.",
+      "interactive": true
+    }
+  ],
+  "diagramId": "check-coolant",
+  "vehicleTypes": [
+    {
+      "id": "sedan",
+      "label": "Most cars",
+      "note": "Check overflow reservoir when cold"
+    },
+    {
+      "id": "truck",
+      "label": "Truck / diesel",
+      "note": "May have secondary reservoir — check manual"
     }
   ]
 }

@@ -6,16 +6,28 @@
   "learn": [
     {
       "heading": "What you're looking at",
-      "body": "The breaker panel (load center) is the metal box that divides your home's power into circuits. The main breaker at the top shuts off power to the whole panel. Individual breakers below control rooms or appliances — 15A and 20A for lights and outlets, larger ones for dryer, range, AC. Each breaker is a switch: ON toward the panel center, OFF away."
+      "body": "The breaker panel (load center) is the metal box that divides your home's power into circuits. The main breaker at the top shuts off power to the whole panel. Individual breakers below control rooms or appliances — 15A and 20A for lights and outlets, larger ones for dryer, range, AC. Each breaker is a switch: ON toward the panel center, OFF away.",
+      "diagramFocus": [
+        "main"
+      ]
     },
     {
       "heading": "What can hurt you",
       "body": "The panel is live even with breakers off — the main lugs above the main breaker always carry power unless the meter is pulled. Never touch bare wires or bus bars inside. Stand to the side when flipping breakers, not directly in front. Dry hands, dry floor, one hand in your pocket if you must work near live parts.",
-      "callout": "If a breaker is warm, buzzing, or smells burnt, don't keep resetting it. Call an electrician."
+      "callout": "If a breaker is warm, buzzing, or smells burnt, don't keep resetting it. Call an electrician.",
+      "diagramFocus": [
+        "rust",
+        "scorch",
+        "water"
+      ]
     },
     {
       "heading": "The steps",
-      "body": "1. Open the panel door — no need to remove the dead front cover for reading labels.\n2. Find the main breaker (largest, usually at top). Know where it is before trouble hits.\n3. Read each breaker label: kitchen, bedroom, dryer, etc.\n4. Note which breakers are ON (handle toward center) vs OFF or tripped (middle position).\n5. If labels are missing, map circuits: turn one off, check what lost power, label it.\n6. Keep a flashlight nearby. Panels are often in garages or closets with poor light."
+      "body": "1. Open the panel door — no need to remove the dead front cover for reading labels.\n2. Find the main breaker (largest, usually at top). Know where it is before trouble hits.\n3. Read each breaker label: kitchen, bedroom, dryer, etc.\n4. Note which breakers are ON (handle toward center) vs OFF or tripped (middle position).\n5. If labels are missing, map circuits: turn one off, check what lost power, label it.\n6. Keep a flashlight nearby. Panels are often in garages or closets with poor light.",
+      "diagramFocus": [
+        "kitchen",
+        "bedroom"
+      ]
     }
   ],
   "practice": [
@@ -23,21 +35,52 @@
       "type": "tap-part",
       "prompt": "Tap the breaker that shuts off the entire panel.",
       "parts": [
-        { "id": "main", "label": "Main breaker", "correct": true },
-        { "id": "kitchen", "label": "Kitchen 20A breaker", "correct": false },
-        { "id": "bedroom", "label": "Bedroom 15A breaker", "correct": false },
-        { "id": "blank", "label": "Blank filler plate", "correct": false }
+        {
+          "id": "main",
+          "label": "Main breaker",
+          "correct": true
+        },
+        {
+          "id": "kitchen",
+          "label": "Kitchen 20A breaker",
+          "correct": false
+        },
+        {
+          "id": "bedroom",
+          "label": "Bedroom 15A breaker",
+          "correct": false
+        },
+        {
+          "id": "blank",
+          "label": "Blank filler plate",
+          "correct": false
+        }
       ],
       "requiredCount": 1,
-      "failMessage": "The main breaker is the big one — usually at the top. Branch breakers only kill their circuit."
+      "failMessage": "The main breaker is the big one — usually at the top. Branch breakers only kill their circuit.",
+      "interactive": true
     },
     {
       "type": "wrong-setup",
       "prompt": "What's wrong with this panel situation?",
       "options": [
-        { "id": "no-labels", "text": "Half the breakers have no labels — you don't know what you're killing", "correct": true },
-        { "id": "flashlight", "text": "Flashlight clipped to the panel door", "correct": false, "feedback": "A flashlight at the panel is smart, not a problem." },
-        { "id": "dry-floor", "text": "Dry floor and dry hands before opening", "correct": false, "feedback": "Dry conditions are what you want near electricity." }
+        {
+          "id": "no-labels",
+          "text": "Half the breakers have no labels — you don't know what you're killing",
+          "correct": true
+        },
+        {
+          "id": "flashlight",
+          "text": "Flashlight clipped to the panel door",
+          "correct": false,
+          "feedback": "A flashlight at the panel is smart, not a problem."
+        },
+        {
+          "id": "dry-floor",
+          "text": "Dry floor and dry hands before opening",
+          "correct": false,
+          "feedback": "Dry conditions are what you want near electricity."
+        }
       ],
       "failMessage": "Unlabeled breakers mean you're guessing in an emergency. Map and label them."
     },
@@ -45,13 +88,32 @@
       "type": "spot-hazard",
       "prompt": "Spot the hazards at this open panel.",
       "hazards": [
-        { "id": "bare-hands", "label": "Bare hands reaching past breakers toward bus bars", "correct": true },
-        { "id": "water", "label": "Standing water on the floor in front of the panel", "correct": true },
-        { "id": "labels", "label": "Handwritten circuit labels on each breaker", "correct": false },
-        { "id": "door-open", "label": "Panel door swung fully open for visibility", "correct": false }
+        {
+          "id": "bare-hands",
+          "label": "Bare hands reaching past breakers toward bus bars",
+          "correct": true
+        },
+        {
+          "id": "water",
+          "label": "Standing water on the floor in front of the panel",
+          "correct": true
+        },
+        {
+          "id": "labels",
+          "label": "Handwritten circuit labels on each breaker",
+          "correct": false
+        },
+        {
+          "id": "door-open",
+          "label": "Panel door swung fully open for visibility",
+          "correct": false
+        }
       ],
       "requiredCount": 2,
-      "failMessage": "Live bus bars and water on the floor — that's how people get hurt at panels."
+      "failMessage": "Live bus bars and water on the floor — that's how people get hurt at panels.",
+      "interactive": true
     }
-  ]
+  ],
+  "diagramId": "read-breaker-panel",
+  "scene3d": "breaker-panel"
 }

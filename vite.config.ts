@@ -44,6 +44,17 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three'],
+          r3f: ['@react-three/fiber', '@react-three/drei'],
+          motion: ['framer-motion'],
+        },
+      },
+    },
+  },
   test: {
     globals: true,
     environment: 'node',

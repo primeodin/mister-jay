@@ -6,16 +6,26 @@
   "learn": [
     {
       "heading": "What you're looking at",
-      "body": "The battery sits in a tray under the hood, usually up front. Two terminals: positive (+, often red) and negative (−, often black). A hold-down bracket or strap keeps it from bouncing. Corrosion looks like white or green crust on the terminals."
+      "body": "The battery sits in a tray under the hood, usually up front. Two terminals: positive (+, often red) and negative (−, often black). A hold-down bracket or strap keeps it from bouncing. Corrosion looks like white or green crust on the terminals.",
+      "diagramFocus": [
+        "negative",
+        "positive"
+      ]
     },
     {
       "heading": "What can hurt you",
       "body": "Battery acid can burn skin and eyes. Wear gloves and eye protection. Never let metal tools bridge both terminals — that's a short circuit and can weld the tool, spark, or explode hydrogen gas near the battery. Remove jewelry on your hands.",
-      "callout": "Always disconnect negative first. If your wrench hits the frame while loosening positive, you've created a dead short."
+      "callout": "Always disconnect negative first. If your wrench hits the frame while loosening positive, you've created a dead short.",
+      "diagramFocus": [
+        "corrosion"
+      ]
     },
     {
       "heading": "The steps",
-      "body": "1. Engine off, keys out. Gloves and safety glasses on.\n2. Loosen and remove the negative (−) cable first, tuck it aside.\n3. Loosen and remove the positive (+) cable.\n4. Remove the hold-down bracket.\n5. Lift the old battery straight up — it's heavy. Set it upright on cardboard, not on the driveway.\n6. Clean terminal clamps if corroded (baking soda and water works).\n7. Set the new battery in the tray, same orientation. Secure the hold-down.\n8. Connect positive (+) first, then negative (−). Tighten until snug, not stripped.\n9. Start the car and check that everything works."
+      "body": "1. Engine off, keys out. Gloves and safety glasses on.\n2. Loosen and remove the negative (−) cable first, tuck it aside.\n3. Loosen and remove the positive (+) cable.\n4. Remove the hold-down bracket.\n5. Lift the old battery straight up — it's heavy. Set it upright on cardboard, not on the driveway.\n6. Clean terminal clamps if corroded (baking soda and water works).\n7. Set the new battery in the tray, same orientation. Secure the hold-down.\n8. Connect positive (+) first, then negative (−). Tighten until snug, not stripped.\n9. Start the car and check that everything works.",
+      "diagramFocus": [
+        "holddown"
+      ]
     }
   ],
   "practice": [
@@ -23,34 +33,81 @@
       "type": "tap-part",
       "prompt": "Tap the terminal you disconnect first.",
       "parts": [
-        { "id": "negative", "label": "Negative (−) terminal", "correct": true },
-        { "id": "positive", "label": "Positive (+) terminal", "correct": false },
-        { "id": "holddown", "label": "Hold-down bracket", "correct": false }
+        {
+          "id": "negative",
+          "label": "Negative (−) terminal",
+          "correct": true
+        },
+        {
+          "id": "positive",
+          "label": "Positive (+) terminal",
+          "correct": false
+        },
+        {
+          "id": "holddown",
+          "label": "Hold-down bracket",
+          "correct": false
+        }
       ],
       "requiredCount": 1,
-      "failMessage": "Negative first. That breaks the ground path so your wrench can't short against the frame."
+      "failMessage": "Negative first. That breaks the ground path so your wrench can't short against the frame.",
+      "interactive": true
     },
     {
       "type": "order-steps",
       "prompt": "Order the steps for installing a new battery.",
       "steps": [
-        { "id": "tray", "text": "Place new battery in tray and secure hold-down" },
-        { "id": "pos", "text": "Connect positive (+) cable" },
-        { "id": "neg", "text": "Connect negative (−) cable" },
-        { "id": "test", "text": "Start engine and verify" }
+        {
+          "id": "tray",
+          "text": "Place new battery in tray and secure hold-down"
+        },
+        {
+          "id": "pos",
+          "text": "Connect positive (+) cable"
+        },
+        {
+          "id": "neg",
+          "text": "Connect negative (−) cable"
+        },
+        {
+          "id": "test",
+          "text": "Start engine and verify"
+        }
       ],
-      "correctOrder": ["tray", "pos", "neg", "test"],
-      "failMessage": "Battery secured first, then positive, then negative. Test last."
+      "correctOrder": [
+        "tray",
+        "pos",
+        "neg",
+        "test"
+      ],
+      "failMessage": "Battery secured first, then positive, then negative. Test last.",
+      "interactive": true
     },
     {
       "type": "safe-next-move",
       "prompt": "Your wrench slips and touches the frame while you're on the positive terminal. The old battery is still connected. What's the safe next move?",
       "options": [
-        { "id": "stop", "text": "Stop, remove the wrench, disconnect negative first, then continue", "correct": true },
-        { "id": "keep", "text": "Keep turning — almost loose", "correct": false, "feedback": "Metal on the frame while positive is connected is a short. Stop and break the ground first." },
-        { "id": "water", "text": "Pour water on the battery to cool it", "correct": false, "feedback": "Water on a live battery makes things worse. Disconnect negative first." }
+        {
+          "id": "stop",
+          "text": "Stop, remove the wrench, disconnect negative first, then continue",
+          "correct": true
+        },
+        {
+          "id": "keep",
+          "text": "Keep turning — almost loose",
+          "correct": false,
+          "feedback": "Metal on the frame while positive is connected is a short. Stop and break the ground first."
+        },
+        {
+          "id": "water",
+          "text": "Pour water on the battery to cool it",
+          "correct": false,
+          "feedback": "Water on a live battery makes things worse. Disconnect negative first."
+        }
       ],
       "failMessage": "Stop immediately. Disconnect negative before working near positive."
     }
-  ]
+  ],
+  "diagramId": "replace-battery",
+  "scene3d": "car-battery"
 }
