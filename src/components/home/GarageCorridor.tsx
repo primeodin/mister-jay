@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { Sketch, SketchProgress } from '../../types/sketch';
 import { categoryLabels } from '../../data/sketches';
+import { DiagramRenderer } from '../diagrams/DiagramRenderer';
 
 interface Props {
   sketches: Sketch[];
@@ -70,6 +71,9 @@ export default function GarageCorridor({ sketches, progress, dailyId }: Props) {
                 <div className="garage-stall-ramp" aria-hidden="true" />
                 <div className="garage-stall-backwall" aria-hidden="true" />
                 <div className="garage-stall-content">
+                  <div className="garage-stall-thumb" aria-hidden="true">
+                    <DiagramRenderer diagramId={sketch.diagramId} variant="embedded" interactive={false} />
+                  </div>
                   <span className="garage-stall-num stamp">{String(i + 1).padStart(2, '0')}</span>
                   {isDaily && <span className="garage-stall-today stamp">TODAY</span>}
                   <span className="garage-stall-cat stamp">{categoryLabels[sketch.category]}</span>
