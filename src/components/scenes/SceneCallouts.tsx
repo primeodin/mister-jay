@@ -5,17 +5,15 @@ interface Props {
   callouts: SceneCallout[];
 }
 
+/** Compact on-object markers — step copy lives in the Learn bottom sheet. */
 export default function SceneCallouts({ callouts }: Props) {
   return (
     <>
       {callouts.map((c) => (
-        <Html key={c.id} position={c.position} center distanceFactor={4} zIndexRange={[100, 0]}>
-          <div className={`scene-callout${c.danger ? ' scene-callout--danger' : ''}`}>
-            <span className="scene-callout-line" aria-hidden="true" />
-            <div className="scene-callout-card">
-              <strong className="stamp">{c.title}</strong>
-              {c.body && <p>{c.body}</p>}
-            </div>
+        <Html key={c.id} position={c.position} center distanceFactor={5} zIndexRange={[100, 0]}>
+          <div className={`scene-marker${c.danger ? ' scene-marker--danger' : ''}`}>
+            <span className="scene-marker-dot" aria-hidden="true" />
+            <span className="scene-marker-label stamp">{c.title}</span>
           </div>
         </Html>
       ))}

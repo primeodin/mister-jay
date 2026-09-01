@@ -47,7 +47,7 @@ export function buildCallouts(
   sceneId: Scene3DId | undefined,
   focusIds: string[] | undefined,
   title: string,
-  body: string,
+  _body: string,
   danger?: string,
 ): SceneCallout[] {
   if (!sceneId || !focusIds?.length) return [];
@@ -56,22 +56,12 @@ export function buildCallouts(
 
   const callouts: SceneCallout[] = focusIds
     .filter((id) => anchors[id])
-    .map((id) => ({
+    .map((id, i) => ({
       id,
       position: anchors[id],
-      title: id.replace(/-/g, ' ').toUpperCase(),
-      body: focusIds.length === 1 ? body : undefined,
+      title: i === 0 ? title : id.replace(/-/g, ' ').toUpperCase(),
+      danger: i === 0 && Boolean(danger),
     }));
-
-  if (callouts.length > 0) {
-    callouts[0].title = title;
-    callouts[0].body = body;
-  }
-
-  if (danger && callouts.length > 0) {
-    callouts[0].danger = true;
-    callouts[0].body = `${body}\n\n⚠ ${danger}`;
-  }
 
   return callouts;
 }

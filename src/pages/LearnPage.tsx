@@ -116,17 +116,25 @@ export default function LearnPage() {
       <div className="learn-hud">
         {has3d && (
           <AnimatePresence mode="wait">
-            <motion.div
+            <motion.article
               key={step}
-              className="learn-hud-caption"
-              initial={{ opacity: 0, y: 8 }}
+              className="learn-sheet"
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             >
+              <h3 className="learn-sheet-heading">{current.heading}</h3>
+              {current.body.split('\n').map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
               {current.callout && (
-                <span className="learn-hud-danger stamp">SAFETY</span>
+                <aside className="callout callout--danger">
+                  <strong className="stamp">SAFETY</strong>
+                  <p>{current.callout}</p>
+                </aside>
               )}
-            </motion.div>
+            </motion.article>
           </AnimatePresence>
         )}
 
