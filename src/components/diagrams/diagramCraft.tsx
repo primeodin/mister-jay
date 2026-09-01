@@ -7,6 +7,7 @@ export const C = {
   grid: 'rgba(245, 197, 24, 0.04)',
   paint: '#4a5560',
   paintDark: '#323c46',
+  paintLight: '#5a6570',
   glass: '#8ab0d0',
   steel: '#6a7078',
   rubber: '#1a1a1a',
@@ -18,33 +19,71 @@ export const C = {
   success: '#4a7c59',
   label: '#c8ccd0',
   labelDim: '#8a9098',
+  porcelain: '#d8d4cc',
+  chrome: '#a8adb4',
   mono: 'IBM Plex Mono, monospace',
   display: 'Bebas Neue, sans-serif',
 };
 
+/** Standard diagram canvas with safe margins (prevents fold clipping) */
+export const CANVAS = { w: 400, h: 320, padX: 12, padY: 16 };
+export const VIEW_BOX = `0 0 ${CANVAS.w} ${CANVAS.h}`;
+
+export function DiagramDefs({ id }: { id: string }) {
+  const gid = `dg-${id}`;
+  return (
+    <defs>
+      <pattern id={`${gid}-grid`} width="20" height="20" patternUnits="userSpaceOnUse">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke={C.grid} strokeWidth="0.5" />
+      </pattern>
+      <linearGradient id={`${gid}-floor`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#1a1814" />
+        <stop offset="100%" stopColor={C.void} />
+      </linearGradient>
+      <linearGradient id={`${gid}-paint`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor={C.paintLight} />
+        <stop offset="100%" stopColor={C.paintDark} />
+      </linearGradient>
+      <linearGradient id={`${gid}-rubber`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#2a2a2a" />
+        <stop offset="100%" stopColor={C.rubber} />
+      </linearGradient>
+      <linearGradient id={`${gid}-porcelain`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#ece8e0" />
+        <stop offset="100%" stopColor={C.porcelain} />
+      </linearGradient>
+      <linearGradient id={`${gid}-panel`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#d4ccc0" />
+        <stop offset="100%" stopColor="#b8b0a4" />
+      </linearGradient>
+      <linearGradient id={`${gid}-inner`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#2e2e2e" />
+        <stop offset="100%" stopColor="#1a1a1a" />
+      </linearGradient>
+      <filter id={`${gid}-shadow`} x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.45" />
+      </filter>
+    </defs>
+  );
+}
+
 export function DiagramBg({
-  w = 400,
-  h = 320,
+  id = 'main',
+  w = CANVAS.w,
+  h = CANVAS.h,
   children,
 }: {
+  id?: string;
   w?: number;
   h?: number;
   children: ReactNode;
 }) {
-  const id = `grid-${w}-${h}`;
+  const gid = `dg-${id}`;
   return (
     <>
-      <defs>
-        <pattern id={id} width="20" height="20" patternUnits="userSpaceOnUse">
-          <path d="M 20 0 L 0 0 0 20" fill="none" stroke={C.grid} strokeWidth="0.5" />
-        </pattern>
-        <linearGradient id="floor-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#1a1814" />
-          <stop offset="100%" stopColor={C.void} />
-        </linearGradient>
-      </defs>
-      <rect width={w} height={h} fill="url(#floor-grad)" />
-      <rect width={w} height={h} fill={`url(#${id})`} />
+      <DiagramDefs id={id} />
+      <rect width={w} height={h} fill={`url(#${gid}-floor)`} />
+      <rect width={w} height={h} fill={`url(#${gid}-grid)`} />
       {children}
     </>
   );
@@ -104,7 +143,70 @@ export function TitleStamp({
   );
 }
 
-/** Dimension / callout leader line */
+export function HazardMark({
+  x,
+  y,
+  label,
+  type = 'danger',
+  compact = false,
+}: {
+  x: number;
+  y: number;
+  label: string;
+  type?: 'danger' | 'caution';
+  compact?: boolean;
+}) {
+  const fill = type === 'danger' ? C.danger : C.caution;
+  const sz = compact ? 7 : 9;
+  return (
+    <g>
+      <polygon
+        points={`${x},${y - sz} ${x + sz},${y + sz * 0.7} ${x - sz},${y + sz * 0.7}`}
+        fill={fill}
+        opacity={0.92}
+      />
+      <text x={x} y={y + 1} textAnchor="middle" fill={C.void} fontSize={7} fontWeight="bold">
+        !
+      </text>
+      <ShopLabel x={x} y={y + sz + 10} size={6} fill={fill}>
+        {label}
+      </ShopLabel>
+    </g>
+  );
+}
+
+/** Shared breaker panel enclosure art */
+export function BreakerEnclosure({
+  x,
+  y,
+  w,
+  h,
+  gid,
+  showDirectory = true,
+}: {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  gid: string;
+  showDirectory?: boolean;
+}) {
+  return (
+    <g filter={`url(#dg-${gid}-shadow)`}>
+      <rect x={x} y={y} width={w} height={h} rx="3" fill={`url(#dg-${gid}-panel)`} stroke="#666" strokeWidth="2" />
+      <rect x={x + 10} y={y + 10} width={w - 20} height={h - 20} rx="2" fill={`url(#dg-${gid}-inner)`} stroke="#444" strokeWidth="1" />
+      {showDirectory && (
+        <>
+          <rect x={x + 20} y={y + h - 28} width={72} height={16} rx="1" fill="#f5f0e8" opacity="0.12" stroke="#888" strokeDasharray="2 2" />
+          <ShopLabel x={x + 56} y={y + h - 16} size={6}>
+            DIRECTORY
+          </ShopLabel>
+        </>
+      )}
+    </g>
+  );
+}
+
 export function Leader({
   x1,
   y1,
@@ -122,18 +224,19 @@ export function Leader({
   active?: boolean;
   danger?: boolean;
 }) {
-  const stroke = danger ? C.danger : active ? C.caution : C.labelDim;
+  const stroke = danger ? C.danger : C.caution;
   return (
-    <g className={active ? 'diagram-leader diagram-leader--active' : 'diagram-leader'}>
-      <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={stroke} strokeWidth={active ? 1.5 : 1} />
-      <circle cx={x1} cy={y1} r={active ? 4 : 2.5} fill={stroke} />
+    <g className={active ? 'diagram-leader--active' : undefined} opacity={active ? 1 : 0.65}>
+      <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={stroke} strokeWidth="1" strokeDasharray={active ? undefined : '3 2'} />
+      <circle cx={x1} cy={y1} r="2.5" fill={stroke} />
       <text
         x={x2}
         y={y2}
+        textAnchor="middle"
         fill={stroke}
-        fontSize={8}
+        fontSize={7}
         fontFamily={C.mono}
-        letterSpacing="0.05em"
+        letterSpacing="0.06em"
       >
         {label}
       </text>
@@ -141,29 +244,31 @@ export function Leader({
   );
 }
 
-export function HazardMark({
+export function BreakerToggle({
   x,
   y,
   label,
-  type = 'danger',
+  tripped = false,
+  gid: _gid,
 }: {
   x: number;
   y: number;
   label: string;
-  type?: 'danger' | 'caution';
+  tripped?: boolean;
+  gid: string;
 }) {
-  const fill = type === 'danger' ? C.danger : C.caution;
   return (
     <g>
-      <polygon
-        points={`${x},${y - 10} ${x + 9},${y + 6} ${x - 9},${y + 6}`}
-        fill={fill}
-        opacity={0.9}
+      <rect x={x} y={y} width="38" height="42" rx="2" fill="#333" stroke="#555" strokeWidth="1" />
+      <rect
+        x={x + 14}
+        y={tripped ? y + 20 : y + 10}
+        width="10"
+        height="14"
+        rx="1"
+        fill={tripped ? C.caution : '#ccc'}
       />
-      <text x={x} y={y + 2} textAnchor="middle" fill={C.void} fontSize={8} fontWeight="bold">
-        !
-      </text>
-      <ShopLabel x={x} y={y + 18} size={7} fill={fill}>
+      <ShopLabel x={x + 19} y={y + 52} size={7} fill={tripped ? C.caution : C.labelDim}>
         {label}
       </ShopLabel>
     </g>

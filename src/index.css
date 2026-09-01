@@ -946,38 +946,62 @@ body {
   fill: var(--text-ghost);
 }
 
-.hotspot {
-  fill: rgba(245, 197, 24, 0.15);
+.hotspot--idle {
+  fill: none;
   stroke: var(--caution);
-  stroke-width: 2;
+  stroke-width: 1;
+  opacity: 0.5;
 }
 
-.hotspot--interactive {
+.hotspot-dot {
+  fill: var(--caution);
+  stroke: var(--void);
+  stroke-width: 1;
+}
+
+.hotspot-dot--selected {
+  fill: var(--tungsten);
+  filter: drop-shadow(0 0 4px var(--tungsten));
+}
+
+.hotspot-dot--highlight {
+  fill: #ffb347;
+}
+
+.hotspot-hit {
+  fill: transparent;
+  stroke: none;
   cursor: pointer;
 }
 
-.hotspot--selected {
-  fill: rgba(245, 197, 24, 0.45);
-  stroke: var(--tungsten);
-  stroke-width: 3;
-  filter: drop-shadow(0 0 6px var(--tungsten));
+.hotspot-leader-line {
+  stroke: var(--caution);
+  stroke-width: 0.75;
+  opacity: 0.85;
 }
 
-.hotspot--highlight {
-  fill: rgba(255, 179, 71, 0.35);
-  stroke: var(--tungsten);
+.hotspot-leader-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  fill: var(--caution);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .hotspot-pulse {
   fill: none;
   stroke: var(--tungsten);
-  stroke-width: 2;
+  stroke-width: 1.5;
   animation: hotspot-pulse 1.8s ease infinite;
 }
 
+.hotspot-pulse--selected {
+  stroke: var(--tungsten);
+}
+
 @keyframes hotspot-pulse {
-  0%, 100% { r: 26; opacity: 0.7; }
-  50% { r: 32; opacity: 0.15; }
+  0%, 100% { r: 8; opacity: 0.75; }
+  50% { r: 11; opacity: 0.12; }
 }
 
 .hotspot-label {

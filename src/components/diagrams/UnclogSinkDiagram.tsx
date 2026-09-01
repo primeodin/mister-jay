@@ -1,12 +1,14 @@
 import type { DiagramProps } from './DiagramRenderer';
 import { HotspotOverlay } from './DiagramRenderer';
-import { C, DiagramBg, ShopLabel, TitleStamp, HazardMark } from './diagramCraft';
+import { C, DiagramBg, ShopLabel, TitleStamp, HazardMark, VIEW_BOX } from './diagramCraft';
+
+const gid = 'sink';
 
 const hotspots = [
-  { id: 'no-bucket', label: 'No bucket', cx: 200, cy: 258 },
-  { id: 'overtight', label: 'Over-tightened', cx: 145, cy: 215 },
-  { id: 'bucket-ready', label: 'Bucket ready', cx: 78, cy: 248 },
-  { id: 'plunger', label: 'Plunger first', cx: 318, cy: 95 },
+  { id: 'no-bucket', label: 'No bucket', cx: 200, cy: 268, lx: 248, ly: 290 },
+  { id: 'overtight', label: 'Over-tightened', cx: 152, cy: 218, lx: 88, ly: 198 },
+  { id: 'bucket-ready', label: 'Bucket ready', cx: 78, cy: 248, lx: 32, ly: 268 },
+  { id: 'plunger', label: 'Plunger first', cx: 318, cy: 108, lx: 360, ly: 78 },
 ];
 
 export default function UnclogSinkDiagram({
@@ -17,37 +19,103 @@ export default function UnclogSinkDiagram({
   showCallouts,
 }: DiagramProps) {
   return (
-    <svg viewBox="0 0 400 300" className="sketch-diagram" aria-label="Sink unclog cutaway">
-      <DiagramBg h={300}>
-        <TitleStamp x={200} y={22}>UNCLOG A SINK — SAVE THE TRAP</TitleStamp>
+    <svg viewBox={VIEW_BOX} preserveAspectRatio="xMidYMid meet" className="sketch-diagram" aria-label="Sink unclog cutaway">
+      <DiagramBg id={gid}>
+        <TitleStamp x={200} y={22}>
+          UNCLOG A SINK — SAVE THE TRAP
+        </TitleStamp>
 
-        {/* Sink basin */}
-        <rect x="95" y="42" width="210" height="58" rx="4" fill="#ccc" stroke="#999" strokeWidth="2" />
-        <rect x="185" y="100" width="30" height="28" fill="#888" />
+        {/* Countertop */}
+        <rect x="52" y="48" width="296" height="14" rx="2" fill="#8a8580" stroke="#666" strokeWidth="1" />
+        <rect x="52" y="62" width="296" height="4" fill="#6a6560" />
 
-        {/* P-trap */}
-        <path d="M 200 128 Q 155 175 200 218 Q 245 175 200 128" fill="none" stroke="#666" strokeWidth="10" strokeLinecap="round" />
-        <ShopLabel x={255} y={185} size={7}>P-TRAP</ShopLabel>
+        {/* Porcelain basin */}
+        <path
+          d="M 88 62 L 312 62 L 300 108 Q 200 118 100 108 Z"
+          fill={`url(#dg-${gid}-porcelain)`}
+          stroke="#aaa"
+          strokeWidth="1.5"
+        />
+        {/* Basin bowl depth */}
+        <ellipse cx={200} cy={102} rx="72" ry="14" fill="#c8c4bc" stroke="#999" strokeWidth="0.75" />
+        {/* Drain */}
+        <circle cx={200} cy={100} r="10" fill="#333" stroke={C.chrome} strokeWidth="2" />
+        <circle cx={200} cy={100} r="5" fill="#1a1a1a" />
+
+        {/* Faucet stub */}
+        <rect x="188" y="38" width="24" height="26" rx="3" fill={C.chrome} stroke="#888" strokeWidth="1" />
+        <rect x="196" y="28" width="8" height="14" rx="2" fill="#999" stroke="#777" strokeWidth="0.75" />
+
+        {/* Tailpiece */}
+        <rect x="194" y="112" width="12" height="22" fill="#888" stroke="#666" strokeWidth="0.75" />
+
+        {/* Cabinet cutaway frame */}
+        <rect x="48" y="148" width="304" height="148" rx="3" fill="#2a2824" stroke="#444" strokeWidth="1" opacity="0.85" />
+        <line x1="48" y1="148" x2="352" y2="148" stroke="#555" strokeWidth="1" strokeDasharray="4 3" />
+
+        {/* P-trap assembly */}
+        <path
+          d="M 200 134 L 200 158 Q 148 168 148 198 Q 148 228 200 238 Q 252 228 252 198 Q 252 168 200 158"
+          fill="none"
+          stroke="#777"
+          strokeWidth="12"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* Trap highlight */}
+        <path
+          d="M 200 158 Q 148 168 148 198 Q 148 220 200 228"
+          fill="none"
+          stroke="#999"
+          strokeWidth="3"
+          strokeLinecap="round"
+          opacity="0.5"
+        />
+
+        {/* Slip nuts */}
+        <ellipse cx={200} cy={156} rx="10" ry="5" fill="#666" stroke="#888" strokeWidth="1" />
+        <ellipse cx={148} cy={218} rx="8" ry="5" fill="#666" stroke={C.danger} strokeWidth="1.5" />
+        <ellipse cx={252} cy={218} rx="8" ry="5" fill="#666" stroke="#888" strokeWidth="1" />
+
+        <ShopLabel x={268} y={200} size={7}>
+          P-TRAP
+        </ShopLabel>
+        <ShopLabel x={148} y={206} size={6} fill={C.danger}>
+          OVER-TIGHT
+        </ShopLabel>
 
         {/* Bucket ready */}
-        <rect x="52" y="228" width="52" height="38" rx="3" fill="#b85c38" opacity="0.85" stroke="#8b4513" strokeWidth="1" />
-        <ShopLabel x={78} y={278} size={7} fill={C.success}>BUCKET ✓</ShopLabel>
+        <g filter={`url(#dg-${gid}-shadow)`}>
+          <path d="M 58 248 L 98 248 L 94 278 L 62 278 Z" fill="#b85c38" stroke="#8b4513" strokeWidth="1.5" />
+          <ellipse cx={78} cy={248} rx="20" ry="5" fill="#c87048" stroke="#8b4513" strokeWidth="1" />
+        </g>
+        <ShopLabel x={78} y={292} size={6} fill={C.success}>
+          BUCKET ✓
+        </ShopLabel>
 
-        {/* No bucket hazard */}
-        <ellipse cx={200} cy={262} rx="42" ry="12" fill="none" stroke={C.danger} strokeDasharray="4 3" />
-        <HazardMark x={200} y={245} label="NO BUCKET" type="danger" />
+        {/* No bucket hazard zone */}
+        <ellipse cx={200} cy={272} rx="38" ry="10" fill="none" stroke={C.danger} strokeDasharray="4 3" strokeWidth="1.5" />
+        <HazardMark x={200} y={252} label="NO BUCKET" type="danger" compact />
 
-        {/* Over-tightened slip nut */}
-        <circle cx={145} cy={215} r="12" fill="none" stroke={C.danger} strokeWidth="2" />
-        <ShopLabel x={145} y={200} size={6} fill={C.danger}>OVER-TIGHT</ShopLabel>
-
-        {/* Plunger */}
-        <rect x="298" y="62" width="40" height="55" rx="20" fill="#333" stroke="#555" strokeWidth="1" />
-        <line x1={318} y1={117} x2={318} y2={140} stroke="#8b4513" strokeWidth="5" />
-        <ShopLabel x={318} y={52} size={7}>PLUNGER FIRST</ShopLabel>
+        {/* Plunger (try first) */}
+        <g transform="translate(318, 88)">
+          <ellipse cx="0" cy="0" rx="22" ry="14" fill="#2a2a2a" stroke="#555" strokeWidth="1.5" />
+          <rect x="-4" y="12" width="8" height="32" rx="2" fill="#8b4513" stroke="#6b3410" strokeWidth="0.75" />
+          <rect x="-8" y="42" width="16" height="6" rx="2" fill="#555" />
+        </g>
+        <ShopLabel x={318} y={68} size={6}>
+          PLUNGER FIRST
+        </ShopLabel>
       </DiagramBg>
 
-      <HotspotOverlay hotspots={hotspots} selectedIds={selectedIds} highlightIds={highlightIds} onHotspotClick={onHotspotClick} interactive={interactive} showCallouts={showCallouts} />
+      <HotspotOverlay
+        hotspots={hotspots}
+        selectedIds={selectedIds}
+        highlightIds={highlightIds}
+        onHotspotClick={onHotspotClick}
+        interactive={interactive}
+        showCallouts={showCallouts}
+      />
     </svg>
   );
 }

@@ -1,17 +1,19 @@
 import type { DiagramProps } from './DiagramRenderer';
 import { HotspotOverlay } from './DiagramRenderer';
-import { C, DiagramBg, ShopLabel, TitleStamp, HazardMark, Leader } from './diagramCraft';
+import { C, DiagramBg, ShopLabel, TitleStamp, HazardMark, Leader, VIEW_BOX } from './diagramCraft';
+
+const gid = 'tire';
 
 const hotspots = [
-  { id: 'jack', label: 'Scissor jack', cx: 155, cy: 218 },
-  { id: 'lug-wrench', label: 'Lug wrench', cx: 295, cy: 228 },
-  { id: 'spare', label: 'Spare tire', cx: 330, cy: 115 },
-  { id: 'jack-point', label: 'Pinch weld', cx: 175, cy: 148 },
-  { id: 'lug-nuts', label: 'Lug nuts', cx: 108, cy: 198 },
-  { id: 'block-wheel', label: 'Wheel chock', cx: 55, cy: 248 },
-  { id: 'no-brake', label: 'No parking brake', cx: 55, cy: 95 },
-  { id: 'soft-ground', label: 'Soft ground', cx: 155, cy: 268 },
-  { id: 'spare-ready', label: 'Spare ready', cx: 330, cy: 115 },
+  { id: 'jack', label: 'Scissor jack', cx: 168, cy: 212, lx: 248, ly: 200 },
+  { id: 'lug-wrench', label: 'Lug wrench', cx: 298, cy: 222, lx: 340, ly: 248 },
+  { id: 'spare', label: 'Spare tire', cx: 332, cy: 118, lx: 360, ly: 88 },
+  { id: 'jack-point', label: 'Pinch weld', cx: 178, cy: 152, lx: 248, ly: 128 },
+  { id: 'lug-nuts', label: 'Lug nuts', cx: 112, cy: 192, lx: 48, ly: 168 },
+  { id: 'block-wheel', label: 'Wheel chock', cx: 52, cy: 242, lx: 24, ly: 268 },
+  { id: 'no-brake', label: 'No parking brake', cx: 72, cy: 108, lx: 24, ly: 78 },
+  { id: 'soft-ground', label: 'Soft ground', cx: 168, cy: 262, lx: 248, ly: 278 },
+  { id: 'spare-ready', label: 'Spare ready', cx: 332, cy: 118, lx: 360, ly: 88 },
 ];
 
 export default function ChangeTireDiagram({
@@ -24,84 +26,120 @@ export default function ChangeTireDiagram({
   const hi = (id: string) => highlightIds?.includes(id) ?? false;
 
   return (
-    <svg viewBox="0 0 400 320" className="sketch-diagram" aria-label="Tire change cutaway">
-      <DiagramBg h={320}>
+    <svg viewBox={VIEW_BOX} preserveAspectRatio="xMidYMid meet" className="sketch-diagram" aria-label="Tire change cutaway">
+      <DiagramBg id={gid}>
         <TitleStamp x={200} y={22}>
           CHANGE A TIRE — ROADSIDE
         </TitleStamp>
 
-        {/* Sedan quarter panel + rocker */}
+        {/* Ground shadow */}
+        <ellipse cx={130} cy={278} rx="95" ry="10" fill="#000" opacity="0.35" />
+
+        {/* Sedan rear quarter — curved roof, fender flare */}
         <path
-          d="M 30 175 L 30 130 L 55 95 L 120 72 L 200 68 L 250 78 L 270 95 L 275 130 L 275 175"
-          fill={C.paintDark}
+          d="M 28 178 L 28 138 Q 30 108 58 88 Q 95 68 145 64 Q 195 62 238 72 Q 268 82 278 102 L 282 138 L 282 178 Z"
+          fill={`url(#dg-${gid}-paint)`}
           stroke={C.steel}
           strokeWidth="1.5"
         />
-        {/* Door glass */}
-        <rect x="95" y="88" width="72" height="38" rx="2" fill={C.glass} opacity="0.55" stroke={C.steel} strokeWidth="1" />
-        {/* Wheel arch */}
-        <path d="M 55 175 Q 55 130 95 118 Q 135 108 155 130 Q 175 152 175 175 Z" fill={C.void} stroke={C.steel} strokeWidth="1" />
+        {/* Body highlight */}
+        <path
+          d="M 38 140 Q 70 95 145 78 Q 210 72 265 88"
+          fill="none"
+          stroke="rgba(255,255,255,0.08)"
+          strokeWidth="3"
+        />
+        {/* Rocker / sill */}
+        <path d="M 28 178 L 282 178 L 282 186 L 28 186 Z" fill={C.paintDark} stroke={C.steel} strokeWidth="0.75" />
 
-        {/* Near wheel */}
-        <circle cx="108" cy="198" r="44" fill={C.rubber} stroke="#333" strokeWidth="3" />
-        <circle cx="108" cy="198" r="26" fill={C.rim} stroke="#666" strokeWidth="1" />
-        {[0, 72, 144, 216, 288].map((deg) => (
+        {/* Rear door glass */}
+        <path
+          d="M 98 92 Q 118 82 148 80 Q 178 80 198 88 L 198 128 Q 175 132 145 130 Q 110 126 98 118 Z"
+          fill={C.glass}
+          opacity="0.6"
+          stroke={C.steel}
+          strokeWidth="1"
+        />
+        {/* Quarter window */}
+        <path d="M 210 86 L 255 94 L 252 118 L 210 112 Z" fill={C.glass} opacity="0.45" stroke={C.steel} strokeWidth="0.75" />
+
+        {/* Wheel arch cutout */}
+        <path
+          d="M 52 178 Q 52 128 88 112 Q 118 102 138 118 Q 158 134 158 178 Z"
+          fill={C.void}
+          stroke={C.steel}
+          strokeWidth="1"
+        />
+        <path d="M 52 178 Q 88 148 138 148 Q 148 148 158 178" fill="none" stroke="#222" strokeWidth="2" />
+
+        {/* Tire + wheel */}
+        <circle cx={112} cy={192} r="42" fill={`url(#dg-${gid}-rubber)`} stroke="#2a2a2a" strokeWidth="2.5" />
+        <circle cx={112} cy={192} r="34" fill="none" stroke="#333" strokeWidth="1" />
+        <circle cx={112} cy={192} r="24" fill={C.rim} stroke="#666" strokeWidth="1" />
+        {[0, 60, 120, 180, 240, 300].map((deg) => (
           <circle
             key={deg}
-            cx={108 + 20 * Math.cos((deg * Math.PI) / 180)}
-            cy={198 + 20 * Math.sin((deg * Math.PI) / 180)}
-            r="4"
-            fill="#ccc"
+            cx={112 + 18 * Math.cos((deg * Math.PI) / 180)}
+            cy={192 + 18 * Math.sin((deg * Math.PI) / 180)}
+            r="3.5"
+            fill="#bbb"
           />
         ))}
-        <ShopLabel x={108} y={252} fill={C.label}>
+        <circle cx={112} cy={192} r="6" fill="#888" />
+        <ShopLabel x={112} y={248} fill={C.labelDim} size={6}>
           RADIAL T/A
         </ShopLabel>
 
-        {/* Pinch weld / jack point */}
-        <rect x="155" y="142" width="48" height="6" rx="1" fill={C.steel} />
-        <ShopLabel x={179} y={138} anchor="middle" size={7}>
+        {/* Pinch weld jack point */}
+        <rect x={162} y={146} width="52" height="5" rx="1" fill={C.steel} stroke="#888" strokeWidth="0.5" />
+        <rect x={168} y={143} width="8" height="3" rx="0.5" fill="#aaa" />
+        <rect x={200} y={143} width="8" height="3" rx="0.5" fill="#aaa" />
+        <ShopLabel x={188} y={140} anchor="middle" size={6}>
           PINCH WELD
         </ShopLabel>
 
-        {/* Scissor jack under rocker */}
-        <g transform="translate(155, 200)">
-          <line x1="-8" y1="0" x2="0" y2="-18" stroke={C.danger} strokeWidth="3" />
-          <line x1="8" y1="0" x2="0" y2="-18" stroke={C.danger} strokeWidth="3" />
-          <rect x="-14" y="0" width="28" height="5" rx="1" fill="#333" />
-          <rect x="-3" y="-22" width="6" height="6" rx="1" fill="#888" />
+        {/* Scissor jack */}
+        <g transform="translate(168, 205)" filter={`url(#dg-${gid}-shadow)`}>
+          <line x1="-10" y1="4" x2="0" y2="-22" stroke={C.danger} strokeWidth="3" strokeLinecap="round" />
+          <line x1="10" y1="4" x2="0" y2="-22" stroke={C.danger} strokeWidth="3" strokeLinecap="round" />
+          <rect x="-16" y="4" width="32" height="6" rx="1" fill="#2a2a2a" stroke="#444" strokeWidth="0.75" />
+          <rect x="-4" y="-26" width="8" height="7" rx="1" fill="#999" />
         </g>
 
-        {/* Spare tire */}
-        <ellipse cx="330" cy="118" rx="38" ry="14" fill={C.rubber} stroke="#333" strokeWidth="2" />
-        <ellipse cx="330" cy="115" rx="22" ry="8" fill={C.rim} />
-        <ShopLabel x={330} y={145} size={7}>
+        {/* Spare tire (laying flat) */}
+        <g filter={`url(#dg-${gid}-shadow)`}>
+          <ellipse cx={332} cy={122} rx="40" ry="14" fill={`url(#dg-${gid}-rubber)`} stroke="#333" strokeWidth="2" />
+          <ellipse cx={332} cy={118} rx="24" ry="8" fill={C.rim} stroke="#666" strokeWidth="0.75" />
+        </g>
+        <ShopLabel x={332} y={148} size={6}>
           SPARE
         </ShopLabel>
 
         {/* Lug wrench */}
-        <rect x="268" y="222" width="54" height="7" rx="2" fill="#555" transform="rotate(-12 295 225)" />
-        <circle cx="278" cy="218" r="9" fill="none" stroke="#777" strokeWidth="3" />
-        <ShopLabel x={295} y={248} size={7}>
+        <g transform="translate(298, 218) rotate(-15)">
+          <rect x="-28" y="-3" width="56" height="7" rx="2" fill="#555" stroke="#777" strokeWidth="0.75" />
+          <circle cx="-20" cy="0" r="10" fill="none" stroke="#888" strokeWidth="3" />
+          <circle cx="20" cy="0" r="10" fill="none" stroke="#888" strokeWidth="3" />
+        </g>
+        <ShopLabel x={298} y={248} size={6}>
           LUG WRENCH
         </ShopLabel>
 
         {/* Wheel chock */}
-        <polygon points="42,255 68,255 62,268 48,268" fill="#6b4423" stroke="#4a3018" strokeWidth="1" />
-        <ShopLabel x={55} y={280} size={7}>
-          CHOCK
+        <polygon points="38,248 66,248 60,262 44,262" fill="#6b4423" stroke="#4a3018" strokeWidth="1" />
+        <ShopLabel x={52} y={276} size={6} fill={C.success}>
+          CHOCK ✓
         </ShopLabel>
 
-        {/* Hazard: parking brake not set */}
-        <HazardMark x={55} y={82} label="PARK BRAKE?" type="caution" />
-        {/* Hazard: soft ground under jack */}
-        <ellipse cx={155} cy={275} rx="28" ry="8" fill="#5a4a30" opacity="0.7" stroke={C.caution} strokeDasharray="3 2" />
+        {/* Hazards — placed clear of hotspot dots */}
+        <HazardMark x={72} y={88} label="PARK BRAKE?" type="caution" compact />
+        <ellipse cx={168} cy={270} rx="32" ry="7" fill="#5a4a30" opacity="0.65" stroke={C.caution} strokeDasharray="3 2" strokeWidth="1" />
 
         {hi('jack-point') && (
-          <Leader x1={179} y1={145} x2={220} y2={55} label="JACK POINT" active />
+          <Leader x1={188} y1={148} x2={248} y2={100} label="JACK POINT" active />
         )}
         {hi('block-wheel') && (
-          <Leader x1={55} y1={260} x2={20} y2={200} label="BLOCK OPPOSITE WHEEL" active danger />
+          <Leader x1={52} y1={254} x2={20} y2={210} label="BLOCK OPPOSITE" active danger />
         )}
       </DiagramBg>
 

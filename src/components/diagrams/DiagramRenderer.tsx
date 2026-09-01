@@ -16,7 +16,12 @@ export interface DiagramHotspot {
   label: string;
   cx: number;
   cy: number;
+  /** Tap target radius (default 12) */
   r?: number;
+  /** Label anchor X (leader endpoint) */
+  lx?: number;
+  /** Label anchor Y (leader endpoint) */
+  ly?: number;
 }
 
 interface Props {
@@ -83,6 +88,12 @@ export function DiagramRenderer({
   );
 }
 
+function labelAnchor(h: DiagramHotspot): { lx: number; ly: number } {
+  if (h.lx != null && h.ly != null) return { lx: h.lx, ly: h.ly };
+  const r = h.r ?? 12;
+  return { lx: h.cx + r + 6, ly: h.cy - 4 };
+}
+
 export function HotspotOverlay({
   hotspots,
   selectedIds = [],
@@ -103,77 +114,85 @@ export function HotspotOverlay({
       {hotspots.map((h) => {
         const selected = selectedIds.includes(h.id);
         const highlighted = highlightIds.includes(h.id);
-        const r = h.r ?? 22;
-        const showLeader = showCallouts && highlighted && !interactive;
-        const labelY = h.cy - r - 18;
+        const active = selected || highlighted;
+        const hitR = h.r ?? 12;
+        const dotR = 4;
+        const { lx, ly } = labelAnchor(h);
+        const showLeader = (interactive && active) || (showCallouts && highlighted && !interactive);
+        const showIdleRing = interactive && !active;
+
         return (
           <g key={h.id}>
             {showLeader && (
-              <g className="diagram-callout">
-                <line
-                  x1={h.cx}
-                  y1={h.cy - r}
-                  x2={h.cx}
-                  y2={labelY + 10}
-                  stroke="#f5c518"
-                  strokeWidth="1.5"
-                />
-                <rect
-                  x={h.cx - 48}
-                  y={labelY - 4}
-                  width="96"
-                  height="14"
-                  rx="2"
-                  fill="rgba(10, 9, 8, 0.88)"
-                  stroke="#f5c518"
-                  strokeWidth="1"
-                />
-                <text
-                  x={h.cx}
-                  y={labelY + 6}
-                  textAnchor="middle"
-                  className="diagram-callout-label"
-                >
+              <g className="hotspot-leader">
+                <line x1={h.cx} y1={h.cy} x2={lx} y2={ly} className="hotspot-leader-line" />
+                <text x={lx + 4} y={ly + 3} className="hotspot-leader-label">
                   {h.label}
                 </text>
               </g>
             )}
-            {(selected || highlighted) && (
+
+            {showCallouts && highlighted && !interactive && (
+              <g className="diagram-callout">
+                <line x1={h.cx} y1={h.cy} x2={lx} y2={ly} stroke="#f5c518" strokeWidth="1" />
+                <rect
+                  x={lx - 44}
+                  y={ly - 10}
+                  width="88"
+                  height="13"
+                  rx="2"
+                  fill="rgba(10, 9, 8, 0.9)"
+                  stroke="#f5c518"
+                  strokeWidth="0.75"
+                />
+                <text x={lx} y={ly} textAnchor="middle" className="diagram-callout-label">
+                  {h.label}
+                </text>
+              </g>
+            )}
+
+            {active && (
               <circle
                 cx={h.cx}
                 cy={h.cy}
-                r={r + 8}
+                r={dotR + 5}
                 className={`hotspot-pulse${selected ? ' hotspot-pulse--selected' : ''}`}
               />
             )}
-            <circle
-              cx={h.cx}
-              cy={h.cy}
-              r={r}
-              className={`hotspot${selected ? ' hotspot--selected' : ''}${highlighted ? ' hotspot--highlight' : ''}${interactive ? ' hotspot--interactive' : ''}`}
-              onClick={interactive && onHotspotClick ? () => onHotspotClick(h.id) : undefined}
-              role={interactive ? 'button' : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              onKeyDown={
-                interactive && onHotspotClick
-                  ? (e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        onHotspotClick(h.id);
-                      }
-                    }
-                  : undefined
-              }
-            />
+
+            {showIdleRing && (
+              <circle cx={h.cx} cy={h.cy} r={dotR + 2} className="hotspot hotspot--idle" />
+            )}
+
+            {active && (
+              <circle
+                cx={h.cx}
+                cy={h.cy}
+                r={dotR}
+                className={`hotspot-dot${selected ? ' hotspot-dot--selected' : ''}${highlighted ? ' hotspot-dot--highlight' : ''}`}
+              />
+            )}
+
             {interactive && (
-              <text
-                x={h.cx}
-                y={h.cy + r + 14}
-                textAnchor="middle"
-                className="hotspot-label"
-              >
-                {h.label}
-              </text>
+              <circle
+                cx={h.cx}
+                cy={h.cy}
+                r={hitR}
+                className="hotspot-hit"
+                onClick={onHotspotClick ? () => onHotspotClick(h.id) : undefined}
+                role="button"
+                tabIndex={0}
+                onKeyDown={
+                  onHotspotClick
+                    ? (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          onHotspotClick(h.id);
+                        }
+                      }
+                    : undefined
+                }
+              />
             )}
           </g>
         );
