@@ -34,7 +34,7 @@ export default function ChoiceExerciseView({ exercise, sketch, onResult }: Props
     <div className="exercise exercise--interactive">
       <p className="exercise-prompt">{exercise.prompt}</p>
       <div className="choice-scene-wrap">
-        <SketchVisual sketch={sketch} prefer3d={false} />
+        <SketchVisual sketch={sketch} variant="viewport" prefer3d={false} />
       </div>
       <div className="choice-list">
         {exercise.options.map((opt, i) => (
@@ -64,7 +64,7 @@ export default function ChoiceExerciseView({ exercise, sketch, onResult }: Props
       >
         Check
       </motion.button>
-      <FeedbackBurst show={feedback.show} success={feedback.success} message={feedback.message} />
+      <FeedbackBurst show={feedback.show} success={feedback.success} message={feedback.message} shake />
     </div>
   );
 }

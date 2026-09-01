@@ -26,6 +26,7 @@ interface Props {
   highlightIds?: string[];
   onHotspotClick?: (id: string) => void;
   interactive?: boolean;
+  variant?: 'hero' | 'viewport' | 'embedded';
   className?: string;
 }
 
@@ -58,12 +59,13 @@ export function DiagramRenderer({
   onHotspotClick,
   interactive,
   className,
+  variant = 'embedded',
 }: Props) {
   const Diagram = diagrams[diagramId];
   if (!Diagram) return null;
 
   return (
-    <div className={`diagram-frame${className ? ` ${className}` : ''}`}>
+    <div className={`diagram-frame diagram-frame--${variant}${className ? ` ${className}` : ''}`}>
       <Diagram
         focusIds={focusIds}
         selectedIds={selectedIds}

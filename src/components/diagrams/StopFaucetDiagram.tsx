@@ -16,7 +16,7 @@ export default function StopFaucetDiagram({
 }: DiagramProps) {
   return (
     <svg viewBox="0 0 400 280" className="sketch-diagram" aria-label="Faucet repair diagram">
-      <rect width="400" height="280" fill="#e0d8cc" rx="8" />
+      <rect width="400" height="280" fill="#1a1814" rx="8" />
       <rect x="80" y="30" width="240" height="20" fill="#ccc" />
       <rect x="170" y="50" width="60" height="50" rx="4" fill="#aaa" stroke="#888" strokeWidth="2" />
       <circle cx="200" cy="60" r="12" fill="#888" />

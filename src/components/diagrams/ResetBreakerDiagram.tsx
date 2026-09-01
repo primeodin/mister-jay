@@ -16,7 +16,7 @@ export default function ResetBreakerDiagram({
 }: DiagramProps) {
   return (
     <svg viewBox="0 0 400 260" className="sketch-diagram" aria-label="Reset breaker diagram">
-      <rect width="400" height="260" fill="#8a8278" rx="8" />
+      <rect width="400" height="260" fill="#141210" rx="8" />
       <rect x="100" y="40" width="200" height="160" rx="4" fill="#2a2a2a" stroke="#666" strokeWidth="2" />
       <rect x="120" y="60" width="50" height="35" rx="2" fill="#333" />
       <rect x="128" y="78" width="8" height="12" rx="1" fill="#d4a017" />

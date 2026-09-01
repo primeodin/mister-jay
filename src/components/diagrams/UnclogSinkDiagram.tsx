@@ -16,7 +16,7 @@ export default function UnclogSinkDiagram({
 }: DiagramProps) {
   return (
     <svg viewBox="0 0 400 280" className="sketch-diagram" aria-label="Sink unclog diagram">
-      <rect width="400" height="280" fill="#e0d8cc" rx="8" />
+      <rect width="400" height="280" fill="#1a1814" rx="8" />
       <rect x="100" y="40" width="200" height="60" rx="4" fill="#ccc" stroke="#999" strokeWidth="2" />
       <rect x="180" y="100" width="40" height="30" fill="#888" />
       <path d="M 200 130 Q 170 170 200 210 Q 230 170 200 130" fill="none" stroke="#666" strokeWidth="8" />

@@ -31,7 +31,7 @@ export default function BreakerPanelDiagram({
 
   return (
     <svg viewBox="0 0 400 280" className="sketch-diagram" aria-label="Breaker panel diagram">
-      <rect width="400" height="280" fill="#8a8278" rx="8" />
+      <rect width="400" height="280" fill="#141210" rx="8" />
       <rect x="50" y="30" width="300" height="220" rx="4" fill="#c0b8a8" stroke="#666" strokeWidth="3" />
       <rect x="60" y="40" width="280" height="200" rx="2" fill="#2a2a2a" />
       <rect x="130" y="48" width="140" height="22" rx="2" fill="#444" stroke="#888" strokeWidth="1" />

@@ -17,7 +17,7 @@ export default function MotorcycleDiagram({
 }: DiagramProps) {
   return (
     <svg viewBox="0 0 400 260" className="sketch-diagram" aria-label="Motorcycle diagram">
-      <rect width="400" height="260" fill="#a89d8c" rx="8" />
+      <rect width="400" height="260" fill="#141210" rx="8" />
       <line x1="0" y1="200" x2="400" y2="180" stroke="#8a8278" strokeWidth="2" />
       <text x="350" y="175" className="diagram-label-sm">Slope ↘</text>
       <circle cx="120" cy="185" r="35" fill="#222" stroke="#444" strokeWidth="3" />

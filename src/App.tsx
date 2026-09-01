@@ -1,30 +1,19 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import SketchPage from './pages/SketchPage';
 import LearnPage from './pages/LearnPage';
 import PracticePage from './pages/PracticePage';
 import Layout from './components/Layout';
 
-function AnimatedRoutes() {
-  const location = useLocation();
-
+export default function App() {
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+    <Layout>
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sketch/:id" element={<SketchPage />} />
         <Route path="/sketch/:id/learn" element={<LearnPage />} />
         <Route path="/sketch/:id/practice" element={<PracticePage />} />
       </Routes>
-    </AnimatePresence>
-  );
-}
-
-export default function App() {
-  return (
-    <Layout>
-      <AnimatedRoutes />
     </Layout>
   );
 }

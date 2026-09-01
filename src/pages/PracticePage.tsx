@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { getSketchById } from '../data/sketches';
 import { loadProgress, getSketchProgress, markPracticeComplete } from '../lib/storage';
-import PageTransition from '../components/motion/PageTransition';
 import PracticeExerciseView from '../components/practice/PracticeExerciseView';
+import { playThunk } from '../lib/audio';
 
 export default function PracticePage() {
   const { id } = useParams<{ id: string }>();
@@ -37,6 +37,7 @@ export default function PracticePage() {
         const total = newScores.filter(Boolean).length;
         const pct = Math.round((total / exercises.length) * 100);
         markPracticeComplete(sketch!.id, pct);
+        playThunk();
         setFinished(true);
       } else {
         setExerciseIndex(exerciseIndex + 1);
@@ -47,56 +48,51 @@ export default function PracticePage() {
   if (finished) {
     const passed = scores.filter(Boolean).length;
     return (
-      <PageTransition className="practice-page">
-        <Link to={`/sketch/${sketch.id}`} className="back-link">← Back</Link>
+      <div className="viewport practice-viewport">
+        <Link to={`/sketch/${sketch.id}`} className="viewport-back stamp">← BAY</Link>
         <motion.div
-          className="completion-card completion-card--celebrate"
+          className="completion-plate"
           initial={{ scale: 0.85, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 20 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
         >
-          <motion.div
-            className="practice-score-ring"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', delay: 0.2 }}
-          >
-            {passed}/{exercises.length}
-          </motion.div>
-          <h2>Practice pass done.</h2>
+          <div className="practice-score-ring">{passed}/{exercises.length}</div>
+          <h2>Practice cleared.</h2>
           <p>Jay would nod and hand you the next tool.</p>
-          <Link to="/" className="btn btn-primary">Back to library</Link>
+          <Link to="/" className="btn btn-hero">Back to rack</Link>
         </motion.div>
-      </PageTransition>
+      </div>
     );
   }
 
   return (
-    <PageTransition className="practice-page">
-      <Link to={`/sketch/${sketch.id}`} className="back-link">← Back</Link>
-      <div className="practice-header">
-        <h2>{sketch.title} — Practice</h2>
-        <div className="practice-hud">
+    <motion.div
+      className="viewport practice-viewport"
+      initial={{ opacity: 0, scale: 1.02 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.45 }}
+    >
+      <Link to={`/sketch/${sketch.id}`} className="viewport-back stamp">← BAY</Link>
+      <div className="practice-hud-bar">
+        <h2 className="practice-hud-title">{sketch.title}</h2>
+        <div className="practice-hud-meta">
+          <span className="stamp">ROUND {exerciseIndex + 1}/{exercises.length}</span>
           <div className="step-dots">
             {exercises.map((_, i) => (
-              <motion.span
+              <span
                 key={i}
                 className={`step-dot${i === exerciseIndex ? ' active' : ''}${scores[i] ? ' done' : ''}`}
-                animate={scores[i] ? { scale: [1, 1.4, 1] } : {}}
               />
             ))}
           </div>
-          <span className="practice-round">
-            Round {exerciseIndex + 1}/{exercises.length}
-          </span>
         </div>
       </div>
 
       <motion.div
         key={exerciseIndex}
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        initial={{ opacity: 0, x: 40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.38 }}
       >
         <PracticeExerciseView
           exercise={current}
@@ -104,6 +100,6 @@ export default function PracticePage() {
           onResult={handleResult}
         />
       </motion.div>
-    </PageTransition>
+    </motion.div>
   );
 }

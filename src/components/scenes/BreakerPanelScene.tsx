@@ -1,43 +1,63 @@
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Text, Html } from '@react-three/drei';
-import { useRef } from 'react';
-import type { Mesh } from 'three';
+import { RoundedBox, Text } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
+import SceneCanvas from './SceneCanvas';
+import WorkHotspot from './WorkHotspot';
+import type { SceneProps } from './sceneTypes';
 
-interface SceneProps {
-  focusIds?: string[];
-  selectedIds?: string[];
-  highlightIds?: string[];
-  onHotspotClick?: (id: string) => void;
-  interactive?: boolean;
+function ShopFloor() {
+  return (
+    <group>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.15, 0]} receiveShadow>
+        <planeGeometry args={[14, 14]} />
+        <meshStandardMaterial color="#2c2a26" roughness={0.92} metalness={0.04} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.3, -1.14, 1.1]}>
+        <circleGeometry args={[0.55, 32]} />
+        <meshStandardMaterial
+          color="#1a2838"
+          roughness={0.15}
+          metalness={0.35}
+          transparent
+          opacity={0.65}
+        />
+      </mesh>
+    </group>
+  );
 }
 
-function Breaker({
+function ToggleBreaker({
   position,
   id,
   label,
+  width = 0.32,
   tripped,
   selected,
   highlighted,
   onClick,
   interactive,
+  main,
 }: {
   position: [number, number, number];
   id: string;
   label: string;
+  width?: number;
   tripped?: boolean;
   selected?: boolean;
   highlighted?: boolean;
   onClick?: (id: string) => void;
   interactive?: boolean;
+  main?: boolean;
 }) {
-  const ref = useRef<Mesh>(null);
-  const toggleY = tripped ? 0 : 0.12;
+  const active = selected || highlighted;
+  const toggleY = tripped ? -0.02 : main ? 0.14 : 0.1;
 
   return (
     <group position={position}>
-      <mesh
-        ref={ref}
+      <RoundedBox
+        args={[width, main ? 0.62 : 0.52, 0.12]}
+        radius={0.02}
+        smoothness={4}
+        castShadow
         onClick={
           interactive && onClick
             ? (e: ThreeEvent<MouseEvent>) => {
@@ -47,63 +67,30 @@ function Breaker({
             : undefined
         }
       >
-        <boxGeometry args={[0.35, 0.5, 0.15]} />
         <meshStandardMaterial
-          color={selected ? '#b85c38' : highlighted ? '#d4a017' : '#333'}
-          emissive={selected ? '#b85c38' : '#000'}
-          emissiveIntensity={selected ? 0.4 : 0}
+          color={active ? '#4a4030' : '#2e2e32'}
+          metalness={0.55}
+          roughness={0.38}
+          emissive={active ? '#f5c518' : '#000000'}
+          emissiveIntensity={active ? 0.35 : 0}
+        />
+      </RoundedBox>
+      <mesh position={[0, toggleY, 0.08]} castShadow>
+        <boxGeometry args={[0.06, main ? 0.22 : 0.18, 0.05]} />
+        <meshStandardMaterial
+          color={tripped ? '#f5c518' : '#d8dce0'}
+          metalness={0.7}
+          roughness={0.25}
         />
       </mesh>
-      <mesh position={[0, toggleY, 0.1]}>
-        <boxGeometry args={[0.08, 0.2, 0.06]} />
-        <meshStandardMaterial color={tripped ? '#d4a017' : '#ccc'} />
-      </mesh>
-      <Text position={[0, -0.35, 0]} fontSize={0.08} color="#aaa" anchorX="center">
+      <Text
+        position={[0, -0.38, 0.07]}
+        fontSize={main ? 0.07 : 0.055}
+        color={active ? '#f5c518' : '#888890'}
+        anchorX="center"
+      >
         {label}
       </Text>
-    </group>
-  );
-}
-
-function HazardMarker({
-  position,
-  id,
-  label,
-  selected,
-  onClick,
-  interactive,
-}: {
-  position: [number, number, number];
-  id: string;
-  label: string;
-  selected?: boolean;
-  onClick?: (id: string) => void;
-  interactive?: boolean;
-}) {
-  return (
-    <group position={position}>
-      <mesh
-        onClick={
-          interactive && onClick
-            ? (e: ThreeEvent<MouseEvent>) => {
-                e.stopPropagation();
-                onClick(id);
-              }
-            : undefined
-        }
-      >
-        <sphereGeometry args={[0.12, 16, 16]} />
-        <meshStandardMaterial
-          color={selected ? '#a63d2f' : '#b22222'}
-          emissive={selected ? '#a63d2f' : '#b22222'}
-          emissiveIntensity={0.3}
-          transparent
-          opacity={0.85}
-        />
-      </mesh>
-      <Html distanceFactor={6} position={[0, 0.25, 0]}>
-        <span className="scene-label">{label}</span>
-      </Html>
     </group>
   );
 }
@@ -113,39 +100,58 @@ export default function BreakerPanelScene({
   highlightIds = [],
   onHotspotClick,
   interactive,
+  variant = 'embedded',
 }: SceneProps) {
   return (
-    <Canvas camera={{ position: [0, 0.5, 3.5], fov: 45 }} className="scene-canvas">
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[3, 5, 4]} intensity={1.2} />
-      <directionalLight position={[-2, 2, -2]} intensity={0.4} />
-      <group position={[0, 0, 0]}>
-        <mesh position={[0, 0, -0.1]}>
-          <boxGeometry args={[2.8, 2.4, 0.15]} />
-          <meshStandardMaterial color="#c0b8a8" />
+    <SceneCanvas
+      variant={variant}
+      cameraPosition={[0, 0.4, 3.6]}
+      fov={40}
+    >
+      <ShopFloor />
+      <group position={[0, 0.1, 0]}>
+        <RoundedBox args={[2.6, 2.2, 0.14]} radius={0.04} position={[0, 0, -0.08]}>
+          <meshStandardMaterial color="#7a8088" metalness={0.65} roughness={0.42} />
+        </RoundedBox>
+        <RoundedBox args={[2.35, 1.95, 0.06]} radius={0.02} position={[0, 0, 0.02]}>
+          <meshStandardMaterial color="#121214" metalness={0.3} roughness={0.55} />
+        </RoundedBox>
+        <mesh position={[0, 0.88, 0.08]}>
+          <boxGeometry args={[1.8, 0.35, 0.02]} />
+          <meshStandardMaterial color="#e8e4d8" roughness={0.9} />
         </mesh>
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[2.4, 2, 0.08]} />
-          <meshStandardMaterial color="#1a1a1a" />
+        <Text position={[0, 0.88, 0.1]} fontSize={0.09} color="#333" anchorX="center">
+          PANEL DIRECTORY
+        </Text>
+        <mesh position={[-1.05, -0.55, 0.09]}>
+          <planeGeometry args={[0.35, 0.25]} />
+          <meshStandardMaterial color="#6b3a20" roughness={0.95} />
         </mesh>
-        <Breaker
-          position={[0, 0.75, 0.1]}
+        <mesh position={[1.05, -0.55, 0.09]}>
+          <planeGeometry args={[0.3, 0.2]} />
+          <meshStandardMaterial color="#1a1a1a" emissive="#331100" emissiveIntensity={0.4} roughness={0.9} />
+        </mesh>
+        <ToggleBreaker
+          position={[0, 0.55, 0.1]}
           id="main"
           label="MAIN 100A"
+          width={0.55}
+          main
           selected={selectedIds.includes('main')}
           highlighted={highlightIds.includes('main')}
           onClick={onHotspotClick}
           interactive={interactive}
         />
-        <Breaker position={[-0.6, 0.2, 0.1]} id="kitchen" label="KIT 20A" selected={selectedIds.includes('kitchen')} highlighted={highlightIds.includes('kitchen')} onClick={onHotspotClick} interactive={interactive} />
-        <Breaker position={[0, 0.2, 0.1]} id="bedroom" label="BED 15A" selected={selectedIds.includes('bedroom')} highlighted={highlightIds.includes('bedroom')} onClick={onHotspotClick} interactive={interactive} />
-        <Breaker position={[0.6, 0.2, 0.1]} id="dryer" label="DRY 30A" selected={selectedIds.includes('dryer')} highlighted={highlightIds.includes('dryer')} onClick={onHotspotClick} interactive={interactive} />
-        <Breaker position={[-0.6, -0.3, 0.1]} id="unlabeled" label="???" tripped selected={selectedIds.includes('unlabeled')} highlighted={highlightIds.includes('unlabeled')} onClick={onHotspotClick} interactive={interactive} />
-        <HazardMarker position={[-1.1, -0.8, 0.2]} id="rust" label="Rust" selected={selectedIds.includes('rust')} onClick={onHotspotClick} interactive={interactive} />
-        <HazardMarker position={[1.1, -0.8, 0.2]} id="scorch" label="Scorch" selected={selectedIds.includes('scorch')} onClick={onHotspotClick} interactive={interactive} />
-        <HazardMarker position={[0, -1.1, 0.3]} id="water" label="Wet floor" selected={selectedIds.includes('water')} onClick={onHotspotClick} interactive={interactive} />
+        <ToggleBreaker position={[-0.72, 0.05, 0.1]} id="kitchen" label="KIT 20A" selected={selectedIds.includes('kitchen')} highlighted={highlightIds.includes('kitchen')} onClick={onHotspotClick} interactive={interactive} />
+        <ToggleBreaker position={[-0.24, 0.05, 0.1]} id="bedroom" label="BED 15A" selected={selectedIds.includes('bedroom')} highlighted={highlightIds.includes('bedroom')} onClick={onHotspotClick} interactive={interactive} />
+        <ToggleBreaker position={[0.24, 0.05, 0.1]} id="dryer" label="DRY 30A" selected={selectedIds.includes('dryer')} highlighted={highlightIds.includes('dryer')} onClick={onHotspotClick} interactive={interactive} />
+        <ToggleBreaker position={[0.72, 0.05, 0.1]} id="unlabeled" label="???" tripped selected={selectedIds.includes('unlabeled')} highlighted={highlightIds.includes('unlabeled')} onClick={onHotspotClick} interactive={interactive} />
+        <ToggleBreaker position={[-0.48, -0.45, 0.1]} id="garage" label="GAR" selected={selectedIds.includes('garage')} highlighted={highlightIds.includes('garage')} onClick={onHotspotClick} interactive={interactive} />
+        <ToggleBreaker position={[0.48, -0.45, 0.1]} id="ac" label="AC" selected={selectedIds.includes('ac')} highlighted={highlightIds.includes('ac')} onClick={onHotspotClick} interactive={interactive} />
+        <WorkHotspot position={[-1.15, -0.85, 0.15]} id="rust" label="Rust" selected={selectedIds.includes('rust')} highlighted={highlightIds.includes('rust')} onClick={onHotspotClick} interactive={interactive} />
+        <WorkHotspot position={[1.15, -0.85, 0.15]} id="scorch" label="Scorch" selected={selectedIds.includes('scorch')} highlighted={highlightIds.includes('scorch')} onClick={onHotspotClick} interactive={interactive} />
+        <WorkHotspot position={[0.3, -1.05, 0.2]} id="water" label="Wet" selected={selectedIds.includes('water')} highlighted={highlightIds.includes('water')} onClick={onHotspotClick} interactive={interactive} />
       </group>
-      <OrbitControls enablePan={false} minDistance={2} maxDistance={6} />
-    </Canvas>
+    </SceneCanvas>
   );
 }

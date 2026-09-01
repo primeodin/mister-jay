@@ -17,7 +17,7 @@ export default function CheckCoolantDiagram({
 }: DiagramProps) {
   return (
     <svg viewBox="0 0 400 260" className="sketch-diagram" aria-label="Coolant check diagram">
-      <rect width="400" height="260" fill="#d8d0c4" rx="8" />
+      <rect width="400" height="260" fill="#1a1814" rx="8" />
       <rect x="60" y="70" width="120" height="140" rx="6" fill="rgba(0,120,180,0.15)" stroke="#0078b4" strokeWidth="2" />
       <text x="120" y="225" textAnchor="middle" className="diagram-label">Overflow reservoir</text>
       <line x1="75" y1="110" x2="115" y2="110" stroke="#b22222" strokeWidth="2" />

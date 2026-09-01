@@ -1,12 +1,20 @@
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Text } from '@react-three/drei';
+import { RoundedBox, Cylinder } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
+import SceneCanvas from './SceneCanvas';
+import WorkHotspot from './WorkHotspot';
+import type { SceneProps } from './sceneTypes';
 
-interface SceneProps {
-  selectedIds?: string[];
-  highlightIds?: string[];
-  onHotspotClick?: (id: string) => void;
-  interactive?: boolean;
+function tap(
+  interactive: boolean | undefined,
+  onClick: ((id: string) => void) | undefined,
+  id: string,
+) {
+  return interactive && onClick
+    ? (e: ThreeEvent<MouseEvent>) => {
+        e.stopPropagation();
+        onClick(id);
+      }
+    : undefined;
 }
 
 export default function TireJackScene({
@@ -14,77 +22,81 @@ export default function TireJackScene({
   highlightIds = [],
   onHotspotClick,
   interactive,
+  variant = 'embedded',
 }: SceneProps) {
-  const tap = (id: string) =>
-    interactive && onHotspotClick
-      ? (e: ThreeEvent<MouseEvent>) => {
-          e.stopPropagation();
-          onHotspotClick(id);
-        }
-      : undefined;
-
   const sel = (id: string) => selectedIds.includes(id) || highlightIds.includes(id);
 
   return (
-    <Canvas camera={{ position: [2.5, 1.5, 3], fov: 45 }} className="scene-canvas">
-      <ambientLight intensity={0.55} />
-      <directionalLight position={[5, 8, 4]} intensity={1.1} />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
-        <planeGeometry args={[8, 8]} />
-        <meshStandardMaterial color="#a89d8c" />
+    <SceneCanvas variant={variant} cameraPosition={[2, 1, 4]} fov={40}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.9, 0]} receiveShadow>
+        <planeGeometry args={[12, 12]} />
+        <meshStandardMaterial color="#2c2a26" roughness={0.92} />
       </mesh>
-      <mesh position={[-0.5, 0.2, 0]}>
-        <boxGeometry args={[2.5, 0.3, 1]} />
-        <meshStandardMaterial color="#5a5f68" />
+      <mesh position={[-0.8, 0.1, 0]} castShadow>
+        <boxGeometry args={[2.2, 0.25, 1]} />
+        <meshStandardMaterial color="#4a5058" metalness={0.5} roughness={0.45} />
       </mesh>
-      <mesh position={[-1.2, -0.15, 0]} onClick={tap('jack-point')}>
-        <boxGeometry args={[0.2, 0.1, 0.2]} />
+      <mesh position={[-1.1, -0.15, 0]} onClick={tap(interactive, onHotspotClick, 'jack-point')} castShadow>
+        <boxGeometry args={[0.25, 0.08, 0.15]} />
         <meshStandardMaterial
-          color={sel('jack-point') ? '#b85c38' : '#d4a017'}
-          emissive={sel('jack-point') ? '#b85c38' : '#d4a017'}
-          emissiveIntensity={0.3}
+          color={sel('jack-point') ? '#f5c518' : '#888'}
+          emissive={sel('jack-point') ? '#f5c518' : '#000'}
+          emissiveIntensity={0.35}
+          metalness={0.6}
         />
       </mesh>
-      <Text position={[-1.2, 0.05, 0]} fontSize={0.1} color="#d4a017" anchorX="center">
-        jack point
-      </Text>
-      <group position={[0.8, -0.1, 0]}>
-        <mesh rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.5, 0.5, 0.25, 24]} />
-          <meshStandardMaterial color="#1a1a1a" />
-        </mesh>
-        <mesh rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.28, 0.28, 0.26, 16]} />
-          <meshStandardMaterial color="#555" />
-        </mesh>
-        {[0, 1, 2, 3, 4].map((i) => (
+      <group position={[0.6, -0.35, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <Cylinder args={[0.48, 0.48, 0.22, 32]} castShadow>
+          <meshStandardMaterial color="#1a1a1a" roughness={0.85} />
+        </Cylinder>
+        <Cylinder args={[0.3, 0.3, 0.24, 24]} position={[0, 0, 0]}>
+          <meshStandardMaterial color="#555" metalness={0.7} roughness={0.35} />
+        </Cylinder>
+        {[0, 72, 144, 216, 288].map((deg) => (
           <mesh
-            key={i}
+            key={deg}
             position={[
-              0.42 * Math.cos((i * 72 * Math.PI) / 180),
-              0.42 * Math.sin((i * 72 * Math.PI) / 180),
-              0.14,
+              0.42 * Math.cos((deg * Math.PI) / 180),
+              0.42 * Math.sin((deg * Math.PI) / 180),
+              0.13,
             ]}
-            onClick={tap('lug-nuts')}
+            onClick={tap(interactive, onHotspotClick, 'lug-nuts')}
+            castShadow
           >
-            <cylinderGeometry args={[0.04, 0.04, 0.06, 8]} />
-            <meshStandardMaterial color={sel('lug-nuts') ? '#b85c38' : '#c0c0c0'} metalness={0.8} />
+            <cylinderGeometry args={[0.045, 0.045, 0.05, 8]} />
+            <meshStandardMaterial
+              color={sel('lug-nuts') ? '#f5c518' : '#c8c8c8'}
+              metalness={0.9}
+              roughness={0.2}
+            />
           </mesh>
         ))}
       </group>
-      <mesh position={[0.3, -0.35, 0.5]} rotation={[0, 0, 0.3]} onClick={tap('jack')}>
-        <boxGeometry args={[0.15, 0.5, 0.15]} />
-        <meshStandardMaterial color={sel('jack') ? '#b85c38' : '#d4a017'} />
-      </mesh>
-      <mesh position={[1.5, -0.3, -0.5]} rotation={[Math.PI / 2, 0, 0]} onClick={tap('spare')}>
-        <cylinderGeometry args={[0.4, 0.4, 0.2, 20]} />
-        <meshStandardMaterial color={sel('spare') ? '#b85c38' : '#1a1a1a'} />
-      </mesh>
-      <mesh position={[-0.8, -0.4, 1]} onClick={tap('block-wheel')}>
-        <boxGeometry args={[0.3, 0.15, 0.2]} />
-        <meshStandardMaterial color={sel('block-wheel') ? '#b85c38' : '#8b4513'} />
-      </mesh>
-      <OrbitControls enablePan={false} minDistance={2.5} maxDistance={7} />
-    </Canvas>
+      <group position={[0.2, -0.55, 0.4]} rotation={[0, 0, 0.25]} onClick={tap(interactive, onHotspotClick, 'jack')}>
+        <mesh castShadow>
+          <boxGeometry args={[0.12, 0.55, 0.12]} />
+          <meshStandardMaterial color={sel('jack') ? '#f5c518' : '#d4a017'} metalness={0.6} roughness={0.4} />
+        </mesh>
+        <mesh position={[0, -0.32, 0]}>
+          <boxGeometry args={[0.35, 0.06, 0.2]} />
+          <meshStandardMaterial color="#333" metalness={0.7} />
+        </mesh>
+      </group>
+      <group position={[1.4, -0.5, -0.3]} onClick={tap(interactive, onHotspotClick, 'spare')}>
+        <Cylinder args={[0.38, 0.38, 0.18, 24]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+          <meshStandardMaterial color={sel('spare') ? '#f5c518' : '#1a1a1a'} roughness={0.8} />
+        </Cylinder>
+      </group>
+      <RoundedBox
+        args={[0.35, 0.18, 0.22]}
+        radius={0.02}
+        position={[-0.5, -0.82, 0.8]}
+        onClick={tap(interactive, onHotspotClick, 'block-wheel')}
+        castShadow
+      >
+        <meshStandardMaterial color={sel('block-wheel') ? '#f5c518' : '#5c3d1e'} roughness={0.9} />
+      </RoundedBox>
+      <WorkHotspot position={[-1.1, -0.82, 0.8]} id="block-wheel" label="" selected={sel('block-wheel')} onClick={onHotspotClick} interactive={interactive} />
+    </SceneCanvas>
   );
 }

@@ -16,7 +16,7 @@ export default function ReplaceBatteryDiagram({
 }: DiagramProps) {
   return (
     <svg viewBox="0 0 400 260" className="sketch-diagram" aria-label="Car battery diagram">
-      <rect width="400" height="260" fill="#e8e0d4" rx="8" />
+      <rect width="400" height="260" fill="#1a1814" rx="8" />
       <rect x="60" y="70" width="280" height="120" rx="8" fill="#2a2a2a" stroke="#111" strokeWidth="3" />
       <rect x="75" y="85" width="250" height="90" rx="4" fill="#1a1a1a" />
       <text x="200" y="135" textAnchor="middle" fill="#888" fontSize="11">BATTERY</text>

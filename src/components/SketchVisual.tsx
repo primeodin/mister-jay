@@ -12,6 +12,7 @@ interface Props {
   onHotspotClick?: (id: string) => void;
   interactive?: boolean;
   prefer3d?: boolean;
+  variant?: 'hero' | 'viewport' | 'embedded';
 }
 
 export default function SketchVisual({
@@ -22,11 +23,12 @@ export default function SketchVisual({
   onHotspotClick,
   interactive,
   prefer3d = true,
+  variant = 'embedded',
 }: Props) {
   const show3d = prefer3d && sketch.scene3d;
 
   return (
-    <div className="sketch-visual">
+    <div className={`sketch-visual sketch-visual--${variant}`}>
       {show3d ? (
         <Suspense
           fallback={
@@ -37,6 +39,7 @@ export default function SketchVisual({
               highlightIds={highlightIds}
               onHotspotClick={onHotspotClick}
               interactive={interactive}
+              variant={variant}
             />
           }
         >
@@ -47,6 +50,7 @@ export default function SketchVisual({
             highlightIds={highlightIds}
             onHotspotClick={onHotspotClick}
             interactive={interactive}
+            variant={variant}
           />
         </Suspense>
       ) : (
@@ -57,15 +61,9 @@ export default function SketchVisual({
           highlightIds={highlightIds}
           onHotspotClick={onHotspotClick}
           interactive={interactive}
+          variant={variant}
         />
       )}
-      <div className="sketch-visual-tabs">
-        {sketch.scene3d && (
-          <span className="sketch-visual-badge">
-            {show3d ? '3D shop view' : '2D diagram'}
-          </span>
-        )}
-      </div>
     </div>
   );
 }

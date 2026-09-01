@@ -1,12 +1,20 @@
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Text } from '@react-three/drei';
+import { Cylinder } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
+import SceneCanvas from './SceneCanvas';
+import WorkHotspot from './WorkHotspot';
+import type { SceneProps } from './sceneTypes';
 
-interface SceneProps {
-  selectedIds?: string[];
-  highlightIds?: string[];
-  onHotspotClick?: (id: string) => void;
-  interactive?: boolean;
+function tap(
+  interactive: boolean | undefined,
+  onClick: ((id: string) => void) | undefined,
+  id: string,
+) {
+  return interactive && onClick
+    ? (e: ThreeEvent<MouseEvent>) => {
+        e.stopPropagation();
+        onClick(id);
+      }
+    : undefined;
 }
 
 export default function MotorcycleScene({
@@ -14,67 +22,65 @@ export default function MotorcycleScene({
   highlightIds = [],
   onHotspotClick,
   interactive,
+  variant = 'embedded',
 }: SceneProps) {
-  const tap = (id: string) =>
-    interactive && onHotspotClick
-      ? (e: ThreeEvent<MouseEvent>) => {
-          e.stopPropagation();
-          onHotspotClick(id);
-        }
-      : undefined;
-
   const sel = (id: string) => selectedIds.includes(id) || highlightIds.includes(id);
 
   return (
-    <Canvas camera={{ position: [2, 1.2, 3.5], fov: 45 }} className="scene-canvas">
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[4, 6, 3]} intensity={1.1} />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.6, 0]}>
-        <planeGeometry args={[8, 8]} />
-        <meshStandardMaterial color="#a89d8c" />
+    <SceneCanvas variant={variant} cameraPosition={[2.2, 1.1, 4.2]} fov={42}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.95, 0]} receiveShadow>
+        <planeGeometry args={[12, 12]} />
+        <meshStandardMaterial color="#2c2a26" roughness={0.9} />
       </mesh>
-      <group rotation={[0, 0.3, 0]}>
-        <mesh rotation={[0, 0, Math.PI / 2]} position={[-0.8, -0.2, 0]}>
-          <cylinderGeometry args={[0.35, 0.35, 0.12, 20]} />
-          <meshStandardMaterial color="#222" />
+      <mesh rotation={[-Math.PI / 2, 0, 0.3]} position={[0.5, -0.94, 1.2]}>
+        <planeGeometry args={[4, 4]} />
+        <meshStandardMaterial color="#252320" roughness={0.95} />
+      </mesh>
+      <group rotation={[0, 0.35, 0]} position={[0, -0.2, 0]}>
+        <Cylinder args={[0.34, 0.34, 0.1, 24]} rotation={[0, 0, Math.PI / 2]} position={[-0.85, -0.35, 0]} castShadow>
+          <meshStandardMaterial color="#1a1a1a" roughness={0.75} />
+        </Cylinder>
+        <Cylinder args={[0.34, 0.34, 0.1, 24]} rotation={[0, 0, Math.PI / 2]} position={[0.85, -0.45, 0]} castShadow>
+          <meshStandardMaterial color="#1a1a1a" roughness={0.75} />
+        </Cylinder>
+        <mesh position={[0, 0, 0]} castShadow>
+          <boxGeometry args={[1.35, 0.12, 0.28]} />
+          <meshStandardMaterial color="#4a4a50" metalness={0.55} roughness={0.4} />
         </mesh>
-        <mesh rotation={[0, 0, Math.PI / 2]} position={[0.8, -0.2, 0]}>
-          <cylinderGeometry args={[0.35, 0.35, 0.12, 20]} />
-          <meshStandardMaterial color="#222" />
+        <mesh position={[0.15, 0.28, 0]} castShadow>
+          <boxGeometry args={[0.55, 0.08, 0.08]} />
+          <meshStandardMaterial color="#3a3a40" metalness={0.6} />
         </mesh>
-        <mesh position={[0, 0.1, 0]}>
-          <boxGeometry args={[1.4, 0.15, 0.3]} />
-          <meshStandardMaterial color="#555" />
-        </mesh>
-        <mesh position={[0.3, 0.35, 0]} rotation={[0, 0, -0.3]}>
-          <boxGeometry args={[0.5, 0.08, 0.08]} />
-          <meshStandardMaterial color="#444" />
-        </mesh>
-        <mesh position={[0.55, 0.55, 0]} onClick={tap('handlebars')}>
-          <boxGeometry args={[0.5, 0.06, 0.2]} />
+        <mesh
+          position={[0.45, 0.48, 0]}
+          onClick={tap(interactive, onHotspotClick, 'handlebars')}
+          castShadow
+        >
+          <boxGeometry args={[0.55, 0.05, 0.22]} />
           <meshStandardMaterial
-            color={sel('handlebars') ? '#b85c38' : '#333'}
-            emissive={sel('handlebars') ? '#b85c38' : '#000'}
+            color={sel('handlebars') ? '#f5c518' : '#2a2a2e'}
+            emissive={sel('handlebars') ? '#f5c518' : '#000'}
+            emissiveIntensity={0.35}
+            metalness={0.7}
+          />
+        </mesh>
+        <mesh
+          position={[-0.55, -0.5, 0.12]}
+          rotation={[0.5, 0, 0]}
+          onClick={tap(interactive, onHotspotClick, 'sidestand')}
+          castShadow
+        >
+          <boxGeometry args={[0.04, 0.38, 0.04]} />
+          <meshStandardMaterial
+            color={sel('sidestand') ? '#f5c518' : '#888'}
+            metalness={0.75}
+            emissive={sel('sidestand') ? '#f5c518' : '#000'}
             emissiveIntensity={0.3}
           />
         </mesh>
-        <mesh position={[-0.5, -0.35, 0.15]} rotation={[0.4, 0, 0]} onClick={tap('sidestand')}>
-          <boxGeometry args={[0.04, 0.35, 0.04]} />
-          <meshStandardMaterial
-            color={sel('sidestand') ? '#b85c38' : '#888'}
-            emissive={sel('sidestand') ? '#b85c38' : '#000'}
-            emissiveIntensity={0.3}
-          />
-        </mesh>
-        <Text position={[0, 0.7, 0]} fontSize={0.1} color="#b85c38" anchorX="center">
-          center of mass — low
-        </Text>
+        <WorkHotspot position={[0, 0.55, 0]} id="handlebars" label="" selected={sel('handlebars')} onClick={onHotspotClick} interactive={interactive} />
       </group>
-      <mesh position={[1.5, -0.55, 1]} rotation={[-0.15, 0, 0]} onClick={tap('slope')}>
-        <boxGeometry args={[2, 0.05, 1]} />
-        <meshStandardMaterial color={sel('slope') ? '#a63d2f' : '#8a8278'} transparent opacity={0.6} />
-      </mesh>
-      <OrbitControls enablePan={false} minDistance={2.5} maxDistance={7} />
-    </Canvas>
+      <WorkHotspot position={[0.8, -0.9, 1.2]} id="slope" label="" selected={sel('slope')} onClick={onHotspotClick} interactive={interactive} />
+    </SceneCanvas>
   );
 }

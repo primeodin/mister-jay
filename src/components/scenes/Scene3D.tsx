@@ -1,26 +1,22 @@
 import { Suspense, lazy, useState, useEffect } from 'react';
 import type { Scene3DId } from '../../types/sketch';
+import type { SceneProps } from './sceneTypes';
 
 const BreakerPanelScene = lazy(() => import('./BreakerPanelScene'));
 const CarBatteryScene = lazy(() => import('./CarBatteryScene'));
 const TireJackScene = lazy(() => import('./TireJackScene'));
 const MotorcycleScene = lazy(() => import('./MotorcycleScene'));
 
-interface Props {
+interface Props extends SceneProps {
   sceneId: Scene3DId;
-  focusIds?: string[];
-  selectedIds?: string[];
-  highlightIds?: string[];
-  onHotspotClick?: (id: string) => void;
-  interactive?: boolean;
   className?: string;
 }
 
 function SceneLoader() {
   return (
     <div className="scene-loader">
-      <div className="scene-loader-pulse" />
-      <p>Loading shop floor…</p>
+      <div className="scene-loader-beam" />
+      <p className="stamp">LOADING SHOP FLOOR</p>
     </div>
   );
 }
@@ -34,8 +30,8 @@ function OfflineFallback({ sceneId }: { sceneId: Scene3DId }) {
   };
   return (
     <div className="scene-offline">
-      <p>3D view needs a connection. The labeled diagram below shows the same parts.</p>
-      <span className="scene-offline-label">{labels[sceneId]}</span>
+      <p>Offline — illustrated cutaway below.</p>
+      <span className="stamp">{labels[sceneId]}</span>
     </div>
   );
 }
@@ -47,6 +43,7 @@ export default function Scene3D({
   highlightIds,
   onHotspotClick,
   interactive,
+  variant = 'embedded',
   className,
 }: Props) {
   const [online, setOnline] = useState(navigator.onLine);
@@ -66,12 +63,13 @@ export default function Scene3D({
     return <OfflineFallback sceneId={sceneId} />;
   }
 
-  const sceneProps = {
+  const sceneProps: SceneProps = {
     focusIds,
     selectedIds,
     highlightIds,
     onHotspotClick,
     interactive,
+    variant,
   };
 
   const Scene =
@@ -84,11 +82,10 @@ export default function Scene3D({
           : MotorcycleScene;
 
   return (
-    <div className={`scene3d-frame${className ? ` ${className}` : ''}`}>
+    <div className={`scene3d-root${className ? ` ${className}` : ''}`}>
       <Suspense fallback={<SceneLoader />}>
         <Scene {...sceneProps} />
       </Suspense>
-      <p className="scene3d-hint">Drag to orbit · Pinch to zoom · Tap parts</p>
     </div>
   );
 }

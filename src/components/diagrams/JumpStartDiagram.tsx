@@ -17,7 +17,7 @@ export default function JumpStartDiagram({
 }: DiagramProps) {
   return (
     <svg viewBox="0 0 400 260" className="sketch-diagram" aria-label="Jump start diagram">
-      <rect width="400" height="260" fill="#c8bfb0" rx="8" />
+      <rect width="400" height="260" fill="#1a1814" rx="8" />
       <rect x="40" y="100" width="120" height="80" rx="6" fill="#555" />
       <text x="100" y="200" textAnchor="middle" className="diagram-label-sm">Dead car</text>
       <rect x="60" y="115" width="80" height="50" rx="4" fill="#222" />

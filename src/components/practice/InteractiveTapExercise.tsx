@@ -50,6 +50,7 @@ export default function InteractiveTapExercise({ exercise, sketch, onResult }: P
       >
         <SketchVisual
           sketch={sketch}
+          variant="viewport"
           selectedIds={selected}
           onHotspotClick={toggle}
           interactive
@@ -64,7 +65,7 @@ export default function InteractiveTapExercise({ exercise, sketch, onResult }: P
       >
         Check
       </motion.button>
-      <FeedbackBurst show={feedback.show} success={feedback.success} message={feedback.message} />
+      <FeedbackBurst show={feedback.show} success={feedback.success} message={feedback.message} shake />
     </div>
   );
 }

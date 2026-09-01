@@ -1,59 +1,20 @@
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Text } from '@react-three/drei';
+import { RoundedBox } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
+import SceneCanvas from './SceneCanvas';
+import WorkHotspot from './WorkHotspot';
+import type { SceneProps } from './sceneTypes';
 
-interface SceneProps {
-  selectedIds?: string[];
-  highlightIds?: string[];
-  onHotspotClick?: (id: string) => void;
-  interactive?: boolean;
-}
-
-function Terminal({
-  position,
-  id,
-  label,
-  color,
-  selected,
-  highlighted,
-  onClick,
-  interactive,
-}: {
-  position: [number, number, number];
-  id: string;
-  label: string;
-  color: string;
-  selected?: boolean;
-  highlighted?: boolean;
-  onClick?: (id: string) => void;
-  interactive?: boolean;
-}) {
-  return (
-    <group position={position}>
-      <mesh
-        onClick={
-          interactive && onClick
-            ? (e: ThreeEvent<MouseEvent>) => {
-                e.stopPropagation();
-                onClick(id);
-              }
-            : undefined
-        }
-      >
-        <cylinderGeometry args={[0.15, 0.15, 0.2, 16]} />
-        <meshStandardMaterial
-          color={selected ? '#b85c38' : highlighted ? '#d4a017' : color}
-          emissive={selected ? '#b85c38' : '#000'}
-          emissiveIntensity={selected ? 0.5 : 0}
-          metalness={0.6}
-          roughness={0.3}
-        />
-      </mesh>
-      <Text position={[0, -0.35, 0]} fontSize={0.12} color={color} anchorX="center">
-        {label}
-      </Text>
-    </group>
-  );
+function tap(
+  interactive: boolean | undefined,
+  onClick: ((id: string) => void) | undefined,
+  id: string,
+) {
+  return interactive && onClick
+    ? (e: ThreeEvent<MouseEvent>) => {
+        e.stopPropagation();
+        onClick(id);
+      }
+    : undefined;
 }
 
 export default function CarBatteryScene({
@@ -61,67 +22,82 @@ export default function CarBatteryScene({
   highlightIds = [],
   onHotspotClick,
   interactive,
+  variant = 'embedded',
 }: SceneProps) {
+  const sel = (id: string) => selectedIds.includes(id) || highlightIds.includes(id);
+
   return (
-    <Canvas camera={{ position: [0, 0.8, 3], fov: 45 }} className="scene-canvas">
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[4, 6, 3]} intensity={1.2} />
-      <group>
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[1.8, 0.5, 1]} />
-          <meshStandardMaterial color="#1a1a1a" />
+    <SceneCanvas variant={variant} cameraPosition={[0.5, 0.6, 3.2]} fov={38}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.85, 0]} receiveShadow>
+        <planeGeometry args={[10, 10]} />
+        <meshStandardMaterial color="#2c2a26" roughness={0.9} />
+      </mesh>
+      <mesh position={[0, -0.3, -0.5]} castShadow receiveShadow>
+        <boxGeometry args={[2.2, 0.08, 1.2]} />
+        <meshStandardMaterial color="#3a3a40" metalness={0.4} roughness={0.5} />
+      </mesh>
+      <group position={[0, 0, 0]}>
+        <RoundedBox args={[1.6, 0.42, 0.95]} radius={0.04} castShadow>
+          <meshStandardMaterial color="#1a1a1c" roughness={0.55} metalness={0.15} />
+        </RoundedBox>
+        <mesh position={[0, 0.28, 0]} castShadow>
+          <boxGeometry args={[1.45, 0.06, 0.75]} />
+          <meshStandardMaterial color="#555560" metalness={0.7} roughness={0.35} />
         </mesh>
-        <mesh position={[0, 0.35, 0]}>
-          <boxGeometry args={[1.6, 0.08, 0.8]} />
-          <meshStandardMaterial color="#444" metalness={0.5} />
-        </mesh>
-        <Terminal
-          position={[-0.55, 0.45, 0]}
-          id="negative"
-          label="− NEG"
-          color="#222"
-          selected={selectedIds.includes('negative')}
-          highlighted={highlightIds.includes('negative')}
-          onClick={onHotspotClick}
-          interactive={interactive}
-        />
-        <Terminal
-          position={[0.55, 0.45, 0]}
-          id="positive"
-          label="+ POS"
-          color="#b22222"
-          selected={selectedIds.includes('positive')}
-          highlighted={highlightIds.includes('positive')}
-          onClick={onHotspotClick}
-          interactive={interactive}
-        />
+        <group position={[-0.5, 0.38, 0.35]} onClick={tap(interactive, onHotspotClick, 'negative')}>
+          <mesh castShadow>
+            <cylinderGeometry args={[0.1, 0.12, 0.14, 16]} />
+            <meshStandardMaterial
+              color={sel('negative') ? '#f5c518' : '#2a2a2e'}
+              metalness={0.85}
+              roughness={0.2}
+              emissive={sel('negative') ? '#f5c518' : '#000'}
+              emissiveIntensity={sel('negative') ? 0.4 : 0}
+            />
+          </mesh>
+          <mesh position={[0, 0.1, 0]}>
+            <cylinderGeometry args={[0.06, 0.06, 0.04, 12]} />
+            <meshStandardMaterial color="#111" metalness={0.9} />
+          </mesh>
+        </group>
+        <group position={[0.5, 0.38, 0.35]} onClick={tap(interactive, onHotspotClick, 'positive')}>
+          <mesh castShadow>
+            <cylinderGeometry args={[0.1, 0.12, 0.14, 16]} />
+            <meshStandardMaterial
+              color={sel('positive') ? '#f5c518' : '#b81818'}
+              metalness={0.85}
+              roughness={0.2}
+              emissive={sel('positive') ? '#f5c518' : '#440000'}
+              emissiveIntensity={sel('positive') ? 0.4 : 0.15}
+            />
+          </mesh>
+          <mesh position={[0, 0.1, 0]}>
+            <cylinderGeometry args={[0.06, 0.06, 0.04, 12]} />
+            <meshStandardMaterial color="#cc2222" metalness={0.9} />
+          </mesh>
+        </group>
+        <group position={[0.55, 0.32, 0.1]}>
+          <mesh>
+            <sphereGeometry args={[0.07, 12, 12]} />
+            <meshStandardMaterial color="#3d6b4a" roughness={0.85} />
+          </mesh>
+        </group>
+        <WorkHotspot position={[0.55, 0.45, 0.2]} id="corrosion" label="" selected={sel('corrosion')} onClick={onHotspotClick} interactive={interactive} />
         <mesh
-          position={[0, 0.55, 0]}
-          onClick={
-            interactive && onHotspotClick
-              ? (e: ThreeEvent<MouseEvent>) => {
-                  e.stopPropagation();
-                  onHotspotClick('holddown');
-                }
-              : undefined
-          }
+          position={[0, 0.42, 0]}
+          onClick={tap(interactive, onHotspotClick, 'holddown')}
+          castShadow
         >
-          <boxGeometry args={[1.4, 0.06, 0.3]} />
+          <boxGeometry args={[1.3, 0.05, 0.2]} />
           <meshStandardMaterial
-            color={selectedIds.includes('holddown') ? '#b85c38' : '#666'}
-            emissive={selectedIds.includes('holddown') ? '#b85c38' : '#000'}
+            color={sel('holddown') ? '#f5c518' : '#666'}
+            metalness={0.75}
+            roughness={0.3}
+            emissive={sel('holddown') ? '#f5c518' : '#000'}
             emissiveIntensity={0.3}
           />
         </mesh>
-        <mesh position={[0.7, 0.35, 0.3]}>
-          <sphereGeometry args={[0.08, 12, 12]} />
-          <meshStandardMaterial color="#4a7c59" roughness={0.8} />
-        </mesh>
-        <Text position={[0.7, 0.15, 0.3]} fontSize={0.07} color="#4a7c59" anchorX="center">
-          corrosion
-        </Text>
       </group>
-      <OrbitControls enablePan={false} minDistance={2} maxDistance={5} />
-    </Canvas>
+    </SceneCanvas>
   );
 }

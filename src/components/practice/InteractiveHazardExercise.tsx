@@ -48,6 +48,7 @@ export default function InteractiveHazardExercise({ exercise, sketch, onResult }
       >
         <SketchVisual
           sketch={sketch}
+          variant="viewport"
           selectedIds={selected}
           onHotspotClick={toggle}
           interactive
@@ -62,7 +63,7 @@ export default function InteractiveHazardExercise({ exercise, sketch, onResult }
       >
         Check hazards
       </motion.button>
-      <FeedbackBurst show={feedback.show} success={feedback.success} message={feedback.message} />
+      <FeedbackBurst show={feedback.show} success={feedback.success} message={feedback.message} shake />
     </div>
   );
 }
