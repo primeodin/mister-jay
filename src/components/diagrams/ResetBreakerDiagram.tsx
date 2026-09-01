@@ -15,9 +15,9 @@ const gid = 'reset';
 
 const hotspots = [
   { id: 'tripped', label: 'Tripped breaker', cx: 148, cy: 148, lx: 80, ly: 118 },
-  { id: 'face-panel', label: 'Face the panel', cx: 200, cy: 252, lx: 200, ly: 290 },
-  { id: 'wet-hands', label: 'Wet hands', cx: 318, cy: 148, lx: 360, ly: 118 },
-  { id: 'side-stance', label: 'Side stance', cx: 72, cy: 252, lx: 32, ly: 290 },
+  { id: 'face-panel', label: 'Face the panel', cx: 200, cy: 248, lx: 200, ly: 278 },
+  { id: 'wet-hands', label: 'Wet hands', cx: 328, cy: 138, lx: 360, ly: 108 },
+  { id: 'side-stance', label: 'Side stance', cx: 72, cy: 248, lx: 32, ly: 278 },
 ];
 
 export default function ResetBreakerDiagram({
@@ -79,7 +79,7 @@ export default function ResetBreakerDiagram({
           <line x1={72} y1={255} x2={58} y2={268} stroke={C.paintLight} strokeWidth="2" strokeLinecap="round" />
           <line x1={72} y1={255} x2={86} y2={268} stroke={C.paintLight} strokeWidth="2" strokeLinecap="round" />
           <line x1={72} y1={250} x2={95} y2={242} stroke={C.paintLight} strokeWidth="2" strokeLinecap="round" />
-          <ShopLabel x={72} y={282} size={6} fill={C.success}>
+          <ShopLabel x={72} y={276} size={6} fill={C.success}>
             SIDE STANCE ✓
           </ShopLabel>
         </g>
@@ -91,9 +91,9 @@ export default function ResetBreakerDiagram({
         </g>
         <HazardMark x={200} y={218} label="DON'T STAND HERE" type="danger" compact />
 
-        {/* Wet hands splash */}
-        <ellipse cx={318} cy={152} rx="22" ry="14" fill="rgba(0,100,200,0.3)" stroke="#0078b4" strokeWidth="1.5" />
-        <path d="M 305 142 Q 318 128 331 142 Q 325 150 318 148 Q 311 150 305 142" fill="rgba(0,120,200,0.45)" />
+        {/* Wet hands — small drips only (no large splash blobs) */}
+        <circle cx={332} cy={136} r="3" fill="rgba(0,120,200,0.55)" />
+        <circle cx={326} cy={142} r="2" fill="rgba(0,120,200,0.45)" />
         <HazardMark x={318} y={118} label="WET HANDS" type="danger" compact />
       </DiagramBg>
 

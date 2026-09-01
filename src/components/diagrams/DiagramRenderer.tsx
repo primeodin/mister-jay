@@ -178,6 +178,7 @@ export function HotspotOverlay({
                 cx={h.cx}
                 cy={h.cy}
                 r={hitR}
+                fill="none"
                 className="hotspot-hit"
                 onClick={onHotspotClick ? () => onHotspotClick(h.id) : undefined}
                 role="button"

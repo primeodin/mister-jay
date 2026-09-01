@@ -25,16 +25,17 @@ export default function UnclogSinkDiagram({
           UNCLOG A SINK — SAVE THE TRAP
         </TitleStamp>
 
-        {/* Countertop */}
-        <rect x="52" y="48" width="296" height="14" rx="2" fill="#8a8580" stroke="#666" strokeWidth="1" />
-        <rect x="52" y="62" width="296" height="4" fill="#6a6560" />
+        {/* Countertop — softened warm grey */}
+        <rect x="52" y="48" width="296" height="14" rx="2" fill="#7a7570" stroke="#5a5550" strokeWidth="1" opacity="0.9" />
+        <rect x="52" y="62" width="296" height="4" fill="#5a5550" opacity="0.85" />
 
         {/* Porcelain basin */}
         <path
           d="M 88 62 L 312 62 L 300 108 Q 200 118 100 108 Z"
           fill={`url(#dg-${gid}-porcelain)`}
-          stroke="#aaa"
+          stroke="#9a9590"
           strokeWidth="1.5"
+          opacity="0.92"
         />
         {/* Basin bowl depth */}
         <ellipse cx={200} cy={102} rx="72" ry="14" fill="#c8c4bc" stroke="#999" strokeWidth="0.75" />
@@ -49,11 +50,7 @@ export default function UnclogSinkDiagram({
         {/* Tailpiece */}
         <rect x="194" y="112" width="12" height="22" fill="#888" stroke="#666" strokeWidth="0.75" />
 
-        {/* Cabinet cutaway frame */}
-        <rect x="48" y="148" width="304" height="148" rx="3" fill="#2a2824" stroke="#444" strokeWidth="1" opacity="0.85" />
-        <line x1="48" y1="148" x2="352" y2="148" stroke="#555" strokeWidth="1" strokeDasharray="4 3" />
-
-        {/* P-trap assembly */}
+        {/* P-trap assembly — no cabinet backdrop; sits on shop void */}
         <path
           d="M 200 134 L 200 158 Q 148 168 148 198 Q 148 228 200 238 Q 252 228 252 198 Q 252 168 200 158"
           fill="none"

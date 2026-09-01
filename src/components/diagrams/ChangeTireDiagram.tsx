@@ -10,9 +10,9 @@ const hotspots = [
   { id: 'spare', label: 'Spare tire', cx: 332, cy: 118, lx: 360, ly: 88 },
   { id: 'jack-point', label: 'Pinch weld', cx: 178, cy: 152, lx: 248, ly: 128 },
   { id: 'lug-nuts', label: 'Lug nuts', cx: 112, cy: 192, lx: 48, ly: 168 },
-  { id: 'block-wheel', label: 'Wheel chock', cx: 52, cy: 242, lx: 24, ly: 268 },
+  { id: 'block-wheel', label: 'Wheel chock', cx: 52, cy: 242, lx: 24, ly: 258 },
   { id: 'no-brake', label: 'No parking brake', cx: 72, cy: 108, lx: 24, ly: 78 },
-  { id: 'soft-ground', label: 'Soft ground', cx: 168, cy: 262, lx: 248, ly: 278 },
+  { id: 'soft-ground', label: 'Soft ground', cx: 168, cy: 258, lx: 248, ly: 272 },
   { id: 'spare-ready', label: 'Spare ready', cx: 332, cy: 118, lx: 360, ly: 88 },
 ];
 
@@ -33,7 +33,7 @@ export default function ChangeTireDiagram({
         </TitleStamp>
 
         {/* Ground shadow */}
-        <ellipse cx={130} cy={278} rx="95" ry="10" fill="#000" opacity="0.35" />
+        <ellipse cx={130} cy={272} rx="95" ry="8" fill="#000" opacity="0.35" />
 
         {/* Sedan rear quarter — curved roof, fender flare */}
         <path
@@ -86,7 +86,7 @@ export default function ChangeTireDiagram({
           />
         ))}
         <circle cx={112} cy={192} r="6" fill="#888" />
-        <ShopLabel x={112} y={248} fill={C.labelDim} size={6}>
+        <ShopLabel x={112} y={242} fill={C.labelDim} size={6}>
           RADIAL T/A
         </ShopLabel>
 
@@ -127,13 +127,13 @@ export default function ChangeTireDiagram({
 
         {/* Wheel chock */}
         <polygon points="38,248 66,248 60,262 44,262" fill="#6b4423" stroke="#4a3018" strokeWidth="1" />
-        <ShopLabel x={52} y={276} size={6} fill={C.success}>
+        <ShopLabel x={52} y={268} size={6} fill={C.success}>
           CHOCK ✓
         </ShopLabel>
 
         {/* Hazards — placed clear of hotspot dots */}
         <HazardMark x={72} y={88} label="PARK BRAKE?" type="caution" compact />
-        <ellipse cx={168} cy={270} rx="32" ry="7" fill="#5a4a30" opacity="0.65" stroke={C.caution} strokeDasharray="3 2" strokeWidth="1" />
+        <ellipse cx={168} cy={264} rx="32" ry="7" fill="#5a4a30" opacity="0.65" stroke={C.caution} strokeDasharray="3 2" strokeWidth="1" />
 
         {hi('jack-point') && (
           <Leader x1={188} y1={148} x2={248} y2={100} label="JACK POINT" active />

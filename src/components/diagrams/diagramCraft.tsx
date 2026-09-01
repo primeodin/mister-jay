@@ -49,8 +49,8 @@ export function DiagramDefs({ id }: { id: string }) {
         <stop offset="100%" stopColor={C.rubber} />
       </linearGradient>
       <linearGradient id={`${gid}-porcelain`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#ece8e0" />
-        <stop offset="100%" stopColor={C.porcelain} />
+        <stop offset="0%" stopColor="#e4e0d8" />
+        <stop offset="100%" stopColor="#c8c4bc" />
       </linearGradient>
       <linearGradient id={`${gid}-panel`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="#d4ccc0" />

@@ -396,8 +396,8 @@ body {
 .garage-corridor {
   flex: 1;
   position: relative;
-  overflow: hidden;
-  padding-bottom: 0;
+  overflow: visible;
+  padding-bottom: 0.5rem;
   min-height: 260px;
   display: flex;
   flex-direction: column;
@@ -454,7 +454,8 @@ body {
 .garage-corridor-track {
   display: flex;
   gap: 0.85rem;
-  padding: 0.5rem 1rem 1.25rem;
+  padding: 0.5rem 1rem 2rem;
+  padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px) + 1rem);
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
@@ -762,7 +763,7 @@ body {
 
 /* ── Viewport (sketch / learn / practice) ── */
 .viewport {
-  padding: 0 0 2rem;
+  padding: 0 0 max(2rem, env(safe-area-inset-bottom, 0px) + 1rem);
   animation: viewport-enter 0.5s var(--ease-out);
 }
 
@@ -884,6 +885,19 @@ body {
 .diagram-frame--learn {
   border: none;
   border-radius: 0;
+}
+
+.diagram-frame--viewport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0 0.75rem;
+}
+
+.diagram-frame--viewport .sketch-diagram {
+  width: 100%;
+  max-height: min(48vh, 380px);
+  height: auto;
 }
 
 .diagram-frame--learn {
@@ -1629,6 +1643,21 @@ body {
 .sketch-detail,
 .main .footer {
   /* removed from DOM or replaced */
+}
+
+/* Short viewport — keep home stalls + sketch labels inside fold */
+@media (max-height: 940px) {
+  .hero-stage {
+    min-height: min(38vh, 340px);
+  }
+
+  .garage-corridor-track {
+    padding-bottom: max(2.5rem, env(safe-area-inset-bottom, 0px) + 1.25rem);
+  }
+
+  .diagram-frame--viewport .sketch-diagram {
+    max-height: min(42vh, 340px);
+  }
 }
 
 @media (min-width: 600px) {
