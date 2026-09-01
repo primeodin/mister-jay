@@ -26,7 +26,7 @@ interface Props {
   highlightIds?: string[];
   onHotspotClick?: (id: string) => void;
   interactive?: boolean;
-  variant?: 'hero' | 'viewport' | 'embedded';
+  variant?: 'hero' | 'viewport' | 'embedded' | 'learn';
   className?: string;
 }
 

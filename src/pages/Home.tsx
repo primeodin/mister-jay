@@ -5,7 +5,7 @@ import { getDailySketchIndex } from '../lib/practiceLogic';
 import { loadProgress, completedCount } from '../lib/storage';
 import type { AppProgress } from '../types/sketch';
 import HeroStage from '../components/home/HeroStage';
-import PegboardRack from '../components/home/PegboardRack';
+import GarageCorridor from '../components/home/GarageCorridor';
 
 export default function Home() {
   const [progress, setProgress] = useState<AppProgress>(() => loadProgress());
@@ -41,10 +41,10 @@ export default function Home() {
         </div>
       </div>
 
-      <PegboardRack
+      <GarageCorridor
         sketches={sketches}
         progress={progress.sketches}
-        excludeId={dailySketch.id}
+        dailyId={dailySketch.id}
       />
     </div>
   );

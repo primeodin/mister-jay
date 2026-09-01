@@ -45,6 +45,7 @@ export default function Scene3D({
   interactive,
   variant = 'embedded',
   className,
+  callouts,
 }: Props) {
   const [online, setOnline] = useState(navigator.onLine);
 
@@ -70,6 +71,7 @@ export default function Scene3D({
     onHotspotClick,
     interactive,
     variant,
+    callouts,
   };
 
   const Scene =

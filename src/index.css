@@ -351,7 +351,183 @@ body {
   color: var(--text-ghost);
 }
 
-/* ── Pegboard rack ── */
+/* ── Garage corridor (horizontal shop walk) ── */
+.garage-corridor {
+  padding: 0 0 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.garage-corridor-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 1.25rem 1rem 0.75rem;
+}
+
+.garage-corridor-title {
+  color: var(--text-dim);
+}
+
+.garage-corridor-hint {
+  color: var(--text-ghost);
+  font-size: 0.55rem;
+}
+
+.garage-corridor-perspective {
+  position: relative;
+  padding-top: 0.5rem;
+}
+
+.garage-corridor-pegboard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background:
+    radial-gradient(circle at 12px 12px, var(--shop-steel-dark) 2px, transparent 2px),
+    linear-gradient(180deg, #1e1c18 0%, transparent 100%);
+  background-size: 24px 24px, 100% 100%;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.garage-corridor-floor {
+  position: absolute;
+  bottom: 0;
+  left: -10%;
+  right: -10%;
+  height: 80px;
+  background: linear-gradient(180deg, transparent 0%, var(--shop-floor) 40%, #141210 100%);
+  transform: perspective(400px) rotateX(12deg);
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+.garage-corridor-track {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.5rem 1rem 1.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.garage-corridor-track::-webkit-scrollbar {
+  display: none;
+}
+
+.garage-bay-wrap {
+  flex: 0 0 min(78vw, 280px);
+  scroll-snap-align: start;
+}
+
+.garage-bay {
+  display: block;
+  position: relative;
+  height: 220px;
+  text-decoration: none;
+  color: inherit;
+  background: linear-gradient(165deg, #1e1c18 0%, #12100e 100%);
+  border: 1px solid var(--shop-steel-dark);
+  overflow: hidden;
+  transition: border-color 0.15s, transform 0.12s var(--ease-out);
+}
+
+.garage-bay:active {
+  transform: scale(0.98);
+}
+
+.garage-bay--daily {
+  border-color: var(--caution);
+  box-shadow: 0 0 24px rgba(245, 197, 24, 0.15);
+}
+
+.garage-bay--done {
+  opacity: 0.55;
+}
+
+.garage-bay-light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.garage-bay-interior {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 1rem 1rem 1.25rem;
+  position: relative;
+}
+
+.garage-bay-glyph {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  opacity: 0.12;
+  line-height: 1;
+}
+
+.garage-bay-num {
+  color: var(--text-ghost);
+  margin-bottom: 0.35rem;
+}
+
+.garage-bay-today {
+  display: inline-block;
+  width: fit-content;
+  margin-bottom: 0.35rem;
+  padding: 0.15rem 0.4rem;
+  background: rgba(245, 197, 24, 0.15);
+  border: 1px solid rgba(245, 197, 24, 0.4);
+  color: var(--caution);
+}
+
+.garage-bay-cat {
+  color: var(--text-dim);
+  margin-bottom: 0.25rem;
+}
+
+.garage-bay-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.garage-bay-status {
+  color: var(--text-ghost);
+  font-size: 0.55rem;
+}
+
+.garage-bay--started .garage-bay-status {
+  color: var(--tungsten);
+}
+
+.garage-bay--done .garage-bay-status {
+  color: var(--success);
+}
+
+.garage-bay-threshold {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #2a2824, #3a3834, #2a2824);
+}
+
+/* ── Pegboard rack (legacy) ── */
 .pegboard {
   padding: 1.5rem 1rem 2rem;
   position: relative;
@@ -559,7 +735,8 @@ body {
 }
 
 .diagram-frame--hero,
-.diagram-frame--viewport {
+.diagram-frame--viewport,
+.diagram-frame--learn {
   border: none;
   border-radius: 0;
 }
@@ -674,8 +851,106 @@ body {
 }
 
 .learn-progress {
-  padding: 0 1rem 0.5rem;
+  padding: 0;
   color: var(--caution);
+}
+
+.learn-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 1rem;
+}
+
+.learn-viewport--immersive {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - 60px);
+  padding-bottom: 0;
+}
+
+.learn-stage {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+
+.learn-viewport--immersive .learn-stage .sketch-visual--learn {
+  height: 100%;
+}
+
+.learn-viewport--immersive .scene-canvas-wrap--learn {
+  height: min(78vh, 640px);
+}
+
+.learn-hud {
+  position: sticky;
+  bottom: 0;
+  padding: 0.75rem 1rem;
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  background: linear-gradient(0deg, rgba(10, 9, 8, 0.98) 60%, transparent);
+  z-index: 10;
+}
+
+.learn-hud-caption {
+  min-height: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.learn-hud-danger {
+  color: var(--danger);
+  font-size: 0.55rem;
+}
+
+/* 3D on-object callouts */
+.scene-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  pointer-events: none;
+  max-width: 200px;
+}
+
+.scene-callout-line {
+  display: block;
+  width: 28px;
+  height: 2px;
+  margin-top: 0.65rem;
+  background: var(--caution);
+  box-shadow: 0 0 6px var(--tungsten);
+  flex-shrink: 0;
+}
+
+.scene-callout-card {
+  padding: 0.5rem 0.65rem;
+  background: rgba(10, 9, 8, 0.92);
+  border: 1px solid rgba(245, 197, 24, 0.35);
+  border-left: 3px solid var(--caution);
+  backdrop-filter: blur(6px);
+}
+
+.scene-callout-card strong {
+  display: block;
+  color: var(--caution);
+  font-size: 0.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.scene-callout-card p {
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--text);
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.scene-callout--danger .scene-callout-card {
+  border-color: rgba(196, 60, 42, 0.5);
+  border-left-color: var(--danger);
+}
+
+.scene-callout--danger .scene-callout-card strong {
+  color: var(--danger);
 }
 
 .learn-nav {
@@ -1124,6 +1399,7 @@ body {
   }
 
   .pegboard,
+  .garage-corridor-header,
   .viewport-actions,
   .callout-plate {
     max-width: 640px;

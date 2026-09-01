@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import type { Sketch } from '../types/sketch';
+import type { SceneCallout } from './scenes/sceneAnnotations';
 import { DiagramRenderer } from './diagrams/DiagramRenderer';
 
 const Scene3D = lazy(() => import('./scenes/Scene3D'));
@@ -12,7 +13,8 @@ interface Props {
   onHotspotClick?: (id: string) => void;
   interactive?: boolean;
   prefer3d?: boolean;
-  variant?: 'hero' | 'viewport' | 'embedded';
+  variant?: 'hero' | 'viewport' | 'embedded' | 'learn';
+  callouts?: SceneCallout[];
 }
 
 export default function SketchVisual({
@@ -24,6 +26,7 @@ export default function SketchVisual({
   interactive,
   prefer3d = true,
   variant = 'embedded',
+  callouts,
 }: Props) {
   const show3d = prefer3d && sketch.scene3d;
 
@@ -51,6 +54,7 @@ export default function SketchVisual({
             onHotspotClick={onHotspotClick}
             interactive={interactive}
             variant={variant}
+            callouts={callouts}
           />
         </Suspense>
       ) : (

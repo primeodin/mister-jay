@@ -4,5 +4,6 @@ export interface SceneProps {
   highlightIds?: string[];
   onHotspotClick?: (id: string) => void;
   interactive?: boolean;
-  variant?: 'hero' | 'viewport' | 'embedded';
+  variant?: 'hero' | 'viewport' | 'embedded' | 'learn';
+  callouts?: import('./sceneAnnotations').SceneCallout[];
 }
