@@ -49,6 +49,7 @@ export interface DiagramProps {
   highlightIds?: string[];
   onHotspotClick?: (id: string) => void;
   interactive?: boolean;
+  showCallouts?: boolean;
 }
 
 export function DiagramRenderer({
@@ -64,14 +65,19 @@ export function DiagramRenderer({
   const Diagram = diagrams[diagramId];
   if (!Diagram) return null;
 
+  const mergedHighlights = [
+    ...new Set([...(highlightIds ?? []), ...(focusIds ?? [])]),
+  ];
+
   return (
     <div className={`diagram-frame diagram-frame--${variant}${className ? ` ${className}` : ''}`}>
       <Diagram
         focusIds={focusIds}
         selectedIds={selectedIds}
-        highlightIds={highlightIds}
+        highlightIds={mergedHighlights}
         onHotspotClick={onHotspotClick}
         interactive={interactive}
+        showCallouts={variant === 'learn'}
       />
     </div>
   );
@@ -83,12 +89,14 @@ export function HotspotOverlay({
   highlightIds = [],
   onHotspotClick,
   interactive,
+  showCallouts = false,
 }: {
   hotspots: DiagramHotspot[];
   selectedIds?: string[];
   highlightIds?: string[];
   onHotspotClick?: (id: string) => void;
   interactive?: boolean;
+  showCallouts?: boolean;
 }) {
   return (
     <g className="hotspot-layer">
@@ -96,8 +104,40 @@ export function HotspotOverlay({
         const selected = selectedIds.includes(h.id);
         const highlighted = highlightIds.includes(h.id);
         const r = h.r ?? 22;
+        const showLeader = showCallouts && highlighted && !interactive;
+        const labelY = h.cy - r - 18;
         return (
           <g key={h.id}>
+            {showLeader && (
+              <g className="diagram-callout">
+                <line
+                  x1={h.cx}
+                  y1={h.cy - r}
+                  x2={h.cx}
+                  y2={labelY + 10}
+                  stroke="#f5c518"
+                  strokeWidth="1.5"
+                />
+                <rect
+                  x={h.cx - 48}
+                  y={labelY - 4}
+                  width="96"
+                  height="14"
+                  rx="2"
+                  fill="rgba(10, 9, 8, 0.88)"
+                  stroke="#f5c518"
+                  strokeWidth="1"
+                />
+                <text
+                  x={h.cx}
+                  y={labelY + 6}
+                  textAnchor="middle"
+                  className="diagram-callout-label"
+                >
+                  {h.label}
+                </text>
+              </g>
+            )}
             {(selected || highlighted) && (
               <circle
                 cx={h.cx}
@@ -125,14 +165,16 @@ export function HotspotOverlay({
                   : undefined
               }
             />
-            <text
-              x={h.cx}
-              y={h.cy + r + 14}
-              textAnchor="middle"
-              className="hotspot-label"
-            >
-              {h.label}
-            </text>
+            {interactive && (
+              <text
+                x={h.cx}
+                y={h.cy + r + 14}
+                textAnchor="middle"
+                className="hotspot-label"
+              >
+                {h.label}
+              </text>
+            )}
           </g>
         );
       })}

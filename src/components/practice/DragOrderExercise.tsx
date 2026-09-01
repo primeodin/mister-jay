@@ -44,7 +44,7 @@ export default function DragOrderExercise({ exercise, sketch, onResult }: Props)
       <p className="exercise-hint">Drag steps into order on the workbench — {selected.length}/{required}</p>
 
       <div className="drag-order-layout">
-        <SketchVisual sketch={sketch} variant="viewport" prefer3d={false} />
+        <SketchVisual sketch={sketch} variant="viewport" />
         <div className="drag-order-panel">
           {selected.length > 0 && (
             <Reorder.Group axis="y" values={selected} onReorder={setSelected} className="reorder-list">

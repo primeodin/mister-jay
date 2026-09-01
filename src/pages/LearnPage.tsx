@@ -1,10 +1,9 @@
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getSketchById } from '../data/sketches';
 import { markLearnComplete } from '../lib/storage';
 import SketchVisual from '../components/SketchVisual';
-import { buildCallouts } from '../components/scenes/sceneAnnotations';
 import { playThunk } from '../lib/audio';
 
 export default function LearnPage() {
@@ -16,21 +15,6 @@ export default function LearnPage() {
   const sections = sketch?.learn ?? [];
   const current = sections[step];
   const isLast = step === sections.length - 1;
-  const has3d = Boolean(sketch?.scene3d);
-
-  const callouts = useMemo(
-    () =>
-      sketch && current
-        ? buildCallouts(
-            sketch.scene3d,
-            current.diagramFocus,
-            current.heading,
-            current.body,
-            current.callout,
-          )
-        : [],
-    [sketch, current],
-  );
 
   if (!sketch) {
     return <Navigate to="/" replace />;
@@ -66,123 +50,63 @@ export default function LearnPage() {
     );
   }
 
-  if (has3d) {
-    return (
-      <motion.div
-        className="learn-shell learn-shell--immersive"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <div className="learn-shell-top">
-          <Link to={`/sketch/${sketch.id}`} className="viewport-back stamp">← BAY</Link>
-          <div className="learn-progress stamp">
-            STEP {step + 1}/{sections.length}
-          </div>
-        </div>
-
-        <div className="learn-shell-canvas">
-          <SketchVisual
-            sketch={sketch}
-            variant="learn"
-            focusIds={current.diagramFocus}
-            highlightIds={current.diagramFocus}
-            callouts={callouts}
-          />
-        </div>
-
-        <div className="learn-bottom-dock">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={step}
-              className="learn-sheet-wrap"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <article className="learn-sheet">
-                <h3 className="learn-sheet-heading">{current.heading}</h3>
-                {current.body.split('\n').map((line, i) => (
-                  <p key={i}>{line}</p>
-                ))}
-                {current.callout && (
-                  <aside className="callout callout--danger">
-                    <strong className="stamp">SAFETY</strong>
-                    <p>{current.callout}</p>
-                  </aside>
-                )}
-              </article>
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="learn-nav">
-            {step > 0 && (
-              <motion.button type="button" className="btn btn-ghost" onClick={() => setStep(step - 1)} whileTap={{ scale: 0.96 }}>
-                Back
-              </motion.button>
-            )}
-            <motion.button type="button" className="btn btn-hero" onClick={handleNext} whileTap={{ scale: 0.96 }}>
-              {isLast ? 'Finish Learn' : 'Next step'}
-            </motion.button>
-          </div>
-        </div>
-      </motion.div>
-    );
-  }
-
   return (
     <motion.div
-      className="viewport learn-viewport"
+      className="learn-shell learn-shell--immersive"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <div className="learn-top-bar">
+      <div className="learn-shell-top">
         <Link to={`/sketch/${sketch.id}`} className="viewport-back stamp">← BAY</Link>
         <div className="learn-progress stamp">
           STEP {step + 1}/{sections.length}
         </div>
       </div>
 
-      <div className="learn-stage">
+      <div className="learn-shell-canvas">
         <SketchVisual
           sketch={sketch}
-          variant="viewport"
+          variant="learn"
           focusIds={current.diagramFocus}
           highlightIds={current.diagramFocus}
         />
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.article
-          key={step}
-          className="callout-plate"
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <h3 className="callout-plate-heading">{current.heading}</h3>
-          {current.body.split('\n').map((line, i) => (
-            <p key={i}>{line}</p>
-          ))}
-          {current.callout && (
-            <aside className="callout callout--danger">
-              <strong className="stamp">SAFETY</strong>
-              <p>{current.callout}</p>
-            </aside>
-          )}
-        </motion.article>
-      </AnimatePresence>
+      <div className="learn-bottom-dock">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            className="learn-sheet-wrap"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <article className="learn-sheet">
+              <h3 className="learn-sheet-heading">{current.heading}</h3>
+              {current.body.split('\n').map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+              {current.callout && (
+                <aside className="callout callout--danger">
+                  <strong className="stamp">SAFETY</strong>
+                  <p>{current.callout}</p>
+                </aside>
+              )}
+            </article>
+          </motion.div>
+        </AnimatePresence>
 
-      <div className="learn-nav learn-nav--padded">
-        {step > 0 && (
-          <motion.button type="button" className="btn btn-ghost" onClick={() => setStep(step - 1)} whileTap={{ scale: 0.96 }}>
-            Back
+        <div className="learn-nav">
+          {step > 0 && (
+            <motion.button type="button" className="btn btn-ghost" onClick={() => setStep(step - 1)} whileTap={{ scale: 0.96 }}>
+              Back
+            </motion.button>
+          )}
+          <motion.button type="button" className="btn btn-hero" onClick={handleNext} whileTap={{ scale: 0.96 }}>
+            {isLast ? 'Finish Learn' : 'Next step'}
           </motion.button>
-        )}
-        <motion.button type="button" className="btn btn-hero" onClick={handleNext} whileTap={{ scale: 0.96 }}>
-          {isLast ? 'Finish Learn' : 'Next step'}
-        </motion.button>
+        </div>
       </div>
     </motion.div>
   );
