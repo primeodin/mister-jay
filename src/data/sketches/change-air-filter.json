@@ -28,6 +28,11 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Tap the old filter dirty-side down before you toss it. Sometimes it's just dusty and you're fine for another month.\n\nNever blow compressed air into a paper filter toward the clean side — you're jamming grit deeper. Seat the new one so the rubber seal isn't folded or pinched.",
+    "diagramHighlightIds": ["filter"]
+  },
   "practice": [
     {
       "type": "tap-part",

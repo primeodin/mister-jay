@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getSketchById } from '../data/sketches';
 import { markLearnComplete } from '../lib/storage';
+import { getLearnSteps } from '../lib/learnSteps';
 import SketchVisual from '../components/SketchVisual';
 import { playThunk } from '../lib/audio';
 
@@ -12,9 +13,10 @@ export default function LearnPage() {
   const [step, setStep] = useState(0);
   const [finished, setFinished] = useState(false);
 
-  const sections = sketch?.learn ?? [];
+  const sections = sketch ? getLearnSteps(sketch) : [];
   const current = sections[step];
   const isLast = step === sections.length - 1;
+  const isShopTip = current?.kind === 'shop-tip';
 
   if (!sketch) {
     return <Navigate to="/" replace />;
@@ -82,14 +84,17 @@ export default function LearnPage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <article className="learn-sheet">
+            <article className={`learn-sheet${isShopTip ? ' learn-sheet--shop-tip' : ''}`}>
+              {isShopTip && (
+                <span className="learn-sheet-badge stamp">SHOP TIP</span>
+              )}
               <h3 className="learn-sheet-heading">{current.heading}</h3>
               {current.body.split('\n').map((line, i) => (
                 <p key={i}>{line}</p>
               ))}
               {current.callout && (
-                <aside className="callout callout--danger">
-                  <strong className="stamp">SAFETY</strong>
+                <aside className={`callout${isShopTip ? ' callout--tip' : ' callout--danger'}`}>
+                  <strong className="stamp">{isShopTip ? 'JAY SAYS' : 'SAFETY'}</strong>
                   <p>{current.callout}</p>
                 </aside>
               )}

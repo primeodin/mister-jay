@@ -28,6 +28,12 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Photo the cable layout before you pull anything. Negative off first, negative on last — a wrench on positive finds every ground in the engine bay.\n\nNo jewelry on your hands. If the hold-down is missing or stripped, don't leave the battery bouncing. Vibration eats terminals and case.",
+    "caution": "Smart: break ground first and secure the battery. Bites you: skipping the hold-down because you'll fix it later.",
+    "diagramHighlightIds": ["holddown", "negative"]
+  },
   "practice": [
     {
       "type": "tap-part",

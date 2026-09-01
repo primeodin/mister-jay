@@ -28,6 +28,12 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Fully OFF first, then ON. Don't just shove a tripped handle toward ON — you're not resetting anything, you're forcing it.\n\nTrips again immediately? Leave it OFF and find the load or fault. Resetting into a short is how panels get ugly.",
+    "caution": "Smart: OFF, pause, ON once. Bites you: holding it on or upsizing the breaker.",
+    "diagramHighlightIds": ["tripped"]
+  },
   "practice": [
     {
       "type": "order-steps",

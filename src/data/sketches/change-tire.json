@@ -30,6 +30,12 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Jay broke lug nuts loose with his foot on the wrench while the tire still touched the ground — you need that friction. Jumping on it can snap a stud. That's a tow-truck day.\n\nDonut spares aren't passenger tires. A lot want around 60 PSI. Check the sticker on the spare before you're stranded with a limp doughnut.",
+    "caution": "Smart on the ground with a foot on the wrench. Bites you on a rounded stud or after the jack is already up.",
+    "diagramHighlightIds": ["lug-nuts"]
+  },
   "practice": [
     {
       "type": "tap-part",
@@ -128,6 +134,30 @@
       "requiredCount": 2,
       "failMessage": "No parking brake and a jack on soft ground — that's how a car rolls off the jack.",
       "interactive": true
+    },
+    {
+      "type": "safe-next-move",
+      "prompt": "Shop tip check: when should you break the lug nuts loose?",
+      "options": [
+        {
+          "id": "ground",
+          "text": "While the tire is still on the ground, before you jack up",
+          "correct": true
+        },
+        {
+          "id": "air",
+          "text": "After the wheel is in the air — less resistance that way",
+          "correct": false,
+          "feedback": "No friction means the wheel spins. Jumping the wrench in the air can snap a stud."
+        },
+        {
+          "id": "skip",
+          "text": "Skip loosening — jack it and pull the wheel off",
+          "correct": false,
+          "feedback": "Crack the nuts on the ground first. Foot on the wrench, quarter turn each."
+        }
+      ],
+      "failMessage": "Ground first. Jay broke them loose while the tire still had weight on it."
     }
   ],
   "diagramId": "change-tire",

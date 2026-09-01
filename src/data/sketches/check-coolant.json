@@ -29,6 +29,12 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Cold engine only. Top the overflow between MIN and MAX with the right 50/50 mix — don't try to fill the radiator to the brim on a pressurized reservoir system.\n\nMilky oil on the dipstick? Stop. That's not a top-off job — possible head gasket.",
+    "caution": "Smart: reservoir when cold. Bites you: opening a hot cap or ignoring milky oil.",
+    "diagramHighlightIds": ["reservoir", "min"]
+  },
   "practice": [
     {
       "type": "spot-hazard",

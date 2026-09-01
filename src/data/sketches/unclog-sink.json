@@ -27,6 +27,12 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Hair near the stopper? Straighten a wire coat hanger with a half-inch J-hook — or cut downward barbs into a long zip-tie or plastic bottle strip. Gentler on PVC than metal.\n\nMetal hanger scratches plastic pipe and future gunk sticks worse. Plastic strip for plastic pipes; hanger only for shallow hair you can pull straight up. Don't shove a clog deeper.\n\nGrease kitchen clogs: hot water and dish soap, or pull the trap — not the hanger. Never chemical plus mechanical at the same time.",
+    "caution": "Smart: plastic strip or plunger first. Bites you: metal gouging PVC or chemicals before you open the trap.",
+    "diagramHighlightIds": ["plunger", "overtight"]
+  },
   "practice": [
     {
       "type": "order-steps",
@@ -110,6 +116,30 @@
         }
       ],
       "failMessage": "Mechanical next: bucket, open trap, clear it out."
+    },
+    {
+      "type": "safe-next-move",
+      "prompt": "Shop tip: PVC trap under the bathroom sink — hair clog near the stopper. Best tool?",
+      "options": [
+        {
+          "id": "plastic",
+          "text": "Barbed plastic zip-tie or bottle strip — pull hair up gently",
+          "correct": true
+        },
+        {
+          "id": "hanger",
+          "text": "Metal coat hanger shoved deep into the pipe",
+          "correct": false,
+          "feedback": "Metal scratches PVC and can push the clog deeper. Plastic strip for plastic pipes."
+        },
+        {
+          "id": "chemical",
+          "text": "Drain opener, then snake with the hanger while it's active",
+          "correct": false,
+          "feedback": "Never chemical plus mechanical. And skip the hanger on PVC."
+        }
+      ],
+      "failMessage": "Plastic strip or plunger for shallow hair. Metal hanger scratches PVC and pushes clogs deeper."
     }
   ],
   "diagramId": "unclog-sink"

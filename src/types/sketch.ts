@@ -32,6 +32,19 @@ export interface LearnSection {
   diagramFocus?: string[];
 }
 
+export interface ShopTip {
+  title?: string;
+  body: string;
+  caution?: string;
+  diagramHighlightIds?: string[];
+}
+
+export type LearnStepKind = 'look' | 'hazards' | 'shop-tip' | 'steps';
+
+export interface LearnStep extends LearnSection {
+  kind: LearnStepKind;
+}
+
 export interface TapPartOption {
   id: string;
   label: string;
@@ -125,6 +138,7 @@ export interface Sketch {
   category: SketchCategory;
   summary: string;
   learn: LearnSection[];
+  shopTip?: ShopTip;
   practice: PracticeExercise[];
   scene3d?: Scene3DId;
   diagramId: DiagramId;

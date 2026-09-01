@@ -30,6 +30,12 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Missing labels? Make a paper directory before you reset anything — flip one breaker, walk the house, write it down.\n\nRust or water in or around the panel? Don't flip breakers. Call a licensed electrician. Water can wick down the service cable from outside.",
+    "caution": "Respect live panels. Rust and water mean this isn't a DIY reset.",
+    "diagramHighlightIds": ["unlabeled", "rust", "water"]
+  },
   "practice": [
     {
       "type": "tap-part",

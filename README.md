@@ -1,6 +1,6 @@
 # Mister Jay
 
-A mobile-first PWA dedicated to Jay — a father who was a general contractor, electrician, plumber, and handyman. He taught by showing: what you're looking at, what can hurt you, then the steps.
+A mobile-first PWA dedicated to Jay — a father who was a general contractor, electrician, plumber, and handyman. He taught by showing: what you're looking at, what can hurt you, shop tips from driveway judgment, then the steps.
 
 **For Jay.**
 
@@ -13,7 +13,7 @@ A mobile-first PWA dedicated to Jay — a father who was a general contractor, e
 - 10 complete sketches covering vehicle, electrical, plumbing, and household skills
 - **3D shop scenes** (React Three Fiber) for breaker panel, car battery, tire/jack, and motorcycle — orbit, inspect, tap hotspots
 - **Labeled SVG diagrams** for every sketch — garage-readable on a phone
-- **Learn** pass: what you're looking at, safety hazards, step-by-step guidance with visual focus
+- **Learn** pass: what you're looking at, safety hazards, Jay's shop tips, step-by-step guidance with visual focus
 - **Game-like Practice**: tap parts on the 3D scene or diagram, drag steps into order, spot hazards in context
 - **Watch along** resources rail with curated YouTube search links per sketch
 - **Vehicle picker** for sketches where year/make/model matters

@@ -1061,6 +1061,35 @@ body {
   margin-bottom: 0.35rem;
 }
 
+.learn-sheet--shop-tip {
+  border-left: 4px solid var(--caution);
+  padding-left: 0.85rem;
+}
+
+.learn-sheet-badge {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  padding: 0.2rem 0.45rem;
+  font-size: 0.55rem;
+  color: var(--shop-void);
+  background: var(--caution);
+  letter-spacing: 0.1em;
+}
+
+.callout--tip {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(245, 197, 24, 0.08);
+  border: 1px solid rgba(245, 197, 24, 0.35);
+  border-left: 4px solid var(--caution);
+}
+
+.callout--tip strong {
+  color: var(--caution);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
 .learn-progress {
   padding: 0;
   color: var(--caution);

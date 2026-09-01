@@ -28,6 +28,12 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Last clamp goes to unpainted metal on the dead car's engine or chassis — not the dead negative post. Sparks near the battery vent hydrogen.\n\nSwollen or leaking battery? Don't jump it. After it starts, idle or drive 20–30 minutes — don't rev the donor like you're at the strip.",
+    "caution": "Smart: ground away from the dead battery. Bites you: clamps touching or a swollen case.",
+    "diagramHighlightIds": ["ground", "touching"]
+  },
   "practice": [
     {
       "type": "order-steps",

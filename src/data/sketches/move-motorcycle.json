@@ -29,6 +29,11 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Keep the bike upright with your legs — arms guide, legs move it. Soft ground? Slip a sidestand puck, scrap of wood, or big washer under the stand so it doesn't sink.\n\nDon't park with the stand downhill — it'll roll off the stand. Sandals are how you get a crushed foot.",
+    "diagramHighlightIds": ["sidestand", "sandals", "slope"]
+  },
   "practice": [
     {
       "type": "safe-next-move",

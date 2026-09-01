@@ -27,6 +27,11 @@
       ]
     }
   ],
+  "shopTip": {
+    "title": "Shop tip",
+    "body": "Shut both stops under the sink first — clockwise. Often it's a cheap washer or cartridge; bring the old part to the store.\n\nIf the stops themselves weep when you turn them, don't muscle them. That's a different job — frozen or failed valve stems.",
+    "diagramHighlightIds": ["supply"]
+  },
   "practice": [
     {
       "type": "order-steps",

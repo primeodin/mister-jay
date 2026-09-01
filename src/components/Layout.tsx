@@ -37,7 +37,7 @@ export default function Layout({ children }: LayoutProps) {
       </header>
       <main className="main">{children}</main>
       <footer className="hud-footer stamp">
-        QUIET DEDICATION — SHOP SKILLS PASSED DOWN
+        QUIET DEDICATION — SHOP SKILLS & DRIVEWAY JUDGMENT PASSED DOWN
       </footer>
     </div>
   );
