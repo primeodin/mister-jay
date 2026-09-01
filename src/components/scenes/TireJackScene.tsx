@@ -6,12 +6,20 @@ import SceneCanvas, { GarageFloor } from './SceneCanvas';
 import SceneCallouts from './SceneCallouts';
 import type { SceneProps } from './sceneTypes';
 
-const PAINT = '#3d4a58';
-const CLEARCOAT = { color: PAINT, metalness: 0.72, roughness: 0.18, envMapIntensity: 1.2 };
-const GLASS = { color: '#0a1018', metalness: 0.9, roughness: 0.05, transparent: true, opacity: 0.72 };
-const RUBBER = { color: '#141414', roughness: 0.94, metalness: 0 };
-const RIM = { color: '#707880', metalness: 0.82, roughness: 0.22 };
-const JACK = { color: '#c41e1e', metalness: 0.65, roughness: 0.38 };
+const PAINT = '#5a6d80';
+const CLEARCOAT = { color: PAINT, metalness: 0.55, roughness: 0.2, envMapIntensity: 1.6 };
+/** Visible in screenshots — blue-tinted night glass */
+const GLASS = {
+  color: '#9ab8d8',
+  metalness: 0.05,
+  roughness: 0.04,
+  transparent: true,
+  opacity: 0.82,
+  emissive: '#4a78a8',
+  emissiveIntensity: 0.65,
+};
+const RIM = { color: '#9098a0', metalness: 0.82, roughness: 0.2 };
+const JACK = { color: '#d42020', metalness: 0.6, roughness: 0.35 };
 
 function tap(
   interactive: boolean | undefined,
@@ -40,6 +48,7 @@ function Wheel({
   selLug,
   interactive,
   showLabel = true,
+  dimmed = false,
 }: {
   position: [number, number, number];
   rotation?: [number, number, number];
@@ -48,59 +57,58 @@ function Wheel({
   selLug?: boolean;
   interactive?: boolean;
   showLabel?: boolean;
+  dimmed?: boolean;
 }) {
+  const rubberColor = dimmed ? '#111' : '#1c1c1c';
   return (
     <group position={position} rotation={rotation} scale={scale}>
       <Torus args={[0.44, 0.13, 20, 36]} castShadow>
-        <meshStandardMaterial {...RUBBER} />
+        <meshStandardMaterial color={rubberColor} roughness={0.9} metalness={0} />
       </Torus>
-      {/* Sidewall shoulder */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.44, 0.045, 8, 32]} />
-        <meshStandardMaterial color="#222" roughness={0.92} />
+        <torusGeometry args={[0.44, 0.05, 8, 32]} />
+        <meshStandardMaterial color={dimmed ? '#1a1a1a' : '#333'} roughness={0.88} />
       </mesh>
-      {/* Tread blocks */}
-      {Array.from({ length: 18 }, (_, i) => {
-        const a = (i / 18) * Math.PI * 2;
-        return (
-          <mesh
-            key={i}
-            position={[0.5 * Math.cos(a), 0.5 * Math.sin(a), 0]}
-            rotation={[0, 0, a]}
-          >
-            <boxGeometry args={[0.06, 0.035, 0.12]} />
-            <meshStandardMaterial color="#0e0e0e" roughness={0.98} />
-          </mesh>
-        );
-      })}
+      {!dimmed &&
+        Array.from({ length: 16 }, (_, i) => {
+          const a = (i / 16) * Math.PI * 2;
+          return (
+            <mesh
+              key={i}
+              position={[0.48 * Math.cos(a), 0.48 * Math.sin(a), 0]}
+              rotation={[0, 0, a]}
+            >
+              <boxGeometry args={[0.07, 0.04, 0.1]} />
+              <meshStandardMaterial color="#0a0a0a" roughness={0.98} />
+            </mesh>
+          );
+        })}
       <Cylinder args={[0.3, 0.3, 0.16, 24]} rotation={[Math.PI / 2, 0, 0]} castShadow>
-        <meshStandardMaterial {...RIM} />
+        <meshStandardMaterial {...RIM} color={dimmed ? '#555' : RIM.color} />
       </Cylinder>
-      <Cylinder args={[0.18, 0.18, 0.17, 16]} rotation={[Math.PI / 2, 0, 0]}>
-        <meshStandardMaterial color="#444" metalness={0.7} roughness={0.35} />
-      </Cylinder>
-      {[0, 72, 144, 216, 288].map((deg) => (
-        <mesh
-          key={deg}
-          position={[
-            0.36 * Math.cos((deg * Math.PI) / 180),
-            0.36 * Math.sin((deg * Math.PI) / 180),
-            0.09,
-          ]}
-          onClick={tap(interactive, onLugClick, 'lug-nuts')}
-          castShadow
-        >
-          <cylinderGeometry args={[0.035, 0.035, 0.04, 6]} />
-          <meshStandardMaterial
-            color={selLug ? '#f5c518' : '#b8bcc0'}
-            metalness={0.92}
-            roughness={0.15}
-            {...highlight(!!selLug)}
-          />
-        </mesh>
-      ))}
+      {!dimmed &&
+        [0, 72, 144, 216, 288].map((deg) => (
+          <mesh
+            key={deg}
+            position={[
+              0.36 * Math.cos((deg * Math.PI) / 180),
+              0.36 * Math.sin((deg * Math.PI) / 180),
+              0.09,
+            ]}
+            onClick={tap(interactive, onLugClick, 'lug-nuts')}
+            castShadow
+          >
+            <cylinderGeometry args={[0.035, 0.035, 0.04, 6]} />
+            <meshStandardMaterial
+              color={selLug ? '#f5c518' : '#c8ccd0'}
+              metalness={0.92}
+              roughness={0.15}
+              {...highlight(!!selLug)}
+            />
+          </mesh>
+        ))}
       {showLabel && (
-        <Text position={[0, -0.62, 0.1]} fontSize={0.055} color="#666" anchorX="center">
+        <Text position={[0, -0.62, 0.12]} fontSize={0.065} color="#888" anchorX="center">
           RADIAL T/A
         </Text>
       )}
@@ -138,10 +146,6 @@ function ScissorJack({
         <cylinderGeometry args={[0.04, 0.04, 0.06, 12]} />
         <meshStandardMaterial color="#888" metalness={0.8} roughness={0.3} />
       </mesh>
-      <mesh position={[0, 0.28, 0]}>
-        <boxGeometry args={[0.12, 0.03, 0.08]} />
-        <meshStandardMaterial color="#aaa" metalness={0.85} />
-      </mesh>
     </group>
   );
 }
@@ -156,147 +160,145 @@ export default function TireJackScene({
 }: SceneProps) {
   const sel = (id: string) => selectedIds.includes(id) || highlightIds.includes(id);
 
-  const fenderCurve = useMemo(() => {
+  const bodySide = useMemo(() => {
     const shape = new THREE.Shape();
-    shape.moveTo(0, 0);
-    shape.lineTo(1.85, 0);
-    shape.lineTo(1.85, 0.5);
-    shape.quadraticCurveTo(1.35, 1.05, 0.55, 0.95);
-    shape.quadraticCurveTo(0.15, 0.88, 0, 0.72);
+    shape.moveTo(-0.2, 0);
+    shape.lineTo(2.0, 0);
+    shape.lineTo(2.0, 0.45);
+    shape.quadraticCurveTo(1.5, 0.75, 0.9, 0.7);
+    shape.lineTo(0.1, 0.55);
+    shape.lineTo(-0.2, 0.35);
     shape.closePath();
     return shape;
   }, []);
 
-  const roofCurve = useMemo(() => {
-    const shape = new THREE.Shape();
-    shape.moveTo(0, 0);
-    shape.lineTo(1.6, 0.15);
-    shape.quadraticCurveTo(1.2, 0.55, 0.4, 0.5);
-    shape.lineTo(0, 0.35);
-    shape.closePath();
-    return shape;
-  }, []);
+  const camera =
+    variant === 'learn'
+      ? ([2.4, 0.75, 2.2] as [number, number, number])
+      : variant === 'hero'
+        ? ([2.5, 0.85, 2.3] as [number, number, number])
+        : ([2.2, 0.55, 2.1] as [number, number, number]);
 
   return (
-    <SceneCanvas variant={variant} cameraPosition={[1.9, 0.6, 3.1]} fov={36} floorY={-0.95}>
+    <SceneCanvas variant={variant} cameraPosition={camera} fov={34} floorY={-0.95}>
       <GarageFloor y={-0.95} />
+      <ambientLight intensity={0.32} color="#8090a0" />
+      <spotLight position={[3.5, 3, 4]} angle={0.5} intensity={5} color="#ffc870" castShadow />
+      <spotLight position={[-2, 2.5, 3]} angle={0.55} intensity={2.5} color="#90b0d0" />
+      <pointLight position={[1.2, 1.2, 2]} intensity={0.6} color="#c0d8f0" distance={8} />
+      {/* Cabin interior glow — visible through glass */}
+      <pointLight position={[0.5, 0.9, 0.3]} intensity={0.9} color="#80a8d8" distance={2.5} />
 
-      <group position={[-0.55, -0.35, 0]} rotation={[0, -0.32, 0]}>
-        {/* Rocker / sill */}
-        <RoundedBox args={[2.5, 0.14, 0.58]} radius={0.02} position={[0.55, 0.05, 0]} castShadow>
+      <group position={[-0.35, -0.32, 0]} rotation={[0, -0.55, 0]}>
+        {/* Lower body / rocker */}
+        <RoundedBox args={[2.3, 0.16, 0.62]} radius={0.025} position={[0.65, 0.06, 0]} castShadow>
           <meshStandardMaterial {...CLEARCOAT} />
         </RoundedBox>
 
+        {/* Side body panel */}
+        <mesh position={[0.7, 0.42, 0]} castShadow>
+          <extrudeGeometry
+            args={[bodySide, { depth: 0.62, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 2 }]}
+          />
+          <meshStandardMaterial {...CLEARCOAT} />
+        </mesh>
+
+        {/* Greenhouse rail — top of doors */}
+        <mesh position={[0.55, 0.88, 0.28]} castShadow>
+          <boxGeometry args={[1.35, 0.06, 0.52]} />
+          <meshStandardMaterial color="#3a4550" metalness={0.6} roughness={0.3} />
+        </mesh>
+
+        {/* DOOR WINDOW — faces camera */}
+        <mesh position={[0.55, 0.72, 0.58]} castShadow>
+          <boxGeometry args={[0.62, 0.32, 0.05]} />
+          <meshStandardMaterial {...GLASS} />
+        </mesh>
+        {/* Quarter window */}
+        <mesh position={[1.15, 0.68, 0.48]} rotation={[0, -0.35, 0]} castShadow>
+          <boxGeometry args={[0.42, 0.24, 0.05]} />
+          <meshStandardMaterial {...GLASS} />
+        </mesh>
+        {/* Rear side glass — third pane for greenhouse read */}
+        <mesh position={[0.2, 0.75, 0.52]} rotation={[0, 0.15, 0]} castShadow>
+          <boxGeometry args={[0.28, 0.22, 0.04]} />
+          <meshStandardMaterial {...GLASS} />
+        </mesh>
+        {/* Window frames — black trim makes glass read */}
+        <mesh position={[0.55, 0.72, 0.61]}>
+          <boxGeometry args={[0.66, 0.36, 0.02]} />
+          <meshStandardMaterial color="#111" metalness={0.7} roughness={0.35} />
+        </mesh>
+        <mesh position={[0.55, 0.72, 0.59]}>
+          <boxGeometry args={[0.64, 0.02, 0.04]} />
+          <meshStandardMaterial color="#111" metalness={0.7} />
+        </mesh>
+
+        {/* C-pillar */}
+        <mesh position={[0.08, 0.82, 0.25]} castShadow>
+          <boxGeometry args={[0.1, 0.55, 0.48]} />
+          <meshStandardMaterial {...CLEARCOAT} />
+        </mesh>
+
+        {/* Roof */}
+        <mesh position={[0.7, 1.02, 0.22]} castShadow>
+          <boxGeometry args={[1.2, 0.08, 0.5]} />
+          <meshStandardMaterial {...CLEARCOAT} />
+        </mesh>
+
         {/* Pinch weld */}
         <mesh
-          position={[0.18, 0.14, 0.16]}
+          position={[0.22, 0.16, 0.22]}
           onClick={tap(interactive, onHotspotClick, 'jack-point')}
           castShadow
         >
-          <boxGeometry args={[0.55, 0.04, 0.06]} />
+          <boxGeometry args={[0.5, 0.04, 0.06]} />
           <meshStandardMaterial
-            color={sel('jack-point') ? '#f5c518' : '#5a6068'}
+            color={sel('jack-point') ? '#f5c518' : '#6a7078'}
             metalness={0.7}
             roughness={0.35}
             {...highlight(sel('jack-point'))}
           />
         </mesh>
 
-        {/* Quarter panel */}
-        <mesh position={[0.65, 0.52, 0]} castShadow>
-          <extrudeGeometry
-            args={[
-              fenderCurve,
-              { depth: 0.58, bevelEnabled: true, bevelThickness: 0.025, bevelSize: 0.025, bevelSegments: 3 },
-            ]}
-          />
-          <meshStandardMaterial {...CLEARCOAT} />
+        {/* Wheel arch */}
+        <mesh position={[0.95, 0.32, 0.18]}>
+          <torusGeometry args={[0.5, 0.03, 8, 28, Math.PI]} />
+          <meshStandardMaterial color="#2a3038" metalness={0.55} roughness={0.4} />
         </mesh>
-
-        {/* Cabin / C-pillar */}
-        <mesh position={[0.05, 0.95, 0.12]} castShadow>
-          <boxGeometry args={[0.12, 0.75, 0.5]} />
-          <meshStandardMaterial {...CLEARCOAT} />
-        </mesh>
-
-        {/* Roof line */}
-        <mesh position={[0.55, 1.35, 0.15]} castShadow>
-          <extrudeGeometry args={[roofCurve, { depth: 0.48, bevelEnabled: true, bevelThickness: 0.015, bevelSize: 0.015, bevelSegments: 2 }]} />
-          <meshStandardMaterial {...CLEARCOAT} />
-        </mesh>
-
-        {/* Rear door glass */}
-        <mesh position={[0.42, 0.88, 0.42]} castShadow>
-          <boxGeometry args={[0.55, 0.38, 0.04]} />
-          <meshStandardMaterial {...GLASS} />
-        </mesh>
-        {/* Quarter window */}
-        <mesh position={[1.15, 0.78, 0.44]} rotation={[0, 0, -0.35]} castShadow>
-          <boxGeometry args={[0.35, 0.22, 0.04]} />
-          <meshStandardMaterial {...GLASS} />
-        </mesh>
-        {/* Window trim */}
-        <mesh position={[0.42, 0.88, 0.46]}>
-          <boxGeometry args={[0.58, 0.41, 0.02]} />
-          <meshStandardMaterial color="#1a1a1a" metalness={0.8} roughness={0.3} />
-        </mesh>
-
-        {/* Wheel arch outer lip */}
-        <mesh position={[0.9, 0.38, 0.14]}>
-          <torusGeometry args={[0.52, 0.025, 8, 28, Math.PI]} />
-          <meshStandardMaterial color="#2a3038" metalness={0.6} roughness={0.35} />
-        </mesh>
-        {/* Wheel arch liner — deep well */}
-        <mesh position={[0.88, 0.22, 0.02]}>
-          <sphereGeometry args={[0.5, 20, 20, 0, Math.PI * 2, 0, Math.PI / 2]} />
-          <meshStandardMaterial color="#080808" roughness={1} />
-        </mesh>
-        <mesh position={[0.88, 0.15, -0.08]}>
-          <torusGeometry args={[0.46, 0.03, 8, 24, Math.PI * 0.85]} />
-          <meshStandardMaterial color="#111" roughness={0.95} />
-        </mesh>
-
-        {/* Door gap */}
-        <mesh position={[0.12, 0.55, 0.58]}>
-          <boxGeometry args={[0.008, 0.75, 0.52]} />
-          <meshStandardMaterial color="#0a0a0a" />
-        </mesh>
-        {/* Body line crease */}
-        <mesh position={[0.7, 0.42, 0.58]}>
-          <boxGeometry args={[1.2, 0.006, 0.01]} />
-          <meshStandardMaterial color="#2a3238" metalness={0.5} />
+        <mesh position={[0.92, 0.18, 0.05]}>
+          <sphereGeometry args={[0.46, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
+          <meshStandardMaterial color="#0c0c0c" roughness={1} />
         </mesh>
       </group>
 
-      {/* Near wheel */}
       <Wheel
-        position={[0.4, -0.12, 0.38]}
-        rotation={[0, 0.18, 0]}
+        position={[0.55, -0.1, 0.42]}
+        rotation={[0, 0.1, 0]}
         onLugClick={onHotspotClick}
         selLug={sel('lug-nuts')}
         interactive={interactive}
       />
 
-      {/* Far-side wheel hint */}
       <Wheel
-        position={[0.15, -0.18, -0.22]}
-        rotation={[0, -0.55, 0]}
-        scale={0.88}
+        position={[0.05, -0.14, -0.05]}
+        rotation={[0, -0.7, 0]}
+        scale={0.82}
         interactive={false}
         showLabel={false}
+        dimmed
       />
 
       <ScissorJack
-        position={[0.08, -0.55, 0.58]}
+        position={[0.12, -0.52, 0.62]}
         selected={sel('jack')}
         onClick={onHotspotClick}
         interactive={interactive}
       />
 
-      {/* Wheel chock */}
       <mesh
-        position={[-0.5, -0.82, 0.78]}
-        rotation={[0, 0.4, 0.15]}
+        position={[-0.35, -0.8, 0.82]}
+        rotation={[0, 0.35, 0.12]}
         onClick={tap(interactive, onHotspotClick, 'block-wheel')}
         castShadow
       >
@@ -308,10 +310,9 @@ export default function TireJackScene({
         />
       </mesh>
 
-      {/* Spare tire */}
       <group
-        position={[1.5, -0.72, -0.12]}
-        rotation={[Math.PI / 2, 0, 0.3]}
+        position={[1.55, -0.7, 0.05]}
+        rotation={[Math.PI / 2, 0, 0.25]}
         onClick={tap(interactive, onHotspotClick, 'spare')}
       >
         <Torus args={[0.36, 0.11, 16, 32]}>

@@ -66,9 +66,73 @@ export default function LearnPage() {
     );
   }
 
+  if (has3d) {
+    return (
+      <motion.div
+        className="learn-shell learn-shell--immersive"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <div className="learn-shell-top">
+          <Link to={`/sketch/${sketch.id}`} className="viewport-back stamp">← BAY</Link>
+          <div className="learn-progress stamp">
+            STEP {step + 1}/{sections.length}
+          </div>
+        </div>
+
+        <div className="learn-shell-canvas">
+          <SketchVisual
+            sketch={sketch}
+            variant="learn"
+            focusIds={current.diagramFocus}
+            highlightIds={current.diagramFocus}
+            callouts={callouts}
+          />
+        </div>
+
+        <div className="learn-bottom-dock">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              className="learn-sheet-wrap"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <article className="learn-sheet">
+                <h3 className="learn-sheet-heading">{current.heading}</h3>
+                {current.body.split('\n').map((line, i) => (
+                  <p key={i}>{line}</p>
+                ))}
+                {current.callout && (
+                  <aside className="callout callout--danger">
+                    <strong className="stamp">SAFETY</strong>
+                    <p>{current.callout}</p>
+                  </aside>
+                )}
+              </article>
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="learn-nav">
+            {step > 0 && (
+              <motion.button type="button" className="btn btn-ghost" onClick={() => setStep(step - 1)} whileTap={{ scale: 0.96 }}>
+                Back
+              </motion.button>
+            )}
+            <motion.button type="button" className="btn btn-hero" onClick={handleNext} whileTap={{ scale: 0.96 }}>
+              {isLast ? 'Finish Learn' : 'Next step'}
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
-      className={`viewport learn-viewport${has3d ? ' learn-viewport--immersive' : ''}`}
+      className="viewport learn-viewport"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -82,72 +146,43 @@ export default function LearnPage() {
       <div className="learn-stage">
         <SketchVisual
           sketch={sketch}
-          variant={has3d ? 'learn' : 'viewport'}
+          variant="viewport"
           focusIds={current.diagramFocus}
           highlightIds={current.diagramFocus}
-          callouts={has3d ? callouts : undefined}
         />
       </div>
 
-      {!has3d && (
-        <AnimatePresence mode="wait">
-          <motion.article
-            key={step}
-            className="callout-plate"
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <h3 className="callout-plate-heading">{current.heading}</h3>
-            {current.body.split('\n').map((line, i) => (
-              <p key={i}>{line}</p>
-            ))}
-            {current.callout && (
-              <aside className="callout callout--danger">
-                <strong className="stamp">SAFETY</strong>
-                <p>{current.callout}</p>
-              </aside>
-            )}
-          </motion.article>
-        </AnimatePresence>
-      )}
-
-      <div className="learn-hud">
-        {has3d && (
-          <AnimatePresence mode="wait">
-            <motion.article
-              key={step}
-              className="learn-sheet"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <h3 className="learn-sheet-heading">{current.heading}</h3>
-              {current.body.split('\n').map((line, i) => (
-                <p key={i}>{line}</p>
-              ))}
-              {current.callout && (
-                <aside className="callout callout--danger">
-                  <strong className="stamp">SAFETY</strong>
-                  <p>{current.callout}</p>
-                </aside>
-              )}
-            </motion.article>
-          </AnimatePresence>
-        )}
-
-        <div className="learn-nav">
-          {step > 0 && (
-            <motion.button type="button" className="btn btn-ghost" onClick={() => setStep(step - 1)} whileTap={{ scale: 0.96 }}>
-              Back
-            </motion.button>
+      <AnimatePresence mode="wait">
+        <motion.article
+          key={step}
+          className="callout-plate"
+          initial={{ opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h3 className="callout-plate-heading">{current.heading}</h3>
+          {current.body.split('\n').map((line, i) => (
+            <p key={i}>{line}</p>
+          ))}
+          {current.callout && (
+            <aside className="callout callout--danger">
+              <strong className="stamp">SAFETY</strong>
+              <p>{current.callout}</p>
+            </aside>
           )}
-          <motion.button type="button" className="btn btn-hero" onClick={handleNext} whileTap={{ scale: 0.96 }}>
-            {isLast ? 'Finish Learn' : 'Next step'}
+        </motion.article>
+      </AnimatePresence>
+
+      <div className="learn-nav learn-nav--padded">
+        {step > 0 && (
+          <motion.button type="button" className="btn btn-ghost" onClick={() => setStep(step - 1)} whileTap={{ scale: 0.96 }}>
+            Back
           </motion.button>
-        </div>
+        )}
+        <motion.button type="button" className="btn btn-hero" onClick={handleNext} whileTap={{ scale: 0.96 }}>
+          {isLast ? 'Finish Learn' : 'Next step'}
+        </motion.button>
       </div>
     </motion.div>
   );

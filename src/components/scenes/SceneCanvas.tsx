@@ -26,11 +26,11 @@ export default function SceneCanvas({
 }: Props) {
   const height =
     variant === 'learn'
-      ? 'min(72vh, 560px)'
+      ? '100%'
       : variant === 'hero'
-        ? 'min(72vh, 520px)'
+        ? '100%'
         : variant === 'viewport'
-          ? 'min(58vh, 440px)'
+          ? 'min(50vh, 380px)'
           : '280px';
 
   return (
@@ -81,7 +81,7 @@ export default function SceneCanvas({
           enableDamping
         />
       </Canvas>
-      <div className="scene-vignette" aria-hidden="true" />
+      <div className="scene-vignette scene-vignette--light" aria-hidden="true" />
     </div>
   );
 }
