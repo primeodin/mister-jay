@@ -4,18 +4,18 @@ import SceneCanvas, { GarageFloor } from './SceneCanvas';
 import SceneCallouts from './SceneCallouts';
 import type { SceneProps } from './sceneTypes';
 
-const PAINT = '#3a4550';
-const PAINT_MAT = { color: PAINT, metalness: 0.5, roughness: 0.28, envMapIntensity: 1.2 };
+const PAINT = '#2e3842';
+const PAINT_MAT = { color: PAINT, metalness: 0.52, roughness: 0.3, envMapIntensity: 1.1 };
 const GLASS = {
-  color: '#b8d4f0',
+  color: '#8ab0d0',
   metalness: 0.02,
-  roughness: 0.05,
+  roughness: 0.06,
   transparent: true,
-  opacity: 0.62,
-  emissive: '#6a98c8',
-  emissiveIntensity: 0.85,
+  opacity: 0.55,
+  emissive: '#4a78a8',
+  emissiveIntensity: 0.95,
 };
-const TRIM = { color: '#1a1e22', metalness: 0.75, roughness: 0.35 };
+const TRIM = { color: '#14181c', metalness: 0.78, roughness: 0.32 };
 const RIM = { color: '#9098a0', metalness: 0.82, roughness: 0.2 };
 const JACK = { color: '#d42020', metalness: 0.6, roughness: 0.35 };
 
@@ -38,35 +38,49 @@ function highlight(sel: boolean) {
     : {};
 }
 
-/** Thin edge rails only — never a solid plate over the glass */
-function WindowTrim({
+/** Recessed glass pane — sits behind the door skin, never in front */
+function DoorGlass({
   position,
   width,
   height,
+  depth = 0.025,
 }: {
   position: [number, number, number];
   width: number;
   height: number;
+  depth?: number;
 }) {
-  const t = 0.018;
-  const d = 0.022;
-  const z = 0.02;
+  const t = 0.022;
+  const frameZ = 0.03;
+  const glassZ = -0.012;
   return (
     <group position={position}>
-      <mesh position={[0, height / 2 + t / 2, z]}>
-        <boxGeometry args={[width + t * 2, t, d]} />
+      <mesh position={[0, height / 2 + t / 2, frameZ]} castShadow>
+        <boxGeometry args={[width + t * 2, t, 0.04]} />
+        <meshStandardMaterial {...PAINT_MAT} />
+      </mesh>
+      <mesh position={[0, -(height / 2 + t / 2), frameZ]} castShadow>
+        <boxGeometry args={[width + t * 2, t, 0.04]} />
+        <meshStandardMaterial {...PAINT_MAT} />
+      </mesh>
+      <mesh position={[-(width / 2 + t / 2), 0, frameZ]} castShadow>
+        <boxGeometry args={[t, height, 0.04]} />
+        <meshStandardMaterial {...PAINT_MAT} />
+      </mesh>
+      <mesh position={[width / 2 + t / 2, 0, frameZ]} castShadow>
+        <boxGeometry args={[t, height, 0.04]} />
+        <meshStandardMaterial {...PAINT_MAT} />
+      </mesh>
+      <mesh position={[0, 0, glassZ]} renderOrder={1}>
+        <boxGeometry args={[width, height, depth]} />
+        <meshStandardMaterial {...GLASS} depthWrite={false} />
+      </mesh>
+      <mesh position={[0, height / 2, glassZ + 0.01]}>
+        <boxGeometry args={[width, 0.012, 0.018]} />
         <meshStandardMaterial {...TRIM} />
       </mesh>
-      <mesh position={[0, -(height / 2 + t / 2), z]}>
-        <boxGeometry args={[width + t * 2, t, d]} />
-        <meshStandardMaterial {...TRIM} />
-      </mesh>
-      <mesh position={[-(width / 2 + t / 2), 0, z]}>
-        <boxGeometry args={[t, height, d]} />
-        <meshStandardMaterial {...TRIM} />
-      </mesh>
-      <mesh position={[width / 2 + t / 2, 0, z]}>
-        <boxGeometry args={[t, height, d]} />
+      <mesh position={[0, -height / 2, glassZ + 0.01]}>
+        <boxGeometry args={[width, 0.012, 0.018]} />
         <meshStandardMaterial {...TRIM} />
       </mesh>
     </group>
@@ -183,8 +197,7 @@ function ScissorJack({
   );
 }
 
-/** Wide 3/4 shot — glass, wheel, jack, spare all in frame */
-const CAMERA: [number, number, number] = [3.0, 0.55, 3.6];
+const CAMERA: [number, number, number] = [2.9, 0.5, 3.5];
 
 export default function TireJackScene({
   selectedIds = [],
@@ -199,111 +212,121 @@ export default function TireJackScene({
   return (
     <SceneCanvas variant={variant} cameraPosition={CAMERA} fov={40} floorY={-0.95}>
       <GarageFloor y={-0.95} />
-      <ambientLight intensity={0.38} color="#90a0b0" />
-      <spotLight position={[4, 4, 5]} angle={0.55} intensity={4.5} color="#ffc870" castShadow />
-      <spotLight position={[-3, 3, 4]} angle={0.6} intensity={2} color="#a0c8e8" />
-      <pointLight position={[0.3, 0.8, 0.6]} intensity={1.2} color="#90b8e0" distance={3} />
+      <ambientLight intensity={0.42} color="#90a0b0" />
+      <spotLight position={[4, 4, 5]} angle={0.55} intensity={5} color="#ffc870" castShadow />
+      <spotLight position={[-3, 3, 4]} angle={0.6} intensity={2.2} color="#a0c8e8" />
+      <pointLight position={[0.3, 0.8, 0.6]} intensity={1.4} color="#90b8e0" distance={3} />
 
-      {/* Car body — 3/4 driver side, no monolith extrusion over the wheel */}
-      <group position={[0, -0.28, 0]} rotation={[0, -0.42, 0]}>
-        {/* Rocker / sill */}
-        <RoundedBox args={[2.0, 0.12, 0.5]} radius={0.02} position={[0.2, 0.02, 0]} castShadow>
+      <group position={[0, -0.26, 0]} rotation={[0, -0.38, 0]}>
+        <RoundedBox args={[2.15, 0.13, 0.48]} radius={0.02} position={[0.05, 0.03, 0.02]} castShadow>
           <meshStandardMaterial {...PAINT_MAT} />
         </RoundedBox>
 
-        {/* Lower door panel — below window */}
-        <mesh position={[0.15, 0.22, 0.26]} castShadow>
-          <boxGeometry args={[0.9, 0.28, 0.04]} />
+        <mesh position={[0.08, 0.24, 0.24]} castShadow>
+          <boxGeometry args={[0.92, 0.3, 0.05]} />
           <meshStandardMaterial {...PAINT_MAT} />
         </mesh>
 
-        {/* Belt line — dark paint above and below glass for contrast */}
-        <mesh position={[0.15, 0.42, 0.27]}>
-          <boxGeometry args={[0.95, 0.04, 0.045]} />
-          <meshStandardMaterial color="#2a3238" metalness={0.55} roughness={0.3} />
-        </mesh>
-        <mesh position={[0.15, 0.62, 0.27]}>
-          <boxGeometry args={[0.95, 0.04, 0.045]} />
-          <meshStandardMaterial color="#2a3238" metalness={0.55} roughness={0.3} />
+        <mesh position={[0.08, 0.7, 0.24]} castShadow>
+          <boxGeometry args={[0.92, 0.14, 0.05]} />
+          <meshStandardMaterial {...PAINT_MAT} />
         </mesh>
 
-        {/* DOOR GLASS — on outer face, nothing in front */}
-        <mesh position={[0.15, 0.52, 0.3]} renderOrder={2}>
-          <boxGeometry args={[0.72, 0.26, 0.03]} />
-          <meshStandardMaterial {...GLASS} depthWrite={false} />
+        <mesh position={[0.08, 0.42, 0.255]}>
+          <boxGeometry args={[0.96, 0.035, 0.04]} />
+          <meshStandardMaterial color="#222830" metalness={0.55} roughness={0.28} />
         </mesh>
-        <WindowTrim position={[0.15, 0.52, 0.3]} width={0.72} height={0.26} />
+        <mesh position={[0.08, 0.62, 0.255]}>
+          <boxGeometry args={[0.96, 0.035, 0.04]} />
+          <meshStandardMaterial color="#222830" metalness={0.55} roughness={0.28} />
+        </mesh>
 
-        {/* Quarter glass */}
-        <mesh position={[0.62, 0.5, 0.22]} rotation={[0, -0.4, 0]} renderOrder={2}>
-          <boxGeometry args={[0.38, 0.2, 0.03]} />
-          <meshStandardMaterial {...GLASS} depthWrite={false} />
-        </mesh>
-        <group position={[0.62, 0.5, 0.22]} rotation={[0, -0.4, 0]}>
-          <WindowTrim position={[0, 0, 0]} width={0.38} height={0.2} />
+        <DoorGlass position={[0.08, 0.52, 0.24]} width={0.68} height={0.24} />
+
+        <group position={[0.52, 0.5, 0.18]} rotation={[0, -0.35, 0]}>
+          <mesh position={[0, 0, -0.01]} renderOrder={1}>
+            <boxGeometry args={[0.32, 0.18, 0.025]} />
+            <meshStandardMaterial {...GLASS} depthWrite={false} />
+          </mesh>
+          <mesh position={[0, 0.1, 0.02]} castShadow>
+            <boxGeometry args={[0.34, 0.025, 0.04]} />
+            <meshStandardMaterial {...PAINT_MAT} />
+          </mesh>
+          <mesh position={[0, -0.1, 0.02]} castShadow>
+            <boxGeometry args={[0.34, 0.025, 0.04]} />
+            <meshStandardMaterial {...PAINT_MAT} />
+          </mesh>
         </group>
 
-        {/* C-pillar + roof */}
-        <mesh position={[-0.12, 0.58, 0.2]} castShadow>
-          <boxGeometry args={[0.08, 0.45, 0.42]} />
-          <meshStandardMaterial {...PAINT_MAT} />
-        </mesh>
-        <mesh position={[0.25, 0.78, 0.18]} castShadow>
-          <boxGeometry args={[1.0, 0.07, 0.4]} />
+        <mesh position={[-0.18, 0.58, 0.16]} castShadow>
+          <boxGeometry args={[0.1, 0.42, 0.4]} />
           <meshStandardMaterial {...PAINT_MAT} />
         </mesh>
 
-        {/* Pinch weld */}
+        <RoundedBox args={[1.05, 0.07, 0.38]} radius={0.02} position={[0.15, 0.8, 0.14]} castShadow>
+          <meshStandardMaterial {...PAINT_MAT} />
+        </RoundedBox>
+
+        <mesh position={[0.72, 0.18, 0.1]} rotation={[0, -0.25, 0]} castShadow>
+          <boxGeometry args={[0.35, 0.22, 0.42]} />
+          <meshStandardMaterial {...PAINT_MAT} />
+        </mesh>
+
+        <mesh position={[-0.55, 0.32, 0.08]} rotation={[0, 0.15, 0]} castShadow>
+          <boxGeometry args={[0.4, 0.38, 0.38]} />
+          <meshStandardMaterial {...PAINT_MAT} />
+        </mesh>
+
+        <mesh position={[0.28, 0.2, 0.2]} castShadow>
+          <boxGeometry args={[0.55, 0.18, 0.06]} />
+          <meshStandardMaterial {...PAINT_MAT} />
+        </mesh>
+        <mesh position={[0.28, 0.28, 0.22]}>
+          <torusGeometry args={[0.46, 0.03, 8, 28, Math.PI * 0.92]} />
+          <meshStandardMaterial color="#222830" metalness={0.55} roughness={0.38} />
+        </mesh>
+
         <mesh
-          position={[-0.05, 0.1, 0.28]}
+          position={[-0.08, 0.1, 0.26]}
           onClick={tap(interactive, onHotspotClick, 'jack-point')}
           castShadow
         >
-          <boxGeometry args={[0.45, 0.035, 0.05]} />
+          <boxGeometry args={[0.5, 0.04, 0.05]} />
           <meshStandardMaterial
-            color={sel('jack-point') ? '#f5c518' : '#6a7078'}
-            metalness={0.7}
-            roughness={0.35}
+            color={sel('jack-point') ? '#f5c518' : '#5a6068'}
+            metalness={0.72}
+            roughness={0.32}
             {...highlight(sel('jack-point'))}
           />
         </mesh>
 
-        {/* Wheel arch lip — opening, not solid fill */}
-        <mesh position={[0.35, 0.18, 0.24]}>
-          <torusGeometry args={[0.44, 0.025, 8, 24, Math.PI]} />
-          <meshStandardMaterial color="#2a3038" metalness={0.55} roughness={0.4} />
-        </mesh>
+        <Wheel
+          position={[0.3, -0.08, 0.12]}
+          rotation={[0, 0.1, 0]}
+          onLugClick={onHotspotClick}
+          selLug={sel('lug-nuts')}
+          interactive={interactive}
+        />
+
+        <Wheel
+          position={[-0.42, -0.12, -0.08]}
+          rotation={[0, -0.45, 0]}
+          scale={0.78}
+          interactive={false}
+          showLabel={false}
+          dimmed
+        />
       </group>
 
-      {/* Near wheel — outside body group, clearly beside arch */}
-      <Wheel
-        position={[0.45, -0.22, 0.55]}
-        rotation={[0, 0.15, 0]}
-        onLugClick={onHotspotClick}
-        selLug={sel('lug-nuts')}
-        interactive={interactive}
-      />
-
-      {/* Far wheel hint */}
-      <Wheel
-        position={[0.0, -0.28, 0.15]}
-        rotation={[0, -0.5, 0]}
-        scale={0.8}
-        interactive={false}
-        showLabel={false}
-        dimmed
-      />
-
       <ScissorJack
-        position={[-0.05, -0.58, 0.72]}
+        position={[-0.12, -0.55, 0.68]}
         selected={sel('jack')}
         onClick={onHotspotClick}
         interactive={interactive}
       />
 
-      {/* Wheel chock */}
       <mesh
-        position={[-0.45, -0.82, 0.9]}
+        position={[-0.5, -0.82, 0.88]}
         rotation={[0, 0.3, 0.12]}
         onClick={tap(interactive, onHotspotClick, 'block-wheel')}
         castShadow
@@ -316,9 +339,8 @@ export default function TireJackScene({
         />
       </mesh>
 
-      {/* Spare tire on ground */}
       <group
-        position={[1.35, -0.78, 0.25]}
+        position={[1.3, -0.78, 0.22]}
         rotation={[Math.PI / 2, 0, 0.2]}
         onClick={tap(interactive, onHotspotClick, 'spare')}
       >

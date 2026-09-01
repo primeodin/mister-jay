@@ -34,6 +34,10 @@ export default function CarBatteryScene({
   return (
     <SceneCanvas variant={variant} cameraPosition={[0.5, 0.55, 2.6]} fov={34} floorY={-0.75}>
       <GarageFloor y={-0.75} />
+      <ambientLight intensity={0.45} color="#90a0b0" />
+      <spotLight position={[3, 4, 4]} angle={0.55} intensity={4.5} color="#ffc870" castShadow />
+      <spotLight position={[-2, 3, 3]} angle={0.6} intensity={2} color="#a0c8e8" />
+      <pointLight position={[0, 0.5, 1]} intensity={1.2} color="#90b8e0" distance={4} />
 
       <group position={[0, -0.1, -0.2]}>
         {/* Open hood — left panel */}
@@ -100,6 +104,9 @@ export default function CarBatteryScene({
           <boxGeometry args={[0.7, 0.2, 0.02]} />
           <meshStandardMaterial color="#2a2a2c" roughness={0.6} />
         </mesh>
+        <Text position={[0, 0.22, 0.48]} fontSize={0.1} color="#c8ccd0" anchorX="center" fontWeight="bold">
+          BATTERY
+        </Text>
         <Text position={[0, 0.05, 0.46]} fontSize={0.06} color="#888" anchorX="center">
           12V 60Ah
         </Text>

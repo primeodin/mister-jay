@@ -7,6 +7,8 @@ CHROME_FLAGS=(
   --headless=new
   --disable-gpu
   --use-gl=swiftshader
+  --enable-unsafe-swiftshader
+  --enable-webgl
   --user-data-dir=/tmp/chrome-shot-$$
   --virtual-time-budget=25000
   --run-all-compositor-stages-before-draw

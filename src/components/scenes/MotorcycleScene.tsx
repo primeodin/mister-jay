@@ -1,4 +1,4 @@
-import { Cylinder, RoundedBox, Torus } from '@react-three/drei';
+import { Cylinder, RoundedBox, Torus, Text } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
 import SceneCanvas, { GarageFloor } from './SceneCanvas';
 import SceneCallouts from './SceneCallouts';
@@ -47,6 +47,10 @@ export default function MotorcycleScene({
   return (
     <SceneCanvas variant={variant} cameraPosition={[2.1, 0.75, 3.6]} fov={38} floorY={-0.9}>
       <GarageFloor y={-0.9} />
+      <ambientLight intensity={0.45} color="#90a0b0" />
+      <spotLight position={[4, 4, 5]} angle={0.55} intensity={4.5} color="#ffc870" castShadow />
+      <spotLight position={[-3, 3, 4]} angle={0.6} intensity={2} color="#a0c8e8" />
+      <pointLight position={[0.5, 1, 1]} intensity={1.2} color="#90b8e0" distance={4} />
 
       {/* Sloped driveway */}
       <mesh rotation={[-Math.PI / 2, 0, 0.18]} position={[0.5, -0.89, 0.8]} receiveShadow>
@@ -93,6 +97,9 @@ export default function MotorcycleScene({
           <boxGeometry args={[0.25, 0.12, 0.26]} />
           <meshStandardMaterial color="#222228" metalness={0.75} roughness={0.25} />
         </mesh>
+        <Text position={[0.12, 0.38, 0.16]} fontSize={0.07} color="#888" anchorX="center" rotation={[0, 0.38, 0]}>
+          MOTORCYCLE
+        </Text>
 
         {/* Seat */}
         <mesh position={[-0.28, 0.22, 0]} castShadow>
@@ -113,7 +120,7 @@ export default function MotorcycleScene({
         {/* Headlight */}
         <mesh position={[0.88, 0.28, 0]} castShadow>
           <cylinderGeometry args={[0.1, 0.1, 0.08, 16]} />
-          <meshStandardMaterial color="#ddd" metalness={0.3} roughness={0.2} emissive="#fff8e0" emissiveIntensity={0.08} />
+          <meshStandardMaterial color="#ddd" metalness={0.3} roughness={0.2} emissive="#fff8e0" emissiveIntensity={0.25} />
         </mesh>
 
         {/* Handlebars */}
