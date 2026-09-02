@@ -49,6 +49,22 @@ For a Pages-path local preview, build and preview with base path /mister-jay/.
 - Vitest for practice logic
 - GitHub Actions deploys Pages from main
 
+## Daily builds series
+
+Tiny, tested teaching repos — starter → mid. Ship one, read it, then climb:
+
+| Lane | Repo | Why open it |
+| --- | --- | --- |
+| Shop skills (this) | [mister-jay](https://github.com/primeodin/mister-jay) | Interactive DIY drills — [live](https://primeodin.github.io/mister-jay/) |
+| Starter | [first-commit-ai](https://github.com/primeodin/first-commit-ai) | Mock-first chat CLI + pytest |
+| Attention mid | [attention-warrior](https://github.com/primeodin/attention-warrior) | Transformer attention you can hold in one hand |
+| Literacy (Sinhala) | [jay-ai-sinhala](https://github.com/primeodin/jay-ai-sinhala) | Friends 70+ learning GitHub + AI — [live](https://primeodin.github.io/jay-ai-sinhala/) |
+| Systems DIY | [camera-selector](https://github.com/primeodin/camera-selector) | NVR/Frigate camera planning — [live](https://primeodin.github.io/camera-selector/) |
+
+Coming next on the weekday cadence: RAG starter → tool agent → prompt lab → embeddings → vision → memory → shop-skill explainer.
+
+Good first issues welcome on the open tickets above. Profile forge: [github.com/primeodin](https://github.com/primeodin)
+
 ## License
 
 MIT
