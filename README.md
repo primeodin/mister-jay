@@ -1,26 +1,23 @@
 # Mister Jay
 
-A mobile-first PWA dedicated to Jay — a father who was a general contractor, electrician, plumber, and handyman. He taught by showing: what you're looking at, what can hurt you, shop tips from driveway judgment, then the steps.
+Practice the shop skills Jay taught — vehicle, electrical, plumbing, household — the way a shop dad would: show the job, name the hazards, drop a real DIY tip with judgment, then drill until it sticks.
 
-**For Jay.**
+**For Jay.** Dedicated to a father who was a general contractor, electrician, plumber, and handyman. He taught by showing, not lecturing.
 
 ## Live app
 
-[https://primeodin.github.io/mister-jay/](https://primeodin.github.io/mister-jay/)
+**[Try it →](https://primeodin.github.io/mister-jay/)** · Installable PWA · works on a phone in the driveway
 
-## Features
+## What you get
 
-- 10 complete sketches covering vehicle, electrical, plumbing, and household skills
-- **3D shop scenes** (React Three Fiber) for breaker panel, car battery, tire/jack, and motorcycle — orbit, inspect, tap hotspots
-- **Labeled SVG diagrams** for every sketch — garage-readable on a phone
-- **Learn** pass: what you're looking at, safety hazards, Jay's shop tips, step-by-step guidance with visual focus
-- **Game-like Practice**: tap parts on the 3D scene or diagram, drag steps into order, spot hazards in context
-- **Watch along** resources rail with curated YouTube search links per sketch
-- **Vehicle picker** for sketches where year/make/model matters
-- Motion and tactile feedback throughout (Framer Motion)
-- Daily sketch (deterministic by date) plus full library
-- Progress and streak tracking in localStorage
-- Installable PWA with offline support (3D lazy-loads; diagrams work offline)
+- **10 interactive sketches** — tire, battery, air filter, coolant, breaker panel, tripped breaker, faucet, clogged sink, motorcycle move, jump-start
+- **Illustrated-first UX** — garage-readable labeled diagrams as the main path (phone-friendly)
+- **Learn + Practice** — what you are looking at, what can hurt you, then tap / reorder / spot-hazard drills
+- **Shop tip beat** on every sketch — unique DIY / driveway insight plus Jay-style judgment: when the hack is safe vs when it scrapes pipes or needs a pro
+- **Watch-along** links per sketch, **vehicle picker** where year/make/model matters
+- Daily sketch (by date), library, local progress / streak, offline-capable PWA
+
+3D shop scenes (React Three Fiber) are optional / secondary — diagrams and practice stay the front door.
 
 ## Sketches
 
@@ -37,29 +34,20 @@ A mobile-first PWA dedicated to Jay — a father who was a general contractor, e
 
 ## Development
 
-```bash
-npm install
-npm run dev
-npm test
-npm run build
-```
+Install deps, run the Vite app, run tests, then production build with the project scripts.
 
-For local preview with the GitHub Pages base path:
-
-```bash
-BASE_PATH=/mister-jay/ npm run build
-npm run preview
-```
+For a Pages-path local preview, build and preview with base path /mister-jay/.
 
 ## Tech stack
 
 - Vite + React + TypeScript
-- React Three Fiber + drei (3D scenes)
-- Framer Motion (animations)
-- vite-plugin-pwa (manifest, service worker, offline cache)
-- Sketch content as JSON with SVG diagram components
-- Vitest for practice logic tests
-- GitHub Actions deploying to Pages from `main`
+- Illustrated SVG diagrams (primary UX)
+- Optional React Three Fiber + drei scenes
+- Framer Motion
+- vite-plugin-pwa (manifest, service worker, offline)
+- Sketch content as JSON + diagram components
+- Vitest for practice logic
+- GitHub Actions deploys Pages from main
 
 ## License
 
