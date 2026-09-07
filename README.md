@@ -57,13 +57,17 @@ Tiny, tested teaching repos — starter → mid. Ship one, read it, then climb:
 | --- | --- | --- |
 | Shop skills (this) | [mister-jay](https://github.com/primeodin/mister-jay) | Interactive DIY drills — [live](https://primeodin.github.io/mister-jay/) |
 | Starter | [first-commit-ai](https://github.com/primeodin/first-commit-ai) | Mock-first chat CLI + pytest |
+| Starter RAG | [notes-rag](https://github.com/primeodin/notes-rag) | Retrieve, cite, answer over Markdown notes |
+| Starter tokenizer | [tiny-bpe-tokenizer](https://github.com/primeodin/tiny-bpe-tokenizer) | Watch text become token IDs — train, encode, decode |
 | Attention mid | [attention-warrior](https://github.com/primeodin/attention-warrior) | Transformer attention you can hold in one hand |
 | Literacy (Sinhala) | [jay-ai-sinhala](https://github.com/primeodin/jay-ai-sinhala) | Friends 70+ learning GitHub + AI — [live](https://primeodin.github.io/jay-ai-sinhala/) |
 | Systems DIY | [camera-selector](https://github.com/primeodin/camera-selector) | NVR/Frigate camera planning — [live](https://primeodin.github.io/camera-selector/) |
 
-Coming next on the weekday cadence: RAG starter → tool agent → prompt lab → embeddings → vision → memory → shop-skill explainer.
+Coming next on the weekday cadence: tool agent → prompt lab → embeddings → vision → memory → shop-skill explainer.
 
-Good first issues welcome on the open tickets above. Profile forge: [github.com/primeodin](https://github.com/primeodin)
+## Help / good first issues
+
+Open tickets on this repo: [#1](https://github.com/primeodin/mister-jay/issues/1) watch-along links, [#2](https://github.com/primeodin/mister-jay/issues/2) practice gaps, [#3](https://github.com/primeodin/mister-jay/issues/3) CONTRIBUTING.md. Profile forge: [github.com/primeodin](https://github.com/primeodin)
 
 ## License
 
