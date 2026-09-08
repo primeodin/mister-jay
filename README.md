@@ -59,11 +59,12 @@ Tiny, tested teaching repos — starter → mid. Ship one, read it, then climb:
 | Starter | [first-commit-ai](https://github.com/primeodin/first-commit-ai) | Mock-first chat CLI + pytest |
 | Starter RAG | [notes-rag](https://github.com/primeodin/notes-rag) | Retrieve, cite, answer over Markdown notes |
 | Starter tokenizer | [tiny-bpe-tokenizer](https://github.com/primeodin/tiny-bpe-tokenizer) | Watch text become token IDs — train, encode, decode |
+| Mid tool agent | [tiny-tool-agent](https://github.com/primeodin/tiny-tool-agent) | ReAct: Thought, Action, Observation, Final Answer |
 | Attention mid | [attention-warrior](https://github.com/primeodin/attention-warrior) | Transformer attention you can hold in one hand |
 | Literacy (Sinhala) | [jay-ai-sinhala](https://github.com/primeodin/jay-ai-sinhala) | Friends 70+ learning GitHub + AI — [live](https://primeodin.github.io/jay-ai-sinhala/) |
 | Systems DIY | [camera-selector](https://github.com/primeodin/camera-selector) | NVR/Frigate camera planning — [live](https://primeodin.github.io/camera-selector/) |
 
-Coming next on the weekday cadence: tool agent → prompt lab → embeddings → vision → memory → shop-skill explainer.
+Weekday cadence so far: chat · RAG · tokenizer · tool agent (shipped). Coming next: prompt lab → embeddings → vision → memory → shop-skill explainer.
 
 ## Help / good first issues
 
