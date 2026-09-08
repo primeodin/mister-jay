@@ -38,6 +38,8 @@ Install deps, run the Vite app, run tests, then production build with the projec
 
 For a Pages-path local preview, build and preview with base path /mister-jay/.
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the sketch JSON + diagram content path.
+
 ## Tech stack
 
 - Vite + React + TypeScript
@@ -68,7 +70,7 @@ Weekday cadence so far: chat · RAG · tokenizer · tool agent (shipped). Coming
 
 ## Help / good first issues
 
-Open tickets on this repo: [#1](https://github.com/primeodin/mister-jay/issues/1) watch-along links, [#2](https://github.com/primeodin/mister-jay/issues/2) practice gaps, [#3](https://github.com/primeodin/mister-jay/issues/3) CONTRIBUTING.md. Profile forge: [github.com/primeodin](https://github.com/primeodin)
+Open tickets on this repo: [#1](https://github.com/primeodin/mister-jay/issues/1) watch-along links, [#2](https://github.com/primeodin/mister-jay/issues/2) practice gaps, CONTRIBUTING.md shipped — start there for adding or editing a sketch. Profile forge: [github.com/primeodin](https://github.com/primeodin)
 
 ## License
 
